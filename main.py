@@ -41,8 +41,8 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(join_delay.get(),1), font=("Roboto", 12)).place(x=205,y=35)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=35)
       
-      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#28464B", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=5,y=60)
-      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#28464B", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=70,y=60)
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=5,y=60)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=70,y=60)
       
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=90)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Success: 000", font=("Roboto", 12)).place(x=10,y=115)
@@ -54,8 +54,8 @@ def set_moduleframe(num1, num2):
       module_setting_frame.place(x=400,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Leaver", font=("Roboto", 14)).place(x=415,y=4)
       
-      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#28464B", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=5,y=60)
-      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#28464B", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=70,y=60)
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=5,y=60)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=70,y=60)
       
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=90)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Success: 000", font=("Roboto", 12)).place(x=10,y=115)
