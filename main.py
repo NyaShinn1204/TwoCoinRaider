@@ -3,6 +3,15 @@ import tkinter as tk
 import customtkinter as ctk
 from PIL import Image
 
+root = tk.Tk()
+root.geometry("1280x720")
+root.resizable(0, 0)
+root.title("TwoCoinRaider")
+root.configure(bg="#213A3E")
+
+join_delay = tk.DoubleVar()
+join_delay.set(0.1)
+
 def get_hwid():
     cmd = 'wmic csproduct get uuid'
     uuid = str(subprocess.check_output(cmd))
@@ -15,12 +24,43 @@ def clear_frame(frame):
         widget.destroy()
 
 def set_moduleframe(num1, num2):
-  frame = module_frame = ctk.CTkFrame(root, width=1010, height=700)
-  module_frame.place(x=260, y=10)
+  frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
+  module_frame.place(x=270, y=20)
   module_frame.configure(fg_color="#28464B")
   clear_frame(frame)
   if num1 == 1:
     if num2 == 1:
+      # Joiner Frame
+      def slider_event01(value):
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=35)
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame.place(x=20,y=20)
+      tk.Label(module_frame, bg="#28464B", fg="#fff", text="Joiner", font=("Roboto", 14)).place(x=35,y=4)
+      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass MemberScreen").place(x=5,y=11)
+      ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=join_delay, command=slider_event01).place(x=5,y=40)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(join_delay.get(),1), font=("Roboto", 12)).place(x=205,y=35)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=35)
+      
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#28464B", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=5,y=60)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#28464B", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=70,y=60)
+      
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=90)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Success: 000", font=("Roboto", 12)).place(x=10,y=115)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Failed: 000", font=("Roboto", 12)).place(x=10,y=135)
+      
+      
+      # Leaver Frame
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame.place(x=400,y=20)
+      tk.Label(module_frame, bg="#28464B", fg="#fff", text="Leaver", font=("Roboto", 14)).place(x=415,y=4)
+      
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#28464B", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=5,y=60)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#28464B", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60).place(x=70,y=60)
+      
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=90)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Success: 000", font=("Roboto", 12)).place(x=10,y=115)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Failed: 000", font=("Roboto", 12)).place(x=10,y=135)
+      
       print("1-1")
   if num1 == 2:
     if num2 == 1:
@@ -38,13 +78,7 @@ print(f"""
                                        
 You HWID: [{get_hwid()}]                
 -----------------------""")
-print("[+] Loading....")
-
-root = tk.Tk()
-root.geometry("1280x720")
-root.resizable(0, 0)
-root.title("TwoCoinRaider")
-root.configure(bg="#213A3E")
+print("Loading....")
 
 tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
 
