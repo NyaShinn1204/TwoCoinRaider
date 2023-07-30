@@ -129,7 +129,7 @@ def set_moduleframe(num1, num2):
             #SettingVariable.invalidTokenlabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
     if num2 == 1:
       print("2-1")
-      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=200, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Tokens", font=("Roboto", 14)).place(x=35,y=4)
       ctk.CTkButton(module_setting_frame, text="Select File", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=lambda: token_load()).place(x=5,y=13)
@@ -138,10 +138,10 @@ def set_moduleframe(num1, num2):
       token_filename.place(x=85,y=13)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=11)
       
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=90)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Total: 000", font=("Roboto", 12)).place(x=10,y=115)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12)).place(x=10,y=135)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12)).place(x=10,y=155)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=50)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Total: 000", font=("Roboto", 12)).place(x=10,y=75)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12)).place(x=10,y=95)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12)).place(x=10,y=115)
     if num2 == 2:
       print("2-2")
 
