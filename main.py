@@ -22,6 +22,8 @@ class Setting:
   
   token_filenameLabel = tk.StringVar()
   token_filenameLabel.set("")
+  voicefile_filenameLabel = tk.StringVar()
+  voicefile_filenameLabel.set("")
   totaltokenLabel = tk.StringVar()
   totaltokenLabel.set("Total: 000")
   validtokenLabel = tk.StringVar()
@@ -45,6 +47,8 @@ class Setting:
   delay02.set(0.1)
   delay03 = tk.DoubleVar()
   delay03.set(0.1)
+  
+  voicefile = []
   
 class SettingVariable:
   leaverresult_success = 0
@@ -161,9 +165,27 @@ def set_moduleframe(num1, num2):
         spam_serverid.delete(0,tk.END)
       def clear_entry04():
         spam_channelid.delete(0,tk.END)
+      def clear_entry05():
+        vcspam_serverid.delete(0,tk.END)
+      def clear_entry06():
+        vcspam_channelid.delete(0,tk.END)
       def slider_event03(value):
-        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=157)
-      #
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=220,y=173)
+      def voice_load():
+          global voicefile
+          fTyp = [("", "*.mp3")]
+          iFile = os.path.abspath(os.path.dirname(__file__))
+          filepath = filedialog.askopenfilename(
+              filetype=fTyp, initialdir=iFile, title="Select Voice File")
+          if filepath == "":
+              return
+          voicefile = filepath
+          Setting.voicefile = voicefile
+          if voicefile == []:
+              return
+          voicefile_show = voicefile.split('/')[len(voicefile.split('/'))-1]
+          Setting.voicefile_filenameLabel.set(voicefile_show)
+      
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.grid(row=0, column=0, padx=15, pady=15)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Spammer", font=("Roboto", 14)).place(x=35,y=-1)
@@ -196,7 +218,22 @@ def set_moduleframe(num1, num2):
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=400,y=15)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=435,y=-1)
-       
+      
+      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=13)
+      vcspam_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
+      vcspam_serverid.place(x=85,y=13)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
+      
+      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry06).place(x=5,y=42)
+      vcspam_channelid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
+      vcspam_channelid.place(x=85,y=42)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=40)
+      
+      ctk.CTkButton(module_setting_frame, text="Select File", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=lambda: voice_load()).place(x=5,y=71)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=71)
+      ctk.CTkLabel(module_setting_frame, bg_color="#28464B", fg_color="#275258", text_color="#fff", text="", width=150, height=20, textvariable=Setting.voicefile_filenameLabel).place(x=85,y=71)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=69)
+      
       print("1-2")
 
   if num1 == 2:
@@ -226,6 +263,10 @@ def set_moduleframe(num1, num2):
             Setting.invalidtoken += 1
             Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
     if num2 == 1:
+      frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
+      module_frame.place(x=270, y=20)
+      module_frame.configure(fg_color="#28464B")
+      clear_frame(frame)
       print("2-1")
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
@@ -240,6 +281,10 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validtokenLabel).place(x=10,y=95)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
     if num2 == 2:
+      frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
+      module_frame.place(x=270, y=20)
+      module_frame.configure(fg_color="#28464B")
+      clear_frame(frame)
       print("2-2")
 
 print(f"""          
