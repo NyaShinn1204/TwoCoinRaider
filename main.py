@@ -136,8 +136,9 @@ def set_moduleframe(num1, num2):
       print("1-1")
     
     if num2 == 2:
-      module_setting_frame = ctk.CTkScrollableFrame(master=module_frame, width=970, height=670, fg_color="#28464B")
-      module_setting_frame.place(x=0,y=0)
+      module_frame_slider = ctk.CTkScrollableFrame(master=module_frame, width=970, height=670, fg_color="#28464B")
+      module_frame_slider.place(x=0,y=0)
+      clear_frame(module_frame_slider)
       print("1-2")
   if num1 == 2:
     def token_load():
