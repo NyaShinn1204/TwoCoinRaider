@@ -192,9 +192,13 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=175)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=140,y=200)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=140,y=220)
-            
+           
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame.place(x=400,y=15)
+      tk.Label(module_frame, bg="#28464B", fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=435,y=-1)
+       
       print("1-2")
-      
+
   if num1 == 2:
     def token_load():
       fTyp = [("", "*.txt")]
