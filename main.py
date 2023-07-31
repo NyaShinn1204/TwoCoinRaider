@@ -9,6 +9,8 @@ import os
 import module.token_checker as token_checker
 import module.leaver as module_leaver
 
+import module.vcspam as module_vc
+
 root = tk.Tk()
 root.geometry("1280x720")
 root.resizable(0, 0)
@@ -63,6 +65,18 @@ def get_hwid():
     uuid = uuid[pos1:-15]
     return uuid
 
+def ffmpeg_load():
+    global ffmpegfile
+    fTyp = [("", "*.exe")]
+    iFile = os.path.abspath(os.path.dirname(__file__))
+    filepath = filedialog.askopenfilename(
+        filetype=fTyp, initialdir=iFile, title="Select FFmpeg.exe")
+    if filepath == "":
+        return
+    ffmpegfile = filepath
+    if ffmpegfile == []:
+        return
+
 def clear_frame(frame):
     for widget in frame.winfo_children():
         widget.destroy()
@@ -78,6 +92,20 @@ def module_thread(num):
   
   if num == 2_2:
     threading.Thread(target=module_leaver.stop).start()
+  
+  if num == 4_1:
+    serverid = vcspam_serverid.get()
+    channelid = vcspam_channelid.get()
+    voicefile = Setting.voicefile
+    try:
+        ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
+    except:
+        print("Error load ffmpeg")
+        ffmpeg = ffmpeg_load()
+    threading.Thread(target=module_vc.start, args=(tokens, serverid, channelid, ffmpeg, voicefile))
+    
+  if num == 4_2:
+    threading.Thread(target=module_vc.stop).starT()
 
 def module_status(num1, num2):
   if num1 == 2:
@@ -98,6 +126,7 @@ def module_status(num1, num2):
     
 def set_moduleframe(num1, num2):
   global joiner_link,leaver_serverid
+  global vcspam_serverid,vcspam_channelid
   if num1 == 1:
     if num2 == 1:
       frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
@@ -205,15 +234,15 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=157)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=157)
       
-      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(2_1)).place(x=5,y=182)
-      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(2_2)).place(x=70,y=182)
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(3_1)).place(x=5,y=182)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(3_2)).place(x=70,y=182)
 
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=175)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=140,y=200)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=140,y=220)
            
       # VC Spam
-      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=150, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=400,y=15)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=435,y=-1)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=13)
@@ -228,7 +257,10 @@ def set_moduleframe(num1, num2):
       ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=71)
       ctk.CTkLabel(module_setting_frame, bg_color="#28464B", fg_color="#275258", text_color="#fff", text="", width=150, height=20, textvariable=Setting.voicefile_filenameLabel).place(x=85,y=71)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=69)
-      
+
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(4_1)).place(x=5,y=102)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(4_2)).place(x=70,y=102)
+
       print("1-2")
 
   if num1 == 2:
