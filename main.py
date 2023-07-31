@@ -1,4 +1,7 @@
 import subprocess
+import tls_client
+import time
+import base64
 import tkinter as tk
 import customtkinter as ctk
 from customtkinter import *
@@ -7,6 +10,7 @@ import threading
 import os
 
 import module.token_checker as token_checker
+import module.joiner as module_joiner
 import module.leaver as module_leaver
 
 import module.vcspam as module_vc
@@ -33,6 +37,11 @@ class Setting:
   invalidtokenLabel = tk.StringVar()
   invalidtokenLabel.set("Invalid: 000")
   
+  sui_joiner_Label = tk.StringVar()
+  sui_joiner_Label.set("Success: 000")
+  fai_joiner_Label = tk.StringVar()
+  fai_joiner_Label.set("Failed: 000")
+  
   suc_leaver_Label = tk.StringVar()
   suc_leaver_Label.set("Success: 000")
   fai_leaver_Label = tk.StringVar()
@@ -53,6 +62,8 @@ class Setting:
   voicefile = []
   
 class SettingVariable:
+  joinerresult_success = 0
+  joinerresult_failed = 0
   leaverresult_success = 0
   leaverresult_failed = 0
   nmspamresult_success = 0
@@ -77,6 +88,23 @@ def ffmpeg_load():
     if ffmpegfile == []:
         return
 
+def x_content_props(guild):
+    guild_id=guild["guild"]["id"]
+    channel_id=guild["channel"]["id"]
+    return base64.b64encode(str('{"location":"Join Guild","location_guild_id":"'+guild_id+'","location_channel_id":"'+channel_id+'","location_channel_type":0}').encode()).decode()
+ 
+def get_guild_info(invite):
+    try:
+        session = tls_client.Session(client_identifier="chrome_108")
+        url = f"https://discord.com/api/v9/invites/{invite}?with_counts=true&with_expiration=true"
+        req = session.get(url=url)
+        data = req.json()
+        if "Unknown Invite" in data.get("message"):
+            return None
+        return data
+    except:
+        return None
+
 def clear_frame(frame):
     for widget in frame.winfo_children():
         widget.destroy()
@@ -84,6 +112,26 @@ def clear_frame(frame):
 def module_thread(num):
   tokens = Setting.tokens
   print(tokens)
+  if num == 1_1:
+    serverid = str(joiner_serverid.get())
+    invitelink = joiner_link.get()
+    memberscreen = joiner_button01.get()
+    if invitelink == "":
+        print("[-] InviteLink is not set")
+        return
+    if invitelink.__contains__('discord.gg/'):
+        invitelink = invitelink.replace('discord.gg/', '').replace('https://', '').replace('http://', '')
+    elif invitelink.__contains__('discord.com/invite/'):
+        invitelink = invitelink.replace('discord.com/invite/', '').replace('https://', '').replace('http://', '')
+    try:
+        invitelink = invitelink.split(".gg/")[1]
+    except:
+        pass
+    if memberscreen == True:
+        if serverid == "":
+            print("[-] ServerID is not set")
+            return
+    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay)).start()
   if num == 2_1:
     serverid = leaver_serverid.get()
     delay = Setting.delay02.get()
@@ -108,6 +156,13 @@ def module_thread(num):
     threading.Thread(target=module_vc.stop).start()
 
 def module_status(num1, num2):
+  if num1 == 1:
+    if num2 == 1:
+      SettingVariable.joinerresult_success +=1
+      Setting.suc_joiner_Label.set("Success: "+str(SettingVariable.joinerresult_success).zfill(3))
+    if num2 == 1:
+      SettingVariable.joinerresult_failed +=1
+      Setting.fai_joiner_Label.set("Failed: "+str(SettingVariable.joinerresult_failed).zfill(3))
   if num1 == 2:
     if num2 == 1:
       SettingVariable.leaverresult_success +=1
@@ -125,7 +180,7 @@ def module_status(num1, num2):
       
     
 def set_moduleframe(num1, num2):
-  global joiner_link,leaver_serverid
+  global joiner_link,joiner_serverid,joiner_button01,leaver_serverid
   global vcspam_serverid,vcspam_channelid
   if num1 == 1:
     if num2 == 1:
@@ -141,33 +196,43 @@ def set_moduleframe(num1, num2):
       def clear_entry01():
         joiner_link.delete(0,tk.END)
       def clear_entry02():
+        joiner_serverid.delete(0,tk.END)
+      def clear_entry03():
         leaver_serverid.delete(0,tk.END)
       
-      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=200, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Joiner", font=("Roboto", 14)).place(x=35,y=4)
-      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass MemberScreen").place(x=5,y=11)
+      joiner_button01 = ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass MemberScreen")
+      joiner_button01.place(x=5,y=11)
+      
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry01).place(x=5,y=40)
       joiner_link = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       joiner_link.place(x=85,y=40)  #27
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invite Link", font=("Roboto", 12)).place(x=240,y=38)
-      ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay01, command=slider_event01).place(x=5,y=67)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=62)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=62)
       
-      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=87)
-      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=87)
+      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry02).place(x=5,y=69)
+      joiner_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
+      joiner_serverid.place(x=85,y=69)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=67)
       
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=117)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Success: 000", font=("Roboto", 12)).place(x=10,y=142)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Failed: 000", font=("Roboto", 12)).place(x=10,y=162)
+      ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay01, command=slider_event01).place(x=5,y=96)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=91)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=91)
+      
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=116)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=116)
+      
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=146)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.sui_joiner_Label, font=("Roboto", 12)).place(x=10,y=174)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_joiner_Label, font=("Roboto", 12)).place(x=10,y=199)
       
       
       # Leaver Frame
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=400,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Leaver", font=("Roboto", 14)).place(x=415,y=4)
-      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry02).place(x=5,y=13)
+      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry03).place(x=5,y=13)
       leaver_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       leaver_serverid.place(x=85,y=13)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
@@ -190,13 +255,13 @@ def set_moduleframe(num1, num2):
       module_frame.configure(fg_color="#28464B")
       clear_frame(frame)
       # Spammer
-      def clear_entry03():
-        spam_serverid.delete(0,tk.END)
       def clear_entry04():
-        spam_channelid.delete(0,tk.END)
+        spam_serverid.delete(0,tk.END)
       def clear_entry05():
-        vcspam_serverid.delete(0,tk.END)
+        spam_channelid.delete(0,tk.END)
       def clear_entry06():
+        vcspam_serverid.delete(0,tk.END)
+      def clear_entry07():
         vcspam_channelid.delete(0,tk.END)
       def slider_event03(value):
         tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=220,y=173)
@@ -222,11 +287,11 @@ def set_moduleframe(num1, num2):
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="All Ch").place(x=5,y=33)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Random String").place(x=5,y=55)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="RateLimitFixer").place(x=5,y=77)
-      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry03).place(x=5,y=106)
+      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry04).place(x=5,y=106)
       spam_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       spam_serverid.place(x=85,y=106)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=104)
-      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry04).place(x=5,y=135)
+      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=135)
       spam_channelid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       spam_channelid.place(x=85,y=135)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
@@ -245,11 +310,11 @@ def set_moduleframe(num1, num2):
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=150, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=400,y=15)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=435,y=-1)
-      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=13)
+      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry06).place(x=5,y=13)
       vcspam_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       vcspam_serverid.place(x=85,y=13)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
-      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry06).place(x=5,y=42)
+      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry07).place(x=5,y=42)
       vcspam_channelid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       vcspam_channelid.place(x=85,y=42)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=40)

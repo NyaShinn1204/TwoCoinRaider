@@ -1,0 +1,232 @@
+import requests
+import sys
+sys.dont_write_bytecode = True
+import time
+import threading
+import traceback
+import random
+import base64
+import json
+import tls_client
+import binascii
+import re
+import os
+from httpx import Client
+import bypass.header as header
+from httpx_socks import SyncProxyTransport
+from capmonster_python import HCaptchaTask
+from concurrent.futures import ThreadPoolExecutor
+from anticaptchaofficial.hcaptchaproxyless import hCaptchaProxyless
+    
+def start(tokens, serverid, invitelink, memberscreen, delay):
+    for token in tokens:
+        threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen, delay)).start()
+        time.sleep(float(delay))
+
+def solvecaptcha(sitekey, rqdata, useragent):
+    capmonster = HCaptchaTask("1Mi37Ee2Ehsimx7DFohjQrBrER6Ysjfodk")
+    capmonster.set_user_agent(useragent)
+    task_id = capmonster.create_task(website_url="https://discord.com", website_key=sitekey, custom_data=rqdata)
+    result = capmonster.join_task_result(task_id)
+    aaa = result.get("gRecaptchaResponse")
+    print("Captcha Bypass")
+    return aaa
+
+def bypass_hcap():
+    resp = requests.get('https://www.hcaptcha.com/', json={'key':'a9b5fb07-92ff-493f-86fe-352a2803b3df', 'url':'https://discord.com/'})
+    return resp.json()['task_answer']
+
+def get_session():
+    session = tls_client.Session(client_identifier="chrome_105")
+    return session
+    
+def joiner_thread(token, proxysetting, proxies, proxytype, serverid, invitelink, memberscreen, delay, update_module):
+    data = {}
+    agent_string = header.random_agent.random_agent()
+    browser_data = agent_string.split(" ")[-1].split("/")
+    possible_os_list = ["Windows", "Macintosh"]
+    for possible_os in possible_os_list:
+        if possible_os in agent_string:
+            agent_os = possible_os
+    if agent_os == "Macintosh":
+        os_version = f'Intel Mac OS X 10_15_{str(random.randint(5, 7))}'
+    else:
+        os_version = "10"
+    cookie_string = header.get_cookie.get_cookie()
+    device_info = {
+        "os": agent_os,
+        "browser": browser_data[0],
+        "device": "",
+        "system_locale": "ja-JP",
+        "browser_user_agent": agent_string,
+        "browser_version": browser_data[1],
+        "os_version": os_version,
+        "referrer": "",
+        "referring_domain": "",
+        "referrer_current": "",
+        "referring_domain_current": "",
+        "release_channel": "stable",
+        "client_build_number": 36127,
+        "client_event_source": None
+    }
+    headers = {
+        "Accept":"*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": token,
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Cookie": cookie_string,
+        "Host": "discord.com",
+        "Origin": "https://discord.com",
+        "Pragma": "no-cache",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "sec-ch-ua-platform": "Windows",
+        "sec-ch-ua-mobile": "?0",
+        "TE": "Trailers",
+        "User-Agent": header.random_agent.random_agent(),
+        "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8"),
+        "X-Debug-Options": "bugReporterEnabled"
+    }
+    
+    try:
+        if proxysetting == False:
+            session = get_session()
+            joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
+            x = requests.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=data)
+            if "captcha_key" not in joinreq.json():
+                if "You need to verify your account in order to perform this action." in joinreq.json():
+                    print(f"{token}は認証が必要としています。")
+                    update_module(1, 2)
+                print("[+] Success Join: " + token)
+                update_module(1, 1)
+            if "captcha_key" in joinreq.json():
+                payload = {'captcha_key': bypass_hcap(), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']}
+                joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
+                if joinreq2.status_code == 200:
+                    print("[+] Success Join: " + token)
+                    update_module(1, 1)
+                    return
+                else:
+                    print("[-] Failed join: " + token)
+                    update_module(1, 2)
+                
+            if memberscreen == True:
+                device_info2 = {
+                    "os": agent_os,
+                    "browser": browser_data[0],
+                    "device": "",
+                    "system_locale": "ja-JP",
+                    "browser_user_agent": agent_string,
+                    "browser_version": browser_data[1],
+                    "os_version": os_version,
+                    "referrer": "",
+                    "referring_domain": "",
+                    "referrer_current": "",
+                    "referring_domain_current": "",
+                    "release_channel": "stable",
+                    "client_build_number": 36127,
+                    "client_event_source": None
+                }
+                headers2 = {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Accept-Language': 'en-US',
+                    'Cookie': cookie_string,
+                    'DNT': '1',
+                    'origin': 'https://discord.com',
+                    'TE': 'Trailers',
+                    'X-Super-Properties': base64.b64encode(json.dumps(device_info2).encode('utf-8')).decode("utf-8"),
+                    'authorization': token,
+                    'user-agent': header.random_agent.random_agent()
+                }
+                x1 = requests.get(f"https://canary.discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false&invite_code=" + invitelink, headers=headers2).json()
+                data = {}
+                data['version'] = x1['version']
+                data['form_fields'] = x1['form_fields']
+                data['form_fields'][0]['response'] = True
+                x2 = requests.put(f"https://canary.discord.com/api/v9/guilds/{str(serverid)}/requests/@me", headers=headers2, json=data)
+                if x2.status_code == 200 or 203:
+                    print("[+] Success Memberbypass: " + token)
+                    update_module(1, 3)
+                    return
+                else:
+                    print("[-] Failed Memberbypass: " + token)
+        if proxysetting == True:
+            proxy2 = random.choice(proxies)
+            proxy3 = {
+            'http' : f'{proxytype}://{proxy2}',
+            'https' : f'{proxytype}://{proxy2}',
+            }
+            session = get_session()
+            joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
+            x = requests.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=data, proxies=proxy3)
+            if "captcha_key" not in joinreq.json():
+                if "You need to verify your account in order to perform this action." in joinreq.json():
+                    print(f"{token}は認証が必要としています。")
+                    update_module(1, 2)
+                print("[+] Success Join: " + token)
+                update_module(1, 1)
+            if "captcha_key" in joinreq.json():
+                wsitekey = joinreq.json()['captcha_sitekey']
+                crqdata = joinreq.json()["captcha_rqdata"]
+                captchakey = solvecaptcha(sitekey=wsitekey, rqdata=crqdata, useragent=headers["user-agent"])
+                captcha_rqtoken = joinreq.json()["captcha_rqtoken"]
+                payload = {'captcha_key': captchakey, 'captcha_rqtoken': captcha_rqtoken}
+                joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
+                if joinreq2.status_code == 200:
+                    print("[+] Success Join: " + token)
+                    update_module(1, 1)
+                    return
+                else:
+                    print("[+] Failed join: " + token + " " + str(x.status_code) + " Proxy: " + str(proxy3))
+                    update_module(1, 2)
+            if memberscreen == True:
+                device_info2 = {
+                    "os": agent_os,
+                    "browser": browser_data[0],
+                    "device": "",
+                    "system_locale": "ja-JP",
+                    "browser_user_agent": agent_string,
+                    "browser_version": browser_data[1],
+                    "os_version": os_version,
+                    "referrer": "",
+                    "referring_domain": "",
+                    "referrer_current": "",
+                    "referring_domain_current": "",
+                    "release_channel": "stable",
+                    "client_build_number": 36127,
+                    "client_event_source": None
+                }
+                headers2 = {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Accept-Language': 'en-US',
+                    'Cookie': cookie_string,
+                    'DNT': '1',
+                    'origin': 'https://discord.com',
+                    'TE': 'Trailers',
+                    'X-Super-Properties': base64.b64encode(json.dumps(device_info2).encode('utf-8')).decode("utf-8"),
+                    'authorization': token,
+                    'user-agent': header.random_agent.random_agent()
+                }
+                x1 = requests.get(f"https://canary.discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false&invite_code=" + invitelink, headers=headers2, proxies=proxy3).json()
+                data = {}
+                data['version'] = x1['version']
+                data['form_fields'] = x1['form_fields']
+                data['form_fields'][0]['response'] = True
+                x2 = requests.put(f"https://canary.discord.com/api/v9/guilds/{str(serverid)}/requests/@me", headers=headers2, json=data, proxies=proxy3)
+                if x2.status_code == 200 or 203:
+                    print("[+] Success Memberbypass: " + token)
+                    update_module(1, 3)
+                    return
+                else:
+                    print("[-] Failed Memberbypass: " + token + " " + str(x.status_code) + " Proxy: " + str(proxy3))
+    except Exception as err:
+        print(f"[-] ERROR: {err} ")
+        print(traceback.print_exc())
+        return
