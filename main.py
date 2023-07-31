@@ -37,8 +37,8 @@ class Setting:
   invalidtokenLabel = tk.StringVar()
   invalidtokenLabel.set("Invalid: 000")
   
-  sui_joiner_Label = tk.StringVar()
-  sui_joiner_Label.set("Success: 000")
+  suc_joiner_Label = tk.StringVar()
+  suc_joiner_Label.set("Success: 000")
   fai_joiner_Label = tk.StringVar()
   fai_joiner_Label.set("Failed: 000")
   
@@ -116,6 +116,7 @@ def module_thread(num):
     serverid = str(joiner_serverid.get())
     invitelink = joiner_link.get()
     memberscreen = joiner_button01.get()
+    delay = Setting.delay01.get()
     if invitelink == "":
         print("[-] InviteLink is not set")
         return
@@ -131,7 +132,8 @@ def module_thread(num):
         if serverid == "":
             print("[-] ServerID is not set")
             return
-    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay)).start()
+    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status)).start()
+    
   if num == 2_1:
     serverid = leaver_serverid.get()
     delay = Setting.delay02.get()
@@ -190,7 +192,7 @@ def set_moduleframe(num1, num2):
       clear_frame(frame)
       # Joiner Frame
       def slider_event01(value):
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=82)
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=111)
       def slider_event02(value):
         tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=605,y=55)
       def clear_entry01():
@@ -224,7 +226,7 @@ def set_moduleframe(num1, num2):
       ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=116)
       
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=146)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.sui_joiner_Label, font=("Roboto", 12)).place(x=10,y=174)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=10,y=174)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_joiner_Label, font=("Roboto", 12)).place(x=10,y=199)
       
       
