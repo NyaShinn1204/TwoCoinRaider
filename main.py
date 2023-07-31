@@ -130,8 +130,8 @@ def set_moduleframe(num1, num2):
       ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(2_2)).place(x=70,y=60)
       
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=90)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable="Success: 000", font=("Roboto", 12)).place(x=10,y=115)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable="Failed: 000", font=("Roboto", 12)).place(x=10,y=135)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=115)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_leaver_Label, font=("Roboto", 12)).place(x=10,y=135)
       
       print("1-1")
   if num1 == 2:
