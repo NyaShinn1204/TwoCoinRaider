@@ -80,15 +80,15 @@ def module_status(num1, num2):
     
 def set_moduleframe(num1, num2):
   global joiner_link,leaver_serverid
-  frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
-  module_frame.place(x=270, y=20)
-  module_frame.configure(fg_color="#28464B")
-  clear_frame(frame)
   if num1 == 1:
     if num2 == 1:
+      frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
+      module_frame.place(x=270, y=20)
+      module_frame.configure(fg_color="#28464B")
+      clear_frame(frame)
       # Joiner Frame
       def slider_event01(value):
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=55)
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=82)
       def slider_event02(value):
         tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=605,y=55)
       def clear_entry01():
@@ -138,17 +138,21 @@ def set_moduleframe(num1, num2):
       print("1-1")
     
     if num2 == 2:
+      frame = module_frame = ctk.CTkScrollableFrame(root, width=970, height=670)
+      module_frame.place(x=270, y=20)
+      module_frame.configure(fg_color="#28464B")
+      clear_frame(frame)
       # Spammer
       def clear_entry03():
         spam_serverid.delete(0,tk.END)
       def clear_entry04():
         spam_channelid.delete(0,tk.END)
       def slider_event03(value):
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=177)
-      
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=157)
+      #
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
-      module_setting_frame.place(x=20,y=20)
-      tk.Label(module_frame, bg="#28464B", fg="#fff", text="Spammer", font=("Roboto", 14)).place(x=35,y=4)
+      module_setting_frame.grid(row=0, column=0, padx=15, pady=15)
+      tk.Label(module_frame, bg="#28464B", fg="#fff", text="Spammer", font=("Roboto", 14)).place(x=35,y=-1)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="All Ping").place(x=5,y=11)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="All Ch").place(x=5,y=33)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Random String").place(x=5,y=55)
