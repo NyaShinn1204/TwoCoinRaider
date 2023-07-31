@@ -28,9 +28,7 @@ def voice_spam(token, serverid, channelid, ffmpeg, voicefile, loop):
         target_guild = client.get_guild(int(serverid))
         voice_client = await target_guild.get_channel(int(channelid)).connect()
         voice_client.play(discord.FFmpegPCMAudio(
-            executable=ffmpeg, options="-af atempo=1.0,volume=20dB", source=(voicefile)), after=lambda e: print('done', e))
+            executable=ffmpeg, options="-af atempo=1.0,volume=20dB", source=(voicefile)), after=print("Done"))
         voice_client.source = discord.PCMVolumeTransformer(voice_client.source)
     client.run(token)
-    if status == False:
-        client.close()
     loop.run_until_complete(loop)

@@ -102,10 +102,10 @@ def module_thread(num):
     except:
         print("Error load ffmpeg")
         ffmpeg = ffmpeg_load()
-    threading.Thread(target=module_vc.start, args=(tokens, serverid, channelid, ffmpeg, voicefile))
+    threading.Thread(target=module_vc.start, args=(tokens, serverid, channelid, ffmpeg, voicefile)).start()
     
   if num == 4_2:
-    threading.Thread(target=module_vc.stop).starT()
+    threading.Thread(target=module_vc.stop).start()
 
 def module_status(num1, num2):
   if num1 == 2:
