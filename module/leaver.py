@@ -1,32 +1,39 @@
-import random
+import requests
 import time
 import sys
 sys.dont_write_bytecode = True
 import threading
-from httpx import Client
-from httpx_socks import SyncProxyTransport
 
-def start(tokens, proxysetting, proxies, proxytype, serverid, delay, update_module, alltokenuse, TokenuseCount):
+status = True
+
+def status():
+    global status
+    return status
+
+def stop():
+    global status
+    status = False
+
+def start(serverid, delay, tokens):
     for token in tokens:
-        threading.Thread(target=thread, args=(token, proxysetting, proxies, proxytype, serverid, delay, update_module)).start()
+        threading.Thread(target=thread, args=(serverid, token)).start()
         time.sleep(float(delay))
     
-def thread(token, proxysetting, proxies, proxytype, serverid, delay, update_module):
+def thread(serverid, token):
+    if status is False:
+        return
     try:
+        if status is False:
+            return
         headers = {"authorization": token}
-        request = Client()
-        if proxysetting == True:
-            proxy = random.choice(proxies)
-            request = Client(transport=SyncProxyTransport.from_url(f'{proxytype}://{proxy}'))
-        x = request.delete(f"https://discord.com/api/v9/users/@me/guilds/{serverid}", headers=headers)
+        x = requests.delete(f"https://discord.com/api/v9/users/@me/guilds/{serverid}", headers=headers)
         if x.status_code == 204:
-            update_module(2, 1)
+            print("sakusesu")
             return
         else:
-            update_module(2, 2)
             if x.status_code == 403:
-                update_module(2, 2)
+                print("sippai")
                 return
     except Exception as err:
-        update_module(2, 2)
+        print("sippai")
         return

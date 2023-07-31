@@ -29,10 +29,19 @@ class Setting:
   invalidtokenLabel = tk.StringVar()
   invalidtokenLabel.set("Invalid: 000")
   
+  suc_leaver_Label = tk.StringVar()
+  suc_leaver_Label.set("Success: 000")
+  fai_leaver_Label = tk.StringVar()
+  fai_leaver_Label.set("Failed: 000")
+  
   delay01 = tk.DoubleVar()
   delay01.set(0.1)
   delay02 = tk.DoubleVar()
   delay02.set(0.1)
+  
+class SettingVariable:
+  leaverresult_success = 0
+  leaverresult_failed = 0
 
 def get_hwid():
     cmd = 'wmic csproduct get uuid'
@@ -46,11 +55,26 @@ def clear_frame(frame):
         widget.destroy()
 
 def module_thread(num):
-  if num == "2_1":
+  tokens = Setting.tokens
+  print(tokens)
+  if num == 2_1:
     serverid = leaver_serverid.get()
     delay = Setting.delay02.get()
     
-    threading.Thread(target=module_leaver.start, args=(serverid, delay)).start()
+    threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
+  
+  if num == 2_2:
+    threading.Thread(target=module_leaver.stop).start()
+
+def module_status(num1, num2):
+  if num1 == 2:
+    if num2 == 1:
+      SettingVariable.leaverresult_success +=1
+      Setting.suc_leaver_Label.set("Success: "+str(SettingVariable.leaverresult_success).zfill(3))
+    if num2 == 2:
+      SettingVariable.leaverresult_failed +=1
+      Setting.fai_leaver_Label.set("Failed: "+str(SettingVariable.leaverresult_failed).zfill(3))
+    
     
 def set_moduleframe(num1, num2):
   global joiner_link,leaver_serverid
@@ -82,8 +106,8 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=62)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=62)
       
-      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=module_thread(1_1)).place(x=5,y=87)
-      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=module_thread(1_2)).place(x=70,y=87)
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=87)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=87)
       
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=117)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Success: 000", font=("Roboto", 12)).place(x=10,y=142)
@@ -102,12 +126,12 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay02.get(),1), font=("Roboto", 12)).place(x=205,y=35)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=35)
       
-      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=module_thread(2_1)).place(x=5,y=60)
-      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=module_thread(2_2)).place(x=70,y=60)
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(2_1)).place(x=5,y=60)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(2_2)).place(x=70,y=60)
       
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=90)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Success: 000", font=("Roboto", 12)).place(x=10,y=115)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Failed: 000", font=("Roboto", 12)).place(x=10,y=135)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable="Success: 000", font=("Roboto", 12)).place(x=10,y=115)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable="Failed: 000", font=("Roboto", 12)).place(x=10,y=135)
       
       print("1-1")
   if num1 == 2:
