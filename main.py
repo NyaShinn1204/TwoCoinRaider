@@ -34,6 +34,11 @@ class Setting:
   fai_leaver_Label = tk.StringVar()
   fai_leaver_Label.set("Failed: 000")
   
+  suc_nmspam_Label = tk.StringVar()
+  suc_nmspam_Label.set("Success: 000")
+  fai_nmspam_Label = tk.StringVar()
+  fai_nmspam_Label.set("Failed: 000")
+  
   delay01 = tk.DoubleVar()
   delay01.set(0.1)
   delay02 = tk.DoubleVar()
@@ -44,6 +49,8 @@ class Setting:
 class SettingVariable:
   leaverresult_success = 0
   leaverresult_failed = 0
+  nmspamresult_success = 0
+  nmspamresult_failed = 0
 
 def get_hwid():
     cmd = 'wmic csproduct get uuid'
@@ -76,7 +83,14 @@ def module_status(num1, num2):
     if num2 == 2:
       SettingVariable.leaverresult_failed +=1
       Setting.fai_leaver_Label.set("Failed: "+str(SettingVariable.leaverresult_failed).zfill(3))
-    
+  if num1 == 3:
+    if num2 == 1:
+      SettingVariable.nmspamresult_success +=1
+      Setting.suc_nmspam_Label.set("Success: "+str(SettingVariable.nmspamresult_success).zfill(3))
+    if num2 == 2:
+      SettingVariable.nmspamresult_failed +=1
+      Setting.fai_nmspam_Label.set("Failed: "+str(SettingVariable.nmspamresult_failed).zfill(3))
+      
     
 def set_moduleframe(num1, num2):
   global joiner_link,leaver_serverid
@@ -172,6 +186,13 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=157)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=157)
       
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(2_1)).place(x=5,y=182)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(2_2)).place(x=70,y=182)
+
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=175)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=140,y=200)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=140,y=220)
+            
       print("1-2")
       
   if num1 == 2:
