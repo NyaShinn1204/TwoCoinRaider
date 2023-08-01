@@ -88,6 +88,47 @@ def ffmpeg_load():
     if ffmpegfile == []:
         return
 
+def voice_load():
+    global voicefile
+    fTyp = [("", "*.mp3")]
+    iFile = os.path.abspath(os.path.dirname(__file__))
+    filepath = filedialog.askopenfilename(
+        filetype=fTyp, initialdir=iFile, title="Select Voice File")
+    if filepath == "":
+        return
+    voicefile = filepath
+    Setting.voicefile = voicefile
+    if voicefile == []:
+        return
+    voicefile_show = voicefile.split('/')[len(voicefile.split('/'))-1]
+    Setting.voicefile_filenameLabel.set(voicefile_show)
+
+def token_load():
+  fTyp = [("", "*.txt")]
+  iFile = os.path.abspath(os.path.dirname(__file__))
+  filepath = filedialog.askopenfilename(
+      filetype=fTyp, initialdir=iFile, title="Select Tokens")
+  if filepath == "":
+      return
+  tokens = open(filepath, 'r').read().splitlines()
+  if tokens == []:
+      return
+  Setting.tokens = []
+  Setting.validtoken = 0
+  Setting.invalidtoken = 0
+  Setting.token_filenameLabel.set(os.path.basename(filepath))
+  Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
+  threading.Thread(target=token_checker.check(tokens, update_token)).start()
+
+def update_token(status, token):
+  if status == True:
+      Setting.tokens.append(token)
+      Setting.validtoken += 1
+      Setting.validtokenLabel.set("Valid: "+str(Setting.validtoken).zfill(3))
+  if status == False:
+      Setting.invalidtoken += 1
+      Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
+
 def clear_frame(frame):
     for widget in frame.winfo_children():
         widget.destroy()
@@ -276,20 +317,6 @@ def set_moduleframe(num1, num2):
         vcspam_channelid.delete(0,tk.END)
       def slider_event03(value):
         tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=220,y=173)
-      def voice_load():
-          global voicefile
-          fTyp = [("", "*.mp3")]
-          iFile = os.path.abspath(os.path.dirname(__file__))
-          filepath = filedialog.askopenfilename(
-              filetype=fTyp, initialdir=iFile, title="Select Voice File")
-          if filepath == "":
-              return
-          voicefile = filepath
-          Setting.voicefile = voicefile
-          if voicefile == []:
-              return
-          voicefile_show = voicefile.split('/')[len(voicefile.split('/'))-1]
-          Setting.voicefile_filenameLabel.set(voicefile_show)
       
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
@@ -340,31 +367,6 @@ def set_moduleframe(num1, num2):
       print("1-2")
 
   if num1 == 2:
-    def token_load():
-      fTyp = [("", "*.txt")]
-      iFile = os.path.abspath(os.path.dirname(__file__))
-      filepath = filedialog.askopenfilename(
-          filetype=fTyp, initialdir=iFile, title="Select Tokens")
-      if filepath == "":
-          return
-      tokens = open(filepath, 'r').read().splitlines()
-      if tokens == []:
-          return
-      Setting.tokens = []
-      Setting.validtoken = 0
-      Setting.invalidtoken = 0
-      Setting.token_filenameLabel.set(os.path.basename(filepath))
-      Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
-      threading.Thread(target=token_checker.check(tokens, update_token)).start()
-    
-    def update_token(status, token):
-        if status == True:
-            Setting.tokens.append(token)
-            Setting.validtoken += 1
-            Setting.validtokenLabel.set("Valid: "+str(Setting.validtoken).zfill(3))
-        if status == False:
-            Setting.invalidtoken += 1
-            Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
     if num2 == 1:
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
