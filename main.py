@@ -182,22 +182,20 @@ def module_status(num1, num2):
       
 def set_module_collapsing(num1, num2):
   if num1 == 1:
+    modulelist = ctk.CTkFrame(master=root, width=250, height=500, border_width=0, bg_color="#142326", fg_color="#142326")
+    modulelist.place(x=0,y=100)
     if num2 == 1:
       print("1-1")
-      modulelist = ctk.CTkFrame(master=root, width=250, height=500, border_width=0, bg_color="#142326", fg_color="#142326")
-      modulelist.place(x=0,y=100)
       ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="Joiner / Leaver           ", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(1, 1)).place(x=20,y=20)
       ctk.CTkButton(master=modulelist, compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="Joiner", width=190, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_single(1, 1, 1)).place(x=40,y=60)
       ctk.CTkButton(master=modulelist, compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="Leaver", width=190, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_single(1, 1, 2)).place(x=40,y=100)
       ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="Spammer                     ", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(1, 2)).place(x=20,y=140)
     if num2 == 2:
       print("1-2")
-      modulelist = ctk.CTkFrame(master=root, width=250, height=500, border_width=0, bg_color="#142326", fg_color="#142326")
-      modulelist.place(x=0,y=100)
       ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="Joiner / Leaver           ", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(1, 1)).place(x=20,y=20)
       ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="Spammer                     ", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(1, 2)).place(x=20,y=60)
-      ctk.CTkButton(master=modulelist, compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="Spammer", width=190, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_single(1, 1, 1)).place(x=40,y=100)
-      ctk.CTkButton(master=modulelist, compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="VC Spammer", width=190, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_single(1, 1, 1)).place(x=40,y=140)
+      ctk.CTkButton(master=modulelist, compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="Spammer", width=190, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_single(1, 2, 1)).place(x=40,y=100)
+      ctk.CTkButton(master=modulelist, compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="VC Spammer", width=190, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_single(1, 2, 2)).place(x=40,y=140)
 
 def set_moduleframe_single(num1, num2, num3):
   if num1 == 1:
@@ -206,17 +204,22 @@ def set_moduleframe_single(num1, num2, num3):
         print("a")
       if num3 == 2:
         print("b")
-
+    if num2 == 2:
+      if num3 == 1:
+        print("c")
+      if num3 == 2:
+        print("d")
+        
 def set_moduleframe(num1, num2):
   global joiner_link,joiner_serverid,joiner_button01,leaver_serverid
   global vcspam_serverid,vcspam_channelid
   set_module_collapsing(num1, num2)
+  frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
+  module_frame.place(x=270, y=20)
+  module_frame.configure(fg_color="#28464B")
+  clear_frame(frame)
   if num1 == 1:
     if num2 == 1:
-      frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
-      module_frame.place(x=270, y=20)
-      module_frame.configure(fg_color="#28464B")
-      clear_frame(frame)
       # Joiner Frame
       def slider_event01(value):
         tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=111)
@@ -279,10 +282,6 @@ def set_moduleframe(num1, num2):
       print("1-1")
     
     if num2 == 2:
-      frame = module_frame = ctk.CTkScrollableFrame(root, width=970, height=670)
-      module_frame.place(x=270, y=20)
-      module_frame.configure(fg_color="#28464B")
-      clear_frame(frame)
       # Spammer
       def clear_entry04():
         spam_serverid.delete(0,tk.END)
@@ -310,7 +309,7 @@ def set_moduleframe(num1, num2):
           Setting.voicefile_filenameLabel.set(voicefile_show)
       
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
-      module_setting_frame.grid(row=0, column=0, padx=15, pady=15)
+      module_setting_frame.place(x=20,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Spammer", font=("Roboto", 14)).place(x=35,y=-1)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="All Ping").place(x=5,y=11)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="All Ch").place(x=5,y=33)
@@ -336,8 +335,8 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=140,y=220)
            
       # VC Spam
-      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=150, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
-      module_setting_frame.place(x=400,y=15)
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame.place(x=400,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=435,y=-1)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry06).place(x=5,y=13)
       vcspam_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
@@ -384,10 +383,6 @@ def set_moduleframe(num1, num2):
             Setting.invalidtoken += 1
             Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
     if num2 == 1:
-      frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
-      module_frame.place(x=270, y=20)
-      module_frame.configure(fg_color="#28464B")
-      clear_frame(frame)
       print("2-1")
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
@@ -402,10 +397,6 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validtokenLabel).place(x=10,y=95)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
     if num2 == 2:
-      frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
-      module_frame.place(x=270, y=20)
-      module_frame.configure(fg_color="#28464B")
-      clear_frame(frame)
       print("2-2")
 
 print(f"""          
