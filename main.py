@@ -222,12 +222,75 @@ def set_module_collapsing(num1, num2):
       ctk.CTkButton(master=modulelist, compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="VC Spammer", width=190, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_single(1, 2, 2)).place(x=40,y=140)
 
 def set_moduleframe_single(num1, num2, num3):
+  frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
+  module_frame.place(x=270, y=20)
+  module_frame.configure(fg_color="#28464B")
+  clear_frame(frame)
+  def slider_event01(value):
+    tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=111)
+  def slider_event02(value):
+    tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=605,y=55)
+  def slider_event03(value):
+    tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=220,y=173)
+  def clear_entry01():
+    joiner_link.delete(0,tk.END)
+  def clear_entry02():
+    joiner_serverid.delete(0,tk.END)
+  def clear_entry03():
+    leaver_serverid.delete(0,tk.END)
+  def clear_entry04():
+    spam_serverid.delete(0,tk.END)
+  def clear_entry05():
+    spam_channelid.delete(0,tk.END)
+  def clear_entry06():
+    vcspam_serverid.delete(0,tk.END)
+  def clear_entry07():
+    vcspam_channelid.delete(0,tk.END)  
+  
   if num1 == 1:
     if num2 == 1:
-      if num3 == 1:
-        print("a")
-      if num3 == 2:
-        print("b")
+      if num3 == 1: # Joiner
+        module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+        module_setting_frame.place(x=20,y=20)
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text="Joiner", font=("Roboto", 14)).place(x=35,y=4)
+        joiner_button01 = ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass MemberScreen")
+        joiner_button01.place(x=5,y=11)
+        ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry01).place(x=5,y=40)
+        joiner_link = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
+        joiner_link.place(x=85,y=40)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invite Link", font=("Roboto", 12)).place(x=240,y=38)
+        ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry02).place(x=5,y=69)
+        joiner_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
+        joiner_serverid.place(x=85,y=69)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=67)
+        ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay01, command=slider_event01).place(x=5,y=96)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=91)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=91)
+        
+        ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=116)
+        ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=116)
+        
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=146)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=10,y=174)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_joiner_Label, font=("Roboto", 12)).place(x=10,y=199)
+      if num3 == 2: # Leaver
+        module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+        module_setting_frame.place(x=20,y=20)
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text="Leaver", font=("Roboto", 14)).place(x=35,y=4)
+        ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry03).place(x=5,y=13)
+        leaver_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
+        leaver_serverid.place(x=85,y=13)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
+        ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay02, command=slider_event02).place(x=5,y=40)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay02.get(),1), font=("Roboto", 12)).place(x=205,y=35)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=35)
+        
+        ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(2_1)).place(x=5,y=60)
+        ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(2_2)).place(x=70,y=60)
+        
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=90)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=115)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_leaver_Label, font=("Roboto", 12)).place(x=10,y=135)
     if num2 == 2:
       if num3 == 1:
         print("c")
@@ -255,7 +318,7 @@ def set_moduleframe(num1, num2):
         joiner_serverid.delete(0,tk.END)
       def clear_entry03():
         leaver_serverid.delete(0,tk.END)
-      
+        
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Joiner", font=("Roboto", 14)).place(x=35,y=4)
