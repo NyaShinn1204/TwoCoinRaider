@@ -88,23 +88,6 @@ def ffmpeg_load():
     if ffmpegfile == []:
         return
 
-def x_content_props(guild):
-    guild_id=guild["guild"]["id"]
-    channel_id=guild["channel"]["id"]
-    return base64.b64encode(str('{"location":"Join Guild","location_guild_id":"'+guild_id+'","location_channel_id":"'+channel_id+'","location_channel_type":0}').encode()).decode()
- 
-def get_guild_info(invite):
-    try:
-        session = tls_client.Session(client_identifier="chrome_108")
-        url = f"https://discord.com/api/v9/invites/{invite}?with_counts=true&with_expiration=true"
-        req = session.get(url=url)
-        data = req.json()
-        if "Unknown Invite" in data.get("message"):
-            return None
-        return data
-    except:
-        return None
-
 def clear_frame(frame):
     for widget in frame.winfo_children():
         widget.destroy()
@@ -383,7 +366,6 @@ def set_moduleframe(num1, num2):
             Setting.invalidtoken += 1
             Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
     if num2 == 1:
-      print("2-1")
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Tokens", font=("Roboto", 14)).place(x=35,y=4)
@@ -396,6 +378,7 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totaltokenLabel).place(x=10,y=75)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validtokenLabel).place(x=10,y=95)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
+      print("2-1")
     if num2 == 2:
       print("2-2")
 
