@@ -3,6 +3,7 @@ import tkinter as tk
 import customtkinter as ctk
 from customtkinter import *
 from PIL import Image
+import webbrowser
 import threading
 import os
 
@@ -463,6 +464,13 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
       print("2-1")
     if num2 == 2:
+      def jump_to_link(url):
+        webbrowser.open_new(url)
+      tk.Label(module_frame, text="TwoCoin Github: ", bg="#28464B", fg="#4D8387", font=("Roboto", 12)).place(x=10,y=10)
+      link01 = tk.Label(module_frame, text="GitHub link", bg="#28464B", fg="#fff", font=("Roboto", 12))
+      link01.place(x=130,y=10)
+      link01.bind("<Button-1>", lambda e:jump_to_link("https://github.com/NyaShinn1204/TwoCoinRaider"))
+
       print("2-2")
 
 print(f"""          
