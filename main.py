@@ -1,7 +1,4 @@
 import subprocess
-import tls_client
-import time
-import base64
 import tkinter as tk
 import customtkinter as ctk
 from customtkinter import *
