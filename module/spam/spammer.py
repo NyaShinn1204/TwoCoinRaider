@@ -40,7 +40,7 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
             print("[-] んーチャンネルが取得できなかったっぽい token死なないように一回止めるね")
             return
     if allping == True:
-        users = user_scrape.get_members(serverid, channelid, token, status)
+        users = user_scrape.get_members(serverid, channelid, token)
         if users == None:
             print("[-] んーメンバーが取得できなかったっぽい token死なないように一回止めるね")
             return

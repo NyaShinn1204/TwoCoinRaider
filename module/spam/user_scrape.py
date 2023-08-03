@@ -6,7 +6,7 @@ import websocket
 
 users = []
 
-def get_members(serverid, channelid, proxysetting, proxytype, proxies, token, update_module):
+def get_members(serverid, channelid, token):
     global users
     print(f"Scraping in {serverid} with {token}")
     members = scrape(token, serverid, channelid)
