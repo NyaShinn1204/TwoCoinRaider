@@ -8,9 +8,10 @@ import threading
 import os
 
 import module.token_checker as token_checker
+import module.proxy_checker as proxy_checker
 import module.joiner as module_joiner
 import module.leaver as module_leaver
-
+import module.spam.spammer as module_spammer
 import module.vcspam as module_vc
 
 root = tk.Tk()
@@ -24,16 +25,44 @@ class Setting:
   validtoken = 0
   invalidtoken = 0
   
+  # enabled ck.button
+  proxy_enabled = tk.BooleanVar()
+  proxy_enabled.set("False")
+  
   token_filenameLabel = tk.StringVar()
   token_filenameLabel.set("")
-  voicefile_filenameLabel = tk.StringVar()
-  voicefile_filenameLabel.set("")
   totaltokenLabel = tk.StringVar()
   totaltokenLabel.set("Total: 000")
   validtokenLabel = tk.StringVar()
   validtokenLabel.set("Valid: 000")
   invalidtokenLabel = tk.StringVar()
   invalidtokenLabel.set("Invalid: 000")
+
+  proxytype = "http"
+  proxies = []
+  vaildproxies = 0
+  invaildproxies = 0
+
+  http_value = BooleanVar()
+  http_value.set("False")
+  socks4_value = BooleanVar()
+  socks4_value.set("True")
+  socks5_value = BooleanVar()
+  socks5_value.set("True")
+  proxysetting = BooleanVar()
+  proxysetting.set("False")
+
+  proxy_filenameLabel = tk.StringVar()
+  proxy_filenameLabel.set("")
+  totalProxiesLabel = tk.StringVar()
+  totalProxiesLabel.set("Total: 000")
+  validProxiesLabel = tk.StringVar()
+  validProxiesLabel.set("Valid: 000")
+  invalidProxiesLabel = tk.StringVar()
+  invalidProxiesLabel.set("Invalid: 000")
+  
+  voicefile_filenameLabel = tk.StringVar()
+  voicefile_filenameLabel.set("")
   
   suc_joiner_Label = tk.StringVar()
   suc_joiner_Label.set("Success: 000")
@@ -45,11 +74,21 @@ class Setting:
   fai_leaver_Label = tk.StringVar()
   fai_leaver_Label.set("Failed: 000")
   
+  # nm spam
   suc_nmspam_Label = tk.StringVar()
   suc_nmspam_Label.set("Success: 000")
   fai_nmspam_Label = tk.StringVar()
   fai_nmspam_Label.set("Failed: 000")
   
+  spam_allping = BooleanVar()
+  spam_allping.set("False")
+  spam_allch = BooleanVar()
+  spam_allch.set("False")
+  spam_rdstring = BooleanVar()
+  spam_rdstring.set("False")
+  spam_ratefixer = BooleanVar()
+  spam_ratefixer.set("False")
+
   delay01 = tk.DoubleVar()
   delay01.set(0.1)
   delay02 = tk.DoubleVar()
@@ -151,12 +190,41 @@ def update_token(status, token):
       Setting.invalidtoken += 1
       Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
 
+def proxy_load():
+  fTyp = [("", "*.txt")]
+  iFile = os.path.abspath(os.path.dirname(__file__))
+  filepath = filedialog.askopenfilename(
+      filetype=fTyp, initialdir=iFile, title="Select Proxies")
+  if filepath == "":
+      return
+  proxies = open(filepath, 'r').read().splitlines()
+  if proxies == []:
+      return
+  Setting.proxies = []
+  Setting.vaildproxies = 0
+  Setting.invaildproxies = 0
+  Setting.totalProxiesLabel.set("Total: "+str(len(proxies)).zfill(3))
+  proxy_checker.check(update_proxy, proxies, Setting.proxytype)
+  threading.Thread(target=proxy_checker.check(update_proxy, proxies, Setting.proxytype))
+     
+def update_proxy(status, proxy):
+  if status == True:
+      Setting.proxies.append(proxy)
+      Setting.vaildproxies += 1
+      Setting.validProxiesLabel.set("Valid: "+str(Setting.vaildproxies).zfill(3))
+  if status == False:
+      Setting.invaildproxies += 1
+      Setting.invalidProxiesLabel.set("Invalid: "+str(Setting.invaildproxies).zfill(3))
+
 def clear_frame(frame):
     for widget in frame.winfo_children():
         widget.destroy()
 
 def module_thread(num):
   tokens = Setting.tokens
+  proxies = Setting.proxies
+  proxytype = Setting.proxytype
+  proxysetting = Setting.proxy_enabled
   print(tokens)
   if num == 1_1:
     serverid = str(joiner_serverid.get())
@@ -188,6 +256,30 @@ def module_thread(num):
   
   if num == 2_2:
     threading.Thread(target=module_leaver.stop).start()
+  
+  if num == 3_1:
+    serverid = str(spam_serverid.get())
+    channelid = str(spam_channelid.get())
+    allchannel = Setting.spam_allch.get()
+    allping = Setting.spam_allping.get()
+    randomstring = Setting.spam_rdstring.get()
+    ratelimit = Setting.spam_ratefixer.get()
+    delay = Setting.delay03.get()
+    
+    contents = spam_message.get("0.0","end-1c")
+    mentions = 20
+    
+    if serverid == "":
+        print("[-] ServerID is not set")
+        return
+    if channelid == "":
+        print("[-] ChannelID is not set")
+        return    
+
+    threading.Thread(target=module_spammer.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
+    
+  if num == 3_2:
+    module_spammer.stop()
   
   if num == 4_1:
     serverid = vcspam_serverid.get()
@@ -298,10 +390,10 @@ def set_moduleframe_single(num1, num2, num3):
         module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
         module_setting_frame.place(x=20,y=20)
         tk.Label(module_frame, bg="#28464B", fg="#fff", text="Spammer", font=("Roboto", 14)).place(x=35,y=-1)
-        ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="All Ping").place(x=5,y=11)
-        ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="All Ch").place(x=5,y=33)
-        ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Random String").place(x=5,y=55)
-        ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="RateLimitFixer").place(x=5,y=77)
+        ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allping ,text="All Ping").place(x=5,y=11)
+        ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allch ,text="All Ch").place(x=5,y=33)
+        ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_rdstring ,text="Random String").place(x=5,y=55)
+        ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_ratefixer ,text="RateLimitFixer").place(x=5,y=77)
         ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry04).place(x=5,y=106)
         spam_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
         spam_serverid.place(x=85,y=106)
@@ -313,6 +405,9 @@ def set_moduleframe_single(num1, num2, num3):
         ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay03, command=slider_event03).place(x=5,y=162)
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=157)
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=157)
+        spam_message = ctk.CTkTextbox(module_setting_frame, bg_color="#28464B", fg_color="#275258", text_color="#fff", width=150, height=60)
+        spam_message.place(x=120,y=11)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=25)
         
         ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(3_1)).place(x=5,y=182)
         ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(3_2)).place(x=70,y=182)
@@ -343,7 +438,7 @@ def set_moduleframe_single(num1, num2, num3):
         
 def set_moduleframe(num1, num2):
   global joiner_link,joiner_serverid,joiner_button01,leaver_serverid
-  global spam_serverid,spam_channelid,vcspam_serverid,vcspam_channelid
+  global spam_serverid,spam_channelid,spam_message,vcspam_serverid,vcspam_channelid
   set_module_collapsing(num1, num2)
   frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
   module_frame.place(x=270, y=20)
@@ -403,10 +498,10 @@ def set_moduleframe(num1, num2):
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Spammer", font=("Roboto", 14)).place(x=35,y=-1)
-      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="All Ping").place(x=5,y=11)
-      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="All Ch").place(x=5,y=33)
-      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Random String").place(x=5,y=55)
-      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="RateLimitFixer").place(x=5,y=77)
+      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allping ,text="All Ping").place(x=5,y=11)
+      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allch ,text="All Ch").place(x=5,y=33)
+      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_rdstring ,text="Random String").place(x=5,y=55)
+      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_ratefixer ,text="RateLimitFixer").place(x=5,y=77)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry04).place(x=5,y=106)
       spam_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       spam_serverid.place(x=85,y=106)
@@ -418,7 +513,10 @@ def set_moduleframe(num1, num2):
       ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay03, command=slider_event03).place(x=5,y=162)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=157)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=157)
-      
+      spam_message = ctk.CTkTextbox(module_setting_frame, bg_color="#28464B", fg_color="#275258", text_color="#fff", width=150, height=60)
+      spam_message.place(x=120,y=11)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=25)
+        
       ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(3_1)).place(x=5,y=182)
       ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(3_2)).place(x=70,y=182)
 
@@ -462,6 +560,20 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totaltokenLabel).place(x=10,y=75)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validtokenLabel).place(x=10,y=95)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
+      
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame.place(x=400,y=20)
+      tk.Label(module_frame, bg="#28464B", fg="#fff", text="Proxies", font=("Roboto", 14)).place(x=415,y=4)
+      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.proxy_enabled ,text="Enabled").place(x=5,y=11)
+      ctk.CTkButton(module_setting_frame, text="Select File", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=lambda: proxy_load()).place(x=5,y=40)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=40)
+      ctk.CTkLabel(module_setting_frame, bg_color="#28464B", fg_color="#275258", text_color="#fff", text="", width=150, height=20, textvariable=Setting.proxy_filenameLabel).place(x=85,y=40)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=37)
+      
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=70)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totalProxiesLabel).place(x=10,y=95)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validProxiesLabel).place(x=10,y=115)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidProxiesLabel).place(x=10,y=135)
       print("2-1")
     if num2 == 2:
       def jump_to_link(url):

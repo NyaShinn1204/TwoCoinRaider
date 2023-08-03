@@ -1,11 +1,5 @@
 import threading
-import sys
-sys.dont_write_bytecode = True
-import requests
-import time
 from httpx import Client
-from httpx_socks import SyncProxyTransport
-import random
 
 def check(tokens, update_token):
     lock = threading.Lock()
