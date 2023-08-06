@@ -2,6 +2,7 @@ import random
 import string
 import threading
 import time
+import json
 from httpx import Client
 from httpx_socks import SyncProxyTransport
 
@@ -44,7 +45,7 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
         if users == None:
             print("[-] んーメンバーが取得できなかったっぽい token死なないように一回止めるね")
             return
-
+    
     while status is True:
         if status == False:
             break
@@ -91,6 +92,10 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
             proxy = random.choice(proxies)
             request = Client(transport=SyncProxyTransport.from_url(f'{proxytype}://{proxy}'))
         x = request.post(f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers, json=data)
+        if x.status_code == 400:
+            print("[-] AutoModのフィルターでメッセージが削除されたっぽい "+x.json())
+            status = False
+            return
         if x.status_code == 200:
             module_status(3, 1)
         else:
