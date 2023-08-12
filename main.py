@@ -337,6 +337,8 @@ def set_module_collapsing(num1, num2):
     ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color="#28464B", bg_color="#142326", hover_color="#2C8C99", text="Spammer                     ", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(1, 2)).place(x=20,y=60)
 
 def set_moduleframe_single(num1, num2, num3):
+  global joiner_link,joiner_serverid,joiner_button01,leaver_serverid
+  global spam_serverid,spam_channelid,spam_message,vcspam_serverid,vcspam_channelid
   frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
   module_frame.place(x=270, y=20)
   module_frame.configure(fg_color="#28464B")

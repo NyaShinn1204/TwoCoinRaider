@@ -96,6 +96,10 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
             print("[-] AutoModのフィルターでメッセージが削除されたっぽい "+x.json())
             status = False
             return
+        if x.status_code == 403:
+            print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {token}")
+        if x.status_code == 404:
+            print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {token}")
         if x.status_code == 200:
             module_status(3, 1)
         else:
