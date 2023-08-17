@@ -93,11 +93,11 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
             request = Client(transport=SyncProxyTransport.from_url(f'{proxytype}://{proxy}'))
         x = request.post(f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers, json=data)
         if x.status_code == 400:
-            print(f"[-] AutoModのフィルターでメッセージが削除されたっぽい  Message: {x.json()['message']} Status Info {x.json()}")
+            print(f"[-] AutoModによりメッセージが削除されたっぽい  Message: {x.json()['message']} Status Info {x.status_code}")
         if x.status_code == 403:
-            print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {token} Status Info {x.json()}")
+            print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {token} Status Info {x.status_code}")
         if x.status_code == 404:
-            print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {token} Status Info {x.json()}")
+            print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {token} Status Info {x.status_code}")
         if x.status_code == 200:
             module_status(3, 1)
         else:
