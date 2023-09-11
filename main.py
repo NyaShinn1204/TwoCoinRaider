@@ -532,7 +532,7 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=115)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_leaver_Label, font=("Roboto", 12)).place(x=10,y=135)
       
-      print("1-1")
+      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:676] Open Join Leave Tab")
     
     if num2 == 2:
       # Spammer
@@ -590,7 +590,7 @@ def set_moduleframe(num1, num2):
       ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(4_1)).place(x=5,y=102)
       ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(4_2)).place(x=70,y=102)
 
-      print("1-2")
+      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:677] Open Spam Tab")
 
   if num1 == 2:
     if num2 == 1:
@@ -620,20 +620,19 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totalProxiesLabel).place(x=10,y=95)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validProxiesLabel).place(x=10,y=115)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidProxiesLabel).place(x=10,y=135)
-      print("2-1")
+      
+      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:678] Open Settings Tab")
     if num2 == 2:
-      def jump_to_link(url):
-        webbrowser.open_new(url)
       tk.Label(module_frame, text="TwoCoin Github: ", bg="#28464B", fg="#4D8387", font=("Roboto", 12)).place(x=10,y=10)
       link01 = tk.Label(module_frame, text="GitHub link", bg="#28464B", fg="#fff", font=("Roboto", 12))
       link01.place(x=130,y=10)
-      link01.bind("<Button-1>", lambda e:jump_to_link("https://github.com/NyaShinn1204/TwoCoinRaider"))
+      link01.bind("<Button-1>", lambda e:webbrowser.open_new("https://github.com/NyaShinn1204/TwoCoinRaider"))
       tk.Label(module_frame, text="TwoCoin discord: ", bg="#28464B", fg="#4D8387", font=("Roboto", 12)).place(x=10,y=35)
       link02 = tk.Label(module_frame, text="Discord invite link", bg="#28464B", fg="#fff", font=("Roboto", 12))
       link02.place(x=135,y=35)
-      link02.bind("<Button-1>", lambda e:jump_to_link("https://discord.gg/ntra"))
+      link02.bind("<Button-1>", lambda e:webbrowser.open_new("https://discord.gg/ntra"))
       
-      print("2-2")
+      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:679] Open Abouts Tab")
 
 print(f"""          
        &#BB#&       
