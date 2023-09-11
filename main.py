@@ -1,10 +1,13 @@
+import colorama
 import subprocess
 import tkinter as tk
 import customtkinter as ctk
 from customtkinter import *
 from PIL import Image
+from colorama import Fore, Back, Style
 import webbrowser
 import threading
+import json
 import os
 
 import module.token_checker as token_checker
@@ -14,6 +17,7 @@ import module.leaver as module_leaver
 import module.spam.spammer as module_spammer
 import module.vcspam as module_vc
 
+colorama.init(autoreset=True)
 root = tk.Tk()
 root.geometry("1280x720")
 root.resizable(0, 0)
@@ -165,7 +169,18 @@ def token_load():
       filetype=fTyp, initialdir=iFile, title="Select Tokens")
   if filepath == "":
       return
-  tokens = open(filepath, 'r').read().splitlines()
+  if os.path.exists(r"config.json"):
+    print()
+  else:
+    tokens = open(filepath, 'r').read().splitlines()
+    with open('config.json', 'w') as creating_new_json_file:
+      pass
+    token_file_path = {
+      "token_path": filepath
+    }
+    tokens_file = json.dumps(token_file_path)
+    with open("config.json", "w") as configfile:
+      configfile.write(tokens_file)
   if tokens == []:
       return
   Setting.tokens = []
@@ -628,11 +643,26 @@ print(f"""
     B7~!!~~~!~7B         | \ \ /\ / / _ \| |    / _ \| | '_ \|  _  // _` | |/ _` |/ _ \ '__|
      #5J7777J55          | |\ V  V / (_) | |___| (_) | | | | | | \ \ (_| | | (_| |  __/ |    　
        &&&&&&&           |_| \_/\_/ \___/ \_____\___/|_|_| |_|_|  \_\__,_|_|\__,_|\___|_|   
-                                            This Software was Paid                                                      
+                                            This Software was Paid Only                                                     
                                        
 You HWID: [{get_hwid()}]                
 -----------------------""")
-print("Loading....")
+if os.path.exists(r"config.json"):
+  cfg = open("config.json", "r")
+  settings = json.load(cfg)
+  filepath = settings["token_path"]
+  tokens = open(filepath, 'r').read().splitlines()
+  Setting.tokens = []
+  Setting.validtoken = 0
+  Setting.invalidtoken = 0
+  Setting.token_filenameLabel.set(os.path.basename(filepath))
+  Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
+  threading.Thread(target=token_checker.check(tokens, update_token)).start()
+  print("Loading....")
+else:
+  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:162] token path not found. Please point to it manually.")
+  token_load()
+  print("Loading....")
 
 tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
 
