@@ -92,6 +92,12 @@ class Setting:
   delay01 = tk.DoubleVar()
   delay01.set(0.1)
   
+  delay02 = tk.DoubleVar()
+  delay02.set(0.1)
+  
+  delay03 = tk.DoubleVar()
+  delay03.set(0.1)
+  
   voicefile = []
   
 class SettingVariable:
@@ -213,13 +219,14 @@ def module_thread(num):
   proxies = Setting.proxies
   proxytype = Setting.proxytype
   proxysetting = Setting.proxy_enabled
-  delay = 0.1
   print(tokens)
   if num == 1_1:
     serverid = str(joiner_serverid.get())
     invitelink = joiner_link.get()
     memberscreen = joiner_button01.get()
+    
     delay = Setting.delay01.get()
+    
     if invitelink == "":
         print("[-] InviteLink is not set")
         return
@@ -235,10 +242,13 @@ def module_thread(num):
         if serverid == "":
             print("[-] ServerID is not set")
             return
+          
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status)).start()
     
   if num == 2_1:
     serverid = leaver_serverid.get()
+    
+    delay = 0.1
     
     threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
   
@@ -256,6 +266,8 @@ def module_thread(num):
     contents = spam_message.get("0.0","end-1c")
     mentions = 20
     
+    delay = Setting.delay03.get()
+    
     if serverid == "":
         print("[-] ServerID is not set")
         return
@@ -272,12 +284,16 @@ def module_thread(num):
     serverid = vcspam_serverid.get()
     channelid = vcspam_channelid.get()
     voicefile = Setting.voicefile
+    
+    delay = 0.1
+    
     try:
         ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
     except:
         print("Error load ffmpeg")
         ffmpeg = ffmpeg_load()
-    threading.Thread(target=module_vc.start, args=(tokens, serverid, channelid, ffmpeg, voicefile)).start()
+        
+    threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, voicefile)).start()
     
   if num == 4_2:
     threading.Thread(target=module_vc.stop).start()
@@ -393,6 +409,13 @@ def set_moduleframe_single(num1, num2, num3):
         spam_channelid.place(x=85,y=135)
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
 
+        def slider_event03(value):
+          tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=175)
+        
+        ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay03, command=slider_event03).place(x=5,y=160)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=155)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=155)
+
         spam_message = ctk.CTkTextbox(module_setting_frame, bg_color="#28464B", fg_color="#275258", text_color="#fff", width=150, height=60)
         spam_message.place(x=120,y=11)
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=25)
@@ -499,6 +522,13 @@ def set_moduleframe(num1, num2):
       spam_channelid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       spam_channelid.place(x=85,y=135)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
+      
+      def slider_event03(value):
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=175)
+      
+      ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay03, command=slider_event03).place(x=5,y=160)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=155)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=155)
       
       spam_message = ctk.CTkTextbox(module_setting_frame, bg_color="#28464B", fg_color="#275258", text_color="#fff", width=150, height=60)
       spam_message.place(x=120,y=11)

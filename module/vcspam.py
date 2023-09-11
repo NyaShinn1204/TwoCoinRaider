@@ -6,12 +6,13 @@ import asyncio
 import threading
 status = False
 
-def start(tokens, serverid, channelid, ffmpeg, voicefile):
+def start(delay, tokens, serverid, channelid, ffmpeg, voicefile):
     global status
     status = True
     for token in tokens:
         loop = asyncio.new_event_loop()
         threading.Thread(target=voice_spam, args=(token, serverid, channelid, ffmpeg, voicefile, loop)).start()
+        time.sleep(float(delay))
 
 def stop():
     global status
