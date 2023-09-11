@@ -658,11 +658,11 @@ if os.path.exists(r"config.json"):
   Setting.token_filenameLabel.set(os.path.basename(filepath))
   Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
   threading.Thread(target=token_checker.check(tokens, update_token)).start()
-  print("Loading....")
+  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:21] Loading Tkinter")
 else:
   print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:162] token path not found. Please point to it manually.")
   token_load()
-  print("Loading....")
+  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:21] Loading Tkinter")
 
 tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
 
