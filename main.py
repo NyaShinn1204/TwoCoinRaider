@@ -102,6 +102,12 @@ class Setting:
   delay03 = tk.DoubleVar()
   delay03.set(0.1)
   
+  delay91 = tk.DoubleVar()
+  delay91.set(0.1)
+  
+  mention_count_def = tk.DoubleVar()
+  mention_count_def.set(20)
+  
   voicefile = []
   
 class SettingVariable:
@@ -234,6 +240,7 @@ def module_thread(num):
   proxies = Setting.proxies
   proxytype = Setting.proxytype
   proxysetting = Setting.proxy_enabled
+  delay = Setting.delay91.get()
   print(tokens)
   if num == 1_1:
     serverid = str(joiner_serverid.get())
@@ -279,7 +286,7 @@ def module_thread(num):
     ratelimit = Setting.spam_ratefixer.get()
     
     contents = spam_message.get("0.0","end-1c")
-    mentions = 20
+    mentions = Setting.mention_count_def.get()
     
     delay = Setting.delay03.get()
     
@@ -299,9 +306,7 @@ def module_thread(num):
     serverid = vcspam_serverid.get()
     channelid = vcspam_channelid.get()
     voicefile = Setting.voicefile
-    
-    delay = 0.1
-    
+        
     try:
         ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
     except:
@@ -607,7 +612,7 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validtokenLabel).place(x=10,y=95)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
       
-      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=165, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=400,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Proxies", font=("Roboto", 14)).place(x=415,y=4)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.proxy_enabled ,text="Enabled").place(x=5,y=11)
@@ -620,6 +625,21 @@ def set_moduleframe(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totalProxiesLabel).place(x=10,y=95)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validProxiesLabel).place(x=10,y=115)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidProxiesLabel).place(x=10,y=135)
+
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame.place(x=20,y=200)
+      tk.Label(module_frame, bg="#28464B", fg="#fff", text="Settings", font=("Roboto", 14)).place(x=35,y=184)
+      def slider_event91(value):
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=210)
+      ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay91, command=slider_event91).place(x=5,y=15)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Defalut Delay", font=("Roboto", 12)).place(x=240,y=10)
+      def slider_event92(value):
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text="        ", font=("Roboto", 12)).place(x=225,y=240)
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value), font=("Roboto", 12)).place(x=225,y=240)
+      ctk.CTkSlider(module_setting_frame, from_=1, to=50, variable=Setting.mention_count_def, command=slider_event92).place(x=5,y=45)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Defalut Mt Ct", font=("Roboto", 12)).place(x=240,y=40)
       
       print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:678] Open Settings Tab")
     if num2 == 2:
