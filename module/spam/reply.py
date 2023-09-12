@@ -37,10 +37,12 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
     print(serverid)
     print(channelid)
     if allmg == True:
-        messages = mg_scrape.get_messages(token,int(serverid))
-        if messages == None:
-            print("[-] んーメッセージが取得できなかったっぽい token死なないように一回止めるね")
-            return
+        print("[-] んーすまんごねぇ..いまメッセージ取得はうまくいくんだけど送信がBodyエラー吐くんよねぇ...一回止めるわー")
+        #messages = mg_scrape.get_messages(token,int(serverid))
+        #if messages == None:
+        #    print("[-] んーメッセージが取得できなかったっぽい token死なないように一回止めるね")
+        #    return
+        return
     if allping == True:
         users = user_scrape.get_members(serverid, channelid, token)
         if users == None:
