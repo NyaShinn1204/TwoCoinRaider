@@ -179,12 +179,12 @@ def clear_entry12():
   
 def get_info():
   invite_code = invite_url.get()
-  print("Connecting API Server...")
+  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] Connecting API Server...")
   res = requests.get(f"https://discord.com/api/v9/invites/{invite_code}?with_counts=true&with_expiration=true")
   if res.status_code == 200:
-      print(f"{Fore.GREEN}Successfull Get!{Fore.RESET}")
-      info = json.loads(res.text)
-      print(f"""
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] Successfull Get Info")
+    info = json.loads(res.text)
+    print(f"""
 ----------
 Server ID 
 {info["guild"]["id"]}
@@ -201,13 +201,14 @@ Member Count
 Boost Count
 {str(info["guild"]["premium_subscription_count"])}
 ----------""")
-      Setting.joiner_serverid.set(info["guild"]["id"])
-      Setting.leaver_serverid.set(info["guild"]["id"])
-      Setting.spam_serverid.set(info["guild"]["id"])
-      Setting.reply_serverid.set(info["guild"]["id"])
-      Setting.vcspam_serverid.set(info["guild"]["id"])
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] End Info")
+    Setting.joiner_serverid.set(info["guild"]["id"])
+    Setting.leaver_serverid.set(info["guild"]["id"])
+    Setting.spam_serverid.set(info["guild"]["id"])
+    Setting.reply_serverid.set(info["guild"]["id"])
+    Setting.vcspam_serverid.set(info["guild"]["id"])
   if res.status_code == 404:
-      print(f"{Fore.RED}Unknown Invite{Fore.RESET}")
+    print(f"{Fore.RED}Unknown Invite{Fore.RESET}")
 
 def get_hwid():
     cmd = 'wmic csproduct get uuid'
