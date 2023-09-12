@@ -80,7 +80,6 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
         content = f"{content}\n{randomname(10)}"
     if allchannel == True:
         channelid = random.choice(channels)
-        #print(channelid)
     data = {"content": content}
     req_header = header.request_header(token)
     headers = req_header[0]

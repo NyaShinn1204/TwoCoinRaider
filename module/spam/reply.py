@@ -6,7 +6,7 @@ import json
 from httpx import Client
 from httpx_socks import SyncProxyTransport
 
-import module.spam.mg_scrape as mg_scrape
+import module.spam.message_scrape as mg_scrape
 import module.spam.user_scrape as user_scrape
 import bypass.header as header
 
@@ -37,9 +37,9 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
     print(serverid)
     print(channelid)
     if allmg == True:
-        messages = mg_scrape.get_messages(token,int(channelid))
+        messages = mg_scrape.get_messages(token,int(serverid))
         if messages == None:
-            print("[-] んーチャンネルが取得できなかったっぽい token死なないように一回止めるね")
+            print("[-] んーメッセージが取得できなかったっぽい token死なないように一回止めるね")
             return
     if allping == True:
         users = user_scrape.get_members(serverid, channelid, token)
@@ -81,8 +81,7 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
         content = f"{content}\n{randomname(10)}"
     if allmg == True:
         messageid = random.choice(messages)
-        #print(channelid)
-    data = {"content": content, "message_reference":{"guild_id":f"{serverid}","channel_id":f"{channelid}","message_id":f"{messageid}"}}
+    data = {"content":content,"message_reference":{"guild_id": serverid, "channel_id": channelid, "message_id": messageid}}
     req_header = header.request_header(token)
     headers = req_header[0]
     try:
@@ -94,7 +93,7 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
             request = Client(transport=SyncProxyTransport.from_url(f'{proxytype}://{proxy}'))
         x = request.post(f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers, json=data)
         if x.status_code == 400:
-            print(f"[-] AutoModによりメッセージが削除されたっぽい  Message: {x.json()['message']} ChannelID: {channelid} Token: {token} Status: {x.status_code}")
+            print(f"[-] 不明なエラー  Message: {x.json()['message']} ChannelID: {channelid} Token: {token} Status: {x.status_code}")
             module_status(3, 2)
         if x.status_code == 403:
             print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {token} Status: {x.status_code}")

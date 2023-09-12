@@ -16,9 +16,8 @@ def get_messages(token,guildid):
         if x.status_code == 200:
             print(x.status_code)
             for message in data:
-                if message['type'] == 0 or 2:
-                    if message not in messages:
-                        messages.append(message["id"])
+                if message not in messages:
+                    messages.append(message["id"])
             return messages
         else:
             print(token)
