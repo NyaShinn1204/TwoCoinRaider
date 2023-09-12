@@ -462,7 +462,7 @@ def module_status(num1, num2):
       Setting.fai_replyspam_Label.set("Failed: "+str(SettingVariable.replyspamresult_failed).zfill(3))      
         
 def set_moduleframe(num1, num2):
-  global spam_message, reply_message, invite_url
+  global invite_url
   frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
   module_frame.place(x=270, y=20)
   module_frame.configure(fg_color="#28464B")
@@ -677,6 +677,7 @@ def set_moduleframe(num1, num2):
       print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:679] Open Abouts Tab")
 
 def set_moduleframe_scroll(num1, num2):
+  global spam_message, reply_message
   frame = module_frame = ctk.CTkScrollableFrame(root, width=970, height=660)
   module_frame.place(x=270, y=20)
   module_frame.configure(fg_color="#28464B")
