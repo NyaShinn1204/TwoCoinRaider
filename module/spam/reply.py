@@ -37,12 +37,11 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
     print(serverid)
     print(channelid)
     if allmg == True:
-        print("[-] んーすまんごねぇ..いまメッセージ取得はうまくいくんだけど送信がBodyエラー吐くんよねぇ...一回止めるわー")
-        #messages = mg_scrape.get_messages(token,int(serverid))
-        #if messages == None:
-        #    print("[-] んーメッセージが取得できなかったっぽい token死なないように一回止めるね")
-        #    return
-        return
+        messages = mg_scrape.get_messages(token,int(channelid))
+        print(messages)
+        if messages == None:
+            print("[-] んーメッセージが取得できなかったっぽい token死なないように一回止めるね")
+            return
     if allping == True:
         users = user_scrape.get_members(serverid, channelid, token)
         if users == None:
@@ -83,7 +82,14 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
         content = f"{content}\n{randomname(10)}"
     if allmg == True:
         messageid = random.choice(messages)
-    data = {"content":content,"message_reference":{"guild_id": serverid, "channel_id": channelid, "message_id": messageid}}
+    data = {
+        "content": content,
+        "message_reference": {
+            "guild_id": serverid,
+            "channel_id": channelid,
+            "message_id": messageid
+        }
+    }
     req_header = header.request_header(token)
     headers = req_header[0]
     try:
