@@ -7,6 +7,7 @@ from PIL import Image
 from colorama import Fore, Back, Style
 import webbrowser
 import threading
+import requests
 import json
 import os
 
@@ -121,6 +122,29 @@ class Setting:
   mention_count_def = tk.DoubleVar()
   mention_count_def.set(20)
   
+  joiner_link = tk.StringVar()
+  joiner_link.set("")
+  bypass_ms = BooleanVar()
+  bypass_ms.set("False")
+  joiner_serverid = tk.StringVar()
+  joiner_serverid.set("")
+  leaver_serverid = tk.StringVar()
+  leaver_serverid.set("")
+  spam_serverid = tk.StringVar()
+  spam_serverid.set("")
+  spam_channelid = tk.StringVar()
+  spam_channelid.set("")
+  reply_serverid = tk.StringVar()
+  reply_serverid.set("")
+  reply_channelid = tk.StringVar()
+  reply_channelid.set("")
+  reply_messageid = tk.StringVar()
+  reply_messageid.set("")
+  vcspam_serverid = tk.StringVar()
+  vcspam_serverid.set("")
+  vcspam_channelid = tk.StringVar()
+  vcspam_channelid.set("")
+  
   voicefile = []
   
 class SettingVariable:
@@ -133,25 +157,57 @@ class SettingVariable:
 
 # value def
 def clear_entry01():
-  joiner_link.delete(0,tk.END)
+  Setting.joiner_link.set("")
 def clear_entry02():
-  joiner_serverid.delete(0,tk.END)
+  Setting.joiner_serverid.set("")
 def clear_entry03():
-  leaver_serverid.delete(0,tk.END)
+  Setting.leaver_serverid.set("")
 def clear_entry04():
-  spam_serverid.delete(0,tk.END)
+  Setting.spam_serverid.set("")
 def clear_entry05():
-  spam_channelid.delete(0,tk.END)
+  Setting.spam_channelid.set("")
 def clear_entry04():
-  reply_serverid.delete(0,tk.END)
+  Setting.reply_serverid.set("")
 def clear_entry05():
-  reply_channelid.delete(0,tk.END)
+  Setting.reply_channelid.set("")
 def clear_entry05():
-  reply_messageid.delete(0,tk.END)
+  Setting.reply_messageid.set("")
 def clear_entry11():
-  vcspam_serverid.delete(0,tk.END)
+  Setting.vcspam_serverid.set("")
 def clear_entry12():
-  vcspam_channelid.delete(0,tk.END) 
+  Setting.vcspam_channelid.set("") 
+  
+def get_info():
+  invite_code = invite_url.get()
+  print("Connecting API Server...")
+  res = requests.get(f"https://discord.com/api/v9/invites/{invite_code}?with_counts=true&with_expiration=true")
+  if res.status_code == 200:
+      print(f"{Fore.GREEN}Successfull Get!{Fore.RESET}")
+      info = json.loads(res.text)
+      print(f"""
+----------
+Server ID 
+{info["guild"]["id"]}
+----------
+Server Name
+{info["guild"]["name"]}
+
+Server Description
+{info["guild"]["description"]}
+----------
+Member Count
+{str(info["approximate_member_count"])}
+
+Boost Count
+{str(info["guild"]["premium_subscription_count"])}
+----------""")
+      Setting.joiner_serverid.set(info["guild"]["id"])
+      Setting.leaver_serverid.set(info["guild"]["id"])
+      Setting.spam_serverid.set(info["guild"]["id"])
+      Setting.reply_serverid.set(info["guild"]["id"])
+      Setting.vcspam_serverid.set(info["guild"]["id"])
+  if res.status_code == 404:
+      print(f"{Fore.RED}Unknown Invite{Fore.RESET}")
 
 def get_hwid():
     cmd = 'wmic csproduct get uuid'
@@ -262,9 +318,9 @@ def module_thread(num):
   delay = Setting.delay91.get()
   print(tokens)
   if num == 1_1:
-    serverid = str(joiner_serverid.get())
-    invitelink = joiner_link.get()
-    memberscreen = joiner_button01.get()
+    serverid = str(Setting.joiner_serverid.get())
+    invitelink = Setting.joiner_link.get()
+    memberscreen = Setting.bypass_ms.get()
     
     delay = Setting.delay01.get()
     
@@ -287,7 +343,7 @@ def module_thread(num):
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status)).start()
     
   if num == 2_1:
-    serverid = leaver_serverid.get()
+    serverid = Setting.leaver_serverid.get()
     
     delay = Setting.delay02.get()
     
@@ -297,8 +353,8 @@ def module_thread(num):
     threading.Thread(target=module_leaver.stop).start()
   
   if num == 3_1:
-    serverid = str(spam_serverid.get())
-    channelid = str(spam_channelid.get())
+    serverid = str(Setting.spam_serverid.get())
+    channelid = str(Setting.spam_channelid.get())
     allchannel = Setting.spam_allch.get()
     allping = Setting.spam_allping.get()
     randomstring = Setting.spam_rdstring.get()
@@ -322,8 +378,8 @@ def module_thread(num):
     module_spammer.stop()
   
   if num == 4_1:
-    serverid = vcspam_serverid.get()
-    channelid = vcspam_channelid.get()
+    serverid = Setting.vcspam_serverid.get()
+    channelid = Setting.vcspam_channelid.get()
     voicefile = Setting.voicefile
         
     try:
@@ -338,9 +394,9 @@ def module_thread(num):
     threading.Thread(target=module_vc.stop).start()
     
   if num == 5_1:
-    serverid = str(reply_serverid.get())
-    channelid = str(reply_channelid.get())
-    messageid = str(reply_messageid.get())
+    serverid = str(Setting.reply_serverid.get())
+    channelid = str(Setting.reply_channelid.get())
+    messageid = str(Setting.reply_messageid.get())
     allmg = Setting.reply_allmg.get()
     allping = Setting.reply_allping.get()
     randomstring = Setting.reply_rdstring.get()
@@ -390,8 +446,9 @@ def module_status(num1, num2):
       Setting.fai_nmspam_Label.set("Failed: "+str(SettingVariable.nmspamresult_failed).zfill(3))
         
 def set_moduleframe(num1, num2):
-  global joiner_link,joiner_serverid,joiner_button01,leaver_serverid
-  global spam_serverid,spam_channelid,spam_message,vcspam_serverid,vcspam_channelid,reply_serverid,reply_channelid,reply_messageid,reply_message
+  #global joiner_link,joiner_button01,leaver_serverid
+  #global spam_serverid,spam_channelid,spam_message,vcspam_serverid,vcspam_channelid,reply_serverid,reply_channelid,reply_messageid,reply_message,invite_url
+  global spam_message, reply_message, invite_url
   frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
   module_frame.place(x=270, y=20)
   module_frame.configure(fg_color="#28464B")
@@ -402,15 +459,12 @@ def set_moduleframe(num1, num2):
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Joiner", font=("Roboto", 14)).place(x=35,y=-1)
-      joiner_button01 = ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass MemberScreen")
-      joiner_button01.place(x=5,y=11)
+      ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass MemberScreen", variable=Setting.bypass_ms).place(x=5,y=11)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry01).place(x=5,y=40)
-      joiner_link = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      joiner_link.place(x=85,y=40)  #27
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.joiner_link).place(x=85,y=40)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Invite Link", font=("Roboto", 12)).place(x=240,y=38)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry02).place(x=5,y=69)
-      joiner_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      joiner_serverid.place(x=85,y=69)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.joiner_serverid).place(x=85,y=69)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=67)
       
       def slider_event01(value):
@@ -433,8 +487,7 @@ def set_moduleframe(num1, num2):
       module_setting_frame.place(x=400,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Leaver", font=("Roboto", 14)).place(x=415,y=-1)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry03).place(x=5,y=13)
-      leaver_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      leaver_serverid.place(x=85,y=13)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.leaver_serverid).place(x=85,y=13)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
       
       def slider_event02(value):
@@ -463,12 +516,10 @@ def set_moduleframe(num1, num2):
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_rdstring ,text="Random String").place(x=5,y=55)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_ratefixer ,text="RateLimitFixer").place(x=5,y=77)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry04).place(x=5,y=106)
-      spam_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      spam_serverid.place(x=85,y=106)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.spam_serverid).place(x=85,y=106)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=104)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=135)
-      spam_channelid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      spam_channelid.place(x=85,y=135)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.spam_channelid).place(x=85,y=135)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
       
       def slider_event03(value):
@@ -494,12 +545,10 @@ def set_moduleframe(num1, num2):
       module_setting_frame.place(x=400,y=20)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=435,y=-1)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry11).place(x=5,y=13)
-      vcspam_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      vcspam_serverid.place(x=85,y=13)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.vcspam_serverid).place(x=85,y=13)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry12).place(x=5,y=42)
-      vcspam_channelid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      vcspam_channelid.place(x=85,y=42)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.vcspam_channelid).place(x=85,y=42)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=40)
       ctk.CTkButton(module_setting_frame, text="Select File", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=lambda: voice_load()).place(x=5,y=71)
       ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=71)
@@ -519,18 +568,15 @@ def set_moduleframe(num1, num2):
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_ratefixer ,text="RateLimitFixer").place(x=5,y=77)
       
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry04).place(x=5,y=106)
-      reply_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      reply_serverid.place(x=85,y=106)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.reply_serverid).place(x=85,y=106)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=104)
       
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=135)
-      reply_channelid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      reply_channelid.place(x=85,y=135)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.reply_channelid).place(x=85,y=135)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
       
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=164)
-      reply_messageid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      reply_messageid.place(x=85,y=164)
+      ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.reply_messageid).place(x=85,y=164)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=162)
       
       def slider_event04(value):
@@ -596,6 +642,10 @@ def set_moduleframe(num1, num2):
       ctk.CTkSlider(module_setting_frame, from_=1, to=50, variable=Setting.mention_count_def, command=slider_event92).place(x=5,y=45)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Defalut Mt Ct", font=("Roboto", 12)).place(x=240,y=40)
+      ctk.CTkButton(module_setting_frame, text="Get Info     ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=lambda: get_info()).place(x=5,y=106)
+      invite_url = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
+      invite_url.place(x=85,y=106)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Defalut Sv ID", font=("Roboto", 12)).place(x=240,y=104)
       
       print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:678] Open Settings Tab")
     if num2 == 2:
