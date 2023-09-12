@@ -102,20 +102,20 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
         x = request.post(f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers, json=data)
         if x.status_code == 400:
             print(f"[-] 不明なエラー  Message: {x.json()['message']} ChannelID: {channelid} Token: {token} Status: {x.status_code}")
-            module_status(3, 2)
+            module_status(4, 2)
         if x.status_code == 403:
             print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {token} Status: {x.status_code}")
-            module_status(3, 2)
+            module_status(4, 2)
         if x.status_code == 404:
             print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {token} Status: {x.status_code}")
-            module_status(3, 2)
+            module_status(4, 2)
         if x.status_code == 200:
-            module_status(3, 1)
+            module_status(4, 1)
         else:
             if x.status_code == 429 or 20016:
                 if ratelimit == True:
                     timelock = True
                 return
-            module_status(3, 2)
+            module_status(4, 2)
     except:
         pass
