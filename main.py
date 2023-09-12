@@ -352,7 +352,7 @@ def module_thread(num):
         print("[-] ChannelID is not set")
         return    
 
-    threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
+    threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
     
   if num == 5_2:
     module_reply.stop()
