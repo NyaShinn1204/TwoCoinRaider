@@ -208,7 +208,7 @@ Boost Count
     Setting.reply_serverid.set(info["guild"]["id"])
     Setting.vcspam_serverid.set(info["guild"]["id"])
   if res.status_code == 404:
-    print(f"{Fore.RED}Unknown Invite{Fore.RESET}")
+    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [main.py:180] Unknown Invite")
 
 def get_hwid():
     cmd = 'wmic csproduct get uuid'
