@@ -338,15 +338,15 @@ def module_thread(num):
     threading.Thread(target=module_vc.stop).start()
     
   if num == 5_1:
-    serverid = str(spam_serverid.get())
-    channelid = str(spam_channelid.get())
+    serverid = str(reply_serverid.get())
+    channelid = str(reply_channelid.get())
     messageid = str(reply_messageid.get())
     allmg = Setting.reply_allmg.get()
     allping = Setting.reply_allping.get()
     randomstring = Setting.reply_rdstring.get()
     ratelimit = Setting.reply_ratefixer.get()
     
-    contents = spam_message.get("0.0","end-1c")
+    contents = reply_message.get("0.0","end-1c")
     mentions = Setting.mention_count_def.get()
     
     delay = Setting.delay04.get()
@@ -361,7 +361,7 @@ def module_thread(num):
         print("[-] ChannelID is not set")
         return    
 
-    threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
+    threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
     
   if num == 5_2:
     module_reply.stop()
@@ -517,30 +517,40 @@ def set_moduleframe(num1, num2):
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_allmg ,text="All Mg").place(x=5,y=33)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_rdstring ,text="Random String").place(x=5,y=55)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_ratefixer ,text="RateLimitFixer").place(x=5,y=77)
+      
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry04).place(x=5,y=106)
       reply_serverid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       reply_serverid.place(x=85,y=106)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=104)
+      
       ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=135)
       reply_channelid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
       reply_channelid.place(x=85,y=135)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
-      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=135)
+      
+      ctk.CTkButton(module_setting_frame, text="Clear        ", fg_color="#25747D", hover_color="#2C8C99", width=75, height=25, command=clear_entry05).place(x=5,y=164)
       reply_messageid = ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20)
-      reply_messageid.place(x=85,y=135)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=133)
+      reply_messageid.place(x=85,y=164)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=162)
       
       def slider_event04(value):
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=455)
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=482)
       
-      ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay04, command=slider_event04).place(x=5,y=160)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay04.get(),1), font=("Roboto", 12)).place(x=205,y=155)
-      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=155)
+      ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay04, command=slider_event04).place(x=5,y=189)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay04.get(),1), font=("Roboto", 12)).place(x=205,y=184)
+      tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=184)
       
       reply_message = ctk.CTkTextbox(module_setting_frame, bg_color="#28464B", fg_color="#275258", text_color="#fff", width=150, height=60)
       reply_message.place(x=120,y=11)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=25)
-      
+  
+      ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(5_1)).place(x=5,y=209)
+      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(5_2)).place(x=70,y=209)
+
+      #tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=175)
+      #tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=140,y=200)
+      #tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=140,y=220)
+  
       print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:677] Open Spam Tab")
 
   if num1 == 2:
