@@ -5,6 +5,7 @@ import customtkinter as ctk
 from customtkinter import *
 from PIL import Image
 from colorama import Fore, Back, Style
+from CTkMessagebox import CTkMessagebox
 import webbrowser
 import threading
 import requests
@@ -215,6 +216,12 @@ Boost Count
     Setting.spam_serverid.set(info["guild"]["id"])
     Setting.reply_serverid.set(info["guild"]["id"])
     Setting.vcspam_serverid.set(info["guild"]["id"])
+    serverid = info["guild"]["id"]
+    servername = info["guild"]["name"]
+    serverdescription = info["guild"]["description"]
+    membercount = str(info["approximate_member_count"])
+    boostcount = str(info["guild"]["premium_subscription_count"])
+    CTkMessagebox(title="Invite Info", message=f"Server ID: {serverid}\nServer Name: {servername}\nServer Description: {serverdescription}\n\nMember Count: {membercount}\nBoost Count: {boostcount}", width=450)
   if res.status_code == 404:
     print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [main.py:180] Unknown Invite")
 
@@ -808,7 +815,7 @@ tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
 ctk.CTkLabel(master=root, bg_color="#142326", text="", image=ctk.CTkImage(Image.open("data/coin.png"),size=(80, 80))).place(x=20,y=20)
 tk.Label(bg="#142326", text="Two Coin", fg="#fff", font=("Roboto", 20)).place(x=100,y=10)
 tk.Label(bg="#142326", text="Raider", fg="#fff", font=("Roboto", 20)).place(x=160,y=40)
-tk.Label(bg="#142326", text="v1.0.0", fg="#F8F8F8", font=("Roboto", 18)).place(x=100,y=70)
+tk.Label(bg="#142326", text="v1.0.1", fg="#F8F8F8", font=("Roboto", 18)).place(x=100,y=70)
 
 modulelist = ctk.CTkFrame(master=root, width=250, height=500, border_width=0, bg_color="#142326", fg_color="#142326")
 modulelist.place(x=0,y=100)
