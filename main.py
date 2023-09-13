@@ -717,7 +717,7 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", textvariable=Setting.fai_replyspam_Label, font=("Roboto", 12)).place(x=140,y=247)
       
       # SoundBoard Spam
-      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
+      module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=135, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=390,y=220)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="SoundBoard Spammer", font=("Roboto", 14)).place(x=407,y=202)
       ctk.CTkCheckBox(module_setting_frame, bg_color="#28464B", text_color="#fff", border_color="#C0C0C0", checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.sbspam_rdsounds, text="Random Sounds").place(x=5,y=11)
