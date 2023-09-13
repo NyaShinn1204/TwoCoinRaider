@@ -458,7 +458,7 @@ def module_thread(num):
         print("[-] ChannelID is not set")
         return   
 
-    threading.Thread(target=module_soundboard.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid)).start()
+    threading.Thread(target=module_soundboard.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, rdsongs)).start()
     
   if num == 6_2:
     module_soundboard.stop()

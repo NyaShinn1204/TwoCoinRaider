@@ -32,7 +32,7 @@ def get_default_soundboard_sounds(token):
     request = Client()
     return request.get("https://discord.com/api/v9/soundboard-default-sounds", headers=headers).json()
 
-def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid):
+def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, rdsongs):
     global status
     global timelock
     status = True
@@ -42,10 +42,12 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
     sounds = False
     while not sounds:
         sounds = get_default_soundboard_sounds(token)
-    for sound in sounds:
-        print(f"[{sounds.index(sound) + 1}] {sound['name']}")
-    sound_index = input(f"[sound] -> ")
-    sounds = [sounds[int(sound_index) - 1]]
+    random_sounds = rdsongs == True
+    if not random_sounds:
+        for sound in sounds:
+            print(f"[{sounds.index(sound) + 1}] {sound['name']}")
+        sound_index = input(f"[sound] -> ")
+        sounds = [sounds[int(sound_index) - 1]]
     
     print(token)
     print(serverid)
