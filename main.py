@@ -743,9 +743,7 @@ print(f"""
 You HWID: [{get_hwid()}]                
 -----------------------""")
 if os.path.exists(r"config.json"):
-  cfg = open("config.json", "r")
-  settings = json.load(cfg)
-  filepath = settings["token_path"]
+  filepath = json.load(open("config.json", "r"))["token_path"]
   tokens = open(filepath, 'r').read().splitlines()
   Setting.tokens = []
   Setting.validtoken = 0
