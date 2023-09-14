@@ -26,8 +26,10 @@ def randomname(n):
     return ''.join(random.choice(string.ascii_letters + string.digits) for i in range(n))  
 
 def extract(format_token):
-    if re.compile(r"(.+):").match(format_token): return format_token.split(":")[1]
-    else: token = format_token
+    if re.compile(r"(.+):").match(format_token):
+        return format_token.split(":")[1]
+    else:
+        token = format_token
     return token
 
 def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit):
@@ -89,7 +91,7 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
     data = {"content": content}
     req_header = header.request_header(token)
     headers = req_header[0]
-    fill_token = token+"']"
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     try:
         if status is False:
             return
@@ -99,13 +101,13 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
             request = Client(transport=SyncProxyTransport.from_url(f'{proxytype}://{proxy}'))
         x = request.post(f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers, json=data)
         if x.status_code == 400:
-            print(f"[-] AutoModによりメッセージが削除されたっぽい  Message: {x.json()['message']} ChannelID: {channelid} Token: {extract(fill_token).split('.')[0]}.{extract(fill_token).split('.')[1]}.******** Status: {x.status_code}")
+            print(f"[-] AutoModによりメッセージが削除されたっぽい  Message: {x.json()['message']} ChannelID: {channelid} Token: {extract_token}.******** Status: {x.status_code}")
             module_status(3, 2)
         if x.status_code == 403:
-            print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {extract(fill_token).split('.')[0]}.{extract(fill_token).split('.')[1]}.******** Status: {x.status_code}")
+            print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {extract_token}.******** Status: {x.status_code}")
             module_status(3, 2)
         if x.status_code == 404:
-            print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {extract(fill_token).split('.')[0]}.{extract(fill_token).split('.')[1]}.******** Status: {x.status_code}")
+            print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {extract_token}.******** Status: {x.status_code}")
             module_status(3, 2)
         if x.status_code == 200:
             module_status(3, 1)

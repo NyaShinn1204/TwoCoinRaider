@@ -2,7 +2,7 @@ import random
 import string
 import threading
 import time
-import json
+import re
 from httpx import Client
 from httpx_socks import SyncProxyTransport
 
@@ -23,6 +23,13 @@ def stop():
 
 def randomname(n):
     return ''.join(random.choice(string.ascii_letters + string.digits) for i in range(n))  
+
+def extract(format_token):
+    if re.compile(r"(.+):").match(format_token):
+        return format_token.split(":")[1]
+    else:
+        token = format_token
+    return token
 
 def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit):
     global status
@@ -92,6 +99,7 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
     }
     req_header = header.request_header(token)
     headers = req_header[0]
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     try:
         if status is False:
             return
@@ -101,13 +109,13 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
             request = Client(transport=SyncProxyTransport.from_url(f'{proxytype}://{proxy}'))
         x = request.post(f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers, json=data)
         if x.status_code == 400:
-            print(f"[-] 不明なエラー  Message: {x.json()['message']} ChannelID: {channelid} Token: {token} Status: {x.status_code}")
+            print(f"[-] 不明なエラー  Message: {x.json()['message']} ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
             module_status(4, 2)
         if x.status_code == 403:
-            print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {token} Status: {x.status_code}")
+            print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
             module_status(4, 2)
         if x.status_code == 404:
-            print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {token} Status: {x.status_code}")
+            print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
             module_status(4, 2)
         if x.status_code == 200:
             module_status(4, 1)

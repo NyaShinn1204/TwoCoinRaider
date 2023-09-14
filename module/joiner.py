@@ -39,7 +39,14 @@ def bypass_hcap():
 def get_session():
     session = tls_client.Session(client_identifier="chrome_105")
     return session
-    
+
+def extract(format_token):
+    if re.compile(r"(.+):").match(format_token):
+        return format_token.split(":")[1]
+    else:
+        token = format_token
+    return token
+
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
     data = {}
     agent_string = header.random_agent.random_agent()
@@ -90,26 +97,26 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
         "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8"),
         "X-Debug-Options": "bugReporterEnabled"
     }
-    
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     try:
         session = get_session()
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
         x = requests.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=data)
         if "captcha_key" not in joinreq.json():
             if "You need to verify your account in order to perform this action." in joinreq.json():
-                print(f"{token}は認証が必要としています。")
+                print(f"{extract_token}は認証が必要としています。")
                 module_status(1, 2)
-            print("[+] Success Join: " + token)
+            print("[+] Success Join: " + extract_token)
             module_status(1, 1)
         if "captcha_key" in joinreq.json():
             payload = {'captcha_key': bypass_hcap(), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']}
             joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
             if joinreq2.status_code == 200:
-                print("[+] Success Join: " + token)
+                print("[+] Success Join: " + extract_token)
                 module_status(1, 1)
                 return
             else:
-                print("[-] Failed join: " + token)
+                print("[-] Failed join: " + extract_token)
                 module_status(1, 2)
             
         if memberscreen == True:
@@ -149,11 +156,11 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
             data['form_fields'][0]['response'] = True
             x2 = requests.put(f"https://canary.discord.com/api/v9/guilds/{str(serverid)}/requests/@me", headers=headers2, json=data)
             if x2.status_code == 200 or 203:
-                print("[+] Success Memberbypass: " + token)
+                print("[+] Success Memberbypass: " + extract_token)
                 module_status(1, 3)
                 return
             else:
-                print("[-] Failed Memberbypass: " + token)
+                print("[-] Failed Memberbypass: " + extract_token)
     except Exception as err:
         print(f"[-] ERROR: {err} ")
         print(traceback.print_exc())
