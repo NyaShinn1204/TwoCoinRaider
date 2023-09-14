@@ -98,9 +98,9 @@ def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, serv
     threading.Thread(target=connect_vc, args=(serverid, channelid, token)).start()
     sound = random.choice(sounds)
     data = {
-        "sound_id":sound.get("sound_id"),
-        "emoji_id":None,
-        "emoji_name":sound.get("emoji_name"),
+        "sound_id": sound.get("sound_id"),
+        "emoji_id": None,
+        "emoji_name": sound.get("emoji_name"),
         "override_path": sound.get("override_path")
     }
     req_header = header.request_header(token)
