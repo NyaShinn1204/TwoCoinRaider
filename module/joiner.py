@@ -32,10 +32,6 @@ def solvecaptcha(sitekey, rqdata, useragent):
     print("Captcha Bypass")
     return aaa
 
-def bypass_hcap():
-    resp = requests.get('https://www.hcaptcha.com/', json={'key':'a9b5fb07-92ff-493f-86fe-352a2803b3df', 'url':'https://discord.com/'})
-    return resp.json()['task_answer']
-
 def get_session():
     session = tls_client.Session(client_identifier="chrome_105")
     return session
@@ -109,15 +105,16 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
             print("[+] Success Join: " + extract_token)
             module_status(1, 1)
         if "captcha_key" in joinreq.json():
-            payload = {'captcha_key': bypass_hcap(), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']}
-            joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
-            if joinreq2.status_code == 200:
-                print("[+] Success Join: " + extract_token)
-                module_status(1, 1)
-                return
-            else:
-                print("[-] Failed join: " + extract_token)
-                module_status(1, 2)
+            #payload = {'captcha_key': bypass_hcap(), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']}
+            #joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
+            #if joinreq2.status_code == 200:
+            #    print("[+] Success Join: " + extract_token)
+            #    module_status(1, 1)
+            #    return
+            #else:
+            #    print("[-] Failed join: " + extract_token)
+            #    module_status(1, 2)
+            print("[-] Failed join: (Captcha Wrong)" + extract_token)
             
         if memberscreen == True:
             device_info2 = {

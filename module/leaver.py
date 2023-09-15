@@ -44,5 +44,5 @@ def thread(serverid, token):
                 print("[-] Failed Leave: "+extract_token)
                 return
     except Exception as err:
-        print("sippai")
+        print("[-] Failed Leave: "+extract_token)
         return
