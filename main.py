@@ -369,6 +369,10 @@ def module_thread(num):
   if num == 2_1:
     serverid = Setting.leaver_serverid.get()
     
+    if serverid == "":
+        print("[-] ServerID is not set")
+        return
+    
     delay = Setting.delay02.get()
     
     threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
@@ -405,7 +409,14 @@ def module_thread(num):
     serverid = Setting.vcspam_serverid.get()
     channelid = Setting.vcspam_channelid.get()
     voicefile = Setting.voicefile
-        
+      
+    if serverid == "":
+        print("[-] ServerID is not set")
+        return
+    if channelid == "":
+        print("[-] ChannelID is not set")
+        return  
+       
     try:
         ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
     except:
