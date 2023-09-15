@@ -116,14 +116,12 @@ def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, serv
         x = request.post(f"https://discord.com/api/v9/channels/{channelid}/voice-channel-effects", headers=headers, json=data)
         if x.status_code == 400:
             print(f"[-] 不明なエラー  Message: {x.json()['message']} ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
-            module_status(4, 2)
         if x.status_code == 404:
             print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
-            module_status(4, 2)
         if x.status_code == 200:
-            module_status(4, 1)
+            print("[+] Success Send: " + extract_token)
         else:
-            module_status(4, 2)
+            print("[-] Failed Send: " + extract_token)
         time.sleep(0.3 + random.random() * 0.3)
     except:
         pass
