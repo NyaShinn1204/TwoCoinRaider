@@ -114,7 +114,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
             #else:
             #    print("[-] Failed join: " + extract_token)
             #    module_status(1, 2)
-            print("[-] Failed join: (Captcha Wrong)" + extract_token)
+            print("[-] Failed join: (Captcha Wrong) " + extract_token)
             
         if memberscreen == True:
             device_info2 = {

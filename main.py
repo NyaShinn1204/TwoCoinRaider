@@ -219,6 +219,7 @@ Boost Count
 {str(info["guild"]["premium_subscription_count"])}
 ----------""")
     print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] End Info")
+    Setting.joiner_link.set(invite_code)
     Setting.joiner_serverid.set(info["guild"]["id"])
     Setting.leaver_serverid.set(info["guild"]["id"])
     Setting.spam_serverid.set(info["guild"]["id"])
@@ -275,7 +276,7 @@ def token_load():
   if filepath == "":
       return
   if os.path.exists(r"config.json"):
-    print()
+    tokens = open(filepath, 'r').read().splitlines()
   else:
     tokens = open(filepath, 'r').read().splitlines()
     with open('config.json', 'w') as creating_new_json_file:
@@ -596,13 +597,16 @@ def set_moduleframe(num1, num2):
       module_setting_frame.place(x=20,y=200)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Settings", font=("Roboto", 14)).place(x=35,y=184)
       def slider_event91(value):
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=210)
+        #tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=210)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
       ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay91, command=slider_event91).place(x=5,y=15)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Defalut Delay", font=("Roboto", 12)).place(x=240,y=10)
       def slider_event92(value):
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text="        ", font=("Roboto", 12)).place(x=225,y=240)
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value), font=("Roboto", 12)).place(x=225,y=240)
+        #tk.Label(module_frame, bg="#28464B", fg="#fff", text="        ", font=("Roboto", 12)).place(x=225,y=240)
+        #tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value), font=("Roboto", 12)).place(x=225,y=240)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="        ", font=("Roboto", 12)).place(x=205,y=40)
+        tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
       ctk.CTkSlider(module_setting_frame, from_=1, to=50, variable=Setting.mention_count_def, command=slider_event92).place(x=5,y=45)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Defalut Mt Ct", font=("Roboto", 12)).place(x=240,y=40)
