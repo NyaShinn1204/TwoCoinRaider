@@ -243,8 +243,7 @@ Boost Count
     print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [main.py:180] Unknown Invite")
 
 def get_hwid():
-  cmd = 'wmic csproduct get uuid'
-  uuid = str(subprocess.check_output(cmd))
+  uuid = str(subprocess.check_output('wmic csproduct get uuid'))
   pos1 = uuid.find("\\n")+2
   uuid = uuid[pos1:-15]
   return uuid
@@ -269,11 +268,10 @@ def voice_load():
       filetype=fTyp, initialdir=iFile, title="Select Voice File")
   if filepath == "":
       return
-  voicefile = filepath
-  Setting.voicefile = voicefile
-  if voicefile == []:
+  Setting.voicefile = filepath
+  if filepath == []:
       return
-  voicefile_show = voicefile.split('/')[len(voicefile.split('/'))-1]
+  voicefile_show = filepath.split('/')[len(filepath.split('/'))-1]
   Setting.voicefile_filenameLabel.set(voicefile_show)
 
 def token_load():
@@ -306,12 +304,12 @@ def token_load():
 
 def update_token(status, token):
   if status == True:
-      Setting.tokens.append(token)
-      Setting.validtoken += 1
-      Setting.validtokenLabel.set("Valid: "+str(Setting.validtoken).zfill(3))
+    Setting.tokens.append(token)
+    Setting.validtoken += 1
+    Setting.validtokenLabel.set("Valid: "+str(Setting.validtoken).zfill(3))
   if status == False:
-      Setting.invalidtoken += 1
-      Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
+    Setting.invalidtoken += 1
+    Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
 
 def proxy_load():
   fTyp = [("", "*.txt")]
@@ -332,12 +330,12 @@ def proxy_load():
      
 def update_proxy(status, proxy):
   if status == True:
-      Setting.proxies.append(proxy)
-      Setting.vaildproxies += 1
-      Setting.validProxiesLabel.set("Valid: "+str(Setting.vaildproxies).zfill(3))
+    Setting.proxies.append(proxy)
+    Setting.vaildproxies += 1
+    Setting.validProxiesLabel.set("Valid: "+str(Setting.vaildproxies).zfill(3))
   if status == False:
-      Setting.invaildproxies += 1
-      Setting.invalidProxiesLabel.set("Invalid: "+str(Setting.invaildproxies).zfill(3))
+    Setting.invaildproxies += 1
+    Setting.invalidProxiesLabel.set("Invalid: "+str(Setting.invaildproxies).zfill(3))
 
 def clear_frame(frame):
   for widget in frame.winfo_children():
@@ -553,8 +551,8 @@ def set_moduleframe(num1, num2):
       ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.leaver_serverid).place(x=85,y=13)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
       
-      def slider_event02(value):
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=605,y=55)
+      def slider_event02():
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(Setting.delay02.get(),1), font=("Roboto", 12)).place(x=605,y=55)
       
       ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay02, command=slider_event02).place(x=5,y=40)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay02.get(),1), font=("Roboto", 12)).place(x=205,y=35)
@@ -601,12 +599,12 @@ def set_moduleframe(num1, num2):
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color="#C0C0C0", fg_color="#28464B")
       module_setting_frame.place(x=20,y=200)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Settings", font=("Roboto", 14)).place(x=35,y=184)
-      def slider_event91(value):
+      def slider_event91():
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
       ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay91, command=slider_event91).place(x=5,y=15)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Defalut Delay", font=("Roboto", 12)).place(x=240,y=10)
-      def slider_event92(value):
+      def slider_event92():
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="        ", font=("Roboto", 12)).place(x=205,y=40)
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
       ctk.CTkSlider(module_setting_frame, from_=1, to=50, variable=Setting.mention_count_def, command=slider_event92).place(x=5,y=45)
@@ -653,8 +651,8 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.spam_channelid).place(x=85,y=135)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
       
-      def slider_event03(value):
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=175)
+      def slider_event03():
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=225,y=175)
       
       ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay03, command=slider_event03).place(x=5,y=160)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=155)
@@ -709,8 +707,8 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(module_setting_frame, bg_color="#28464B", fg_color="#275258", border_color="#275258", text_color="#fff", width=150, height=20, textvariable=Setting.reply_messageid).place(x=85,y=164)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=162)
       
-      def slider_event04(value):
-        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=482)
+      def slider_event04():
+        tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(Setting.delay04.get(),1), font=("Roboto", 12)).place(x=225,y=482)
       
       ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay04, command=slider_event04).place(x=5,y=189)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay04.get(),1), font=("Roboto", 12)).place(x=205,y=184)
