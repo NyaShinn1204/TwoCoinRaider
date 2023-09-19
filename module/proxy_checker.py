@@ -15,5 +15,6 @@ def check_proxy(update_proxy, proxy, types):
         if req.ok:
             update_proxy(True, proxy)
             return
-    except: pass
+    except: 
+        pass
     update_proxy(False, proxy)

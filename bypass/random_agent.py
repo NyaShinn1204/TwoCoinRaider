@@ -1,6 +1,4 @@
 import random
-import sys
-sys.dont_write_bytecode = True
 
 def random_agent():
     agents = [

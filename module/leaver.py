@@ -1,8 +1,6 @@
 import requests
 import time
-import sys
 import re
-sys.dont_write_bytecode = True
 import threading
 
 status = True

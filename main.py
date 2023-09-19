@@ -4,7 +4,7 @@ import tkinter as tk
 import customtkinter as ctk
 from customtkinter import *
 from PIL import Image
-from colorama import Fore, Back, Style
+from colorama import Fore
 from CTkMessagebox import CTkMessagebox
 import webbrowser
 import threading
@@ -433,10 +433,7 @@ def module_thread(num):
         ffmpeg = ffmpeg_load()
         
     threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, voicefile)).start()
-    
-  if num == 4_2:
-    threading.Thread(target=module_vc.stop).start()
-    
+        
   if num == 5_1:
     serverid = str(Setting.reply_serverid.get())
     channelid = str(Setting.reply_channelid.get())
@@ -690,7 +687,6 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=69)
 
       ctk.CTkButton(module_setting_frame, text="Start", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(4_1)).place(x=5,y=102)
-      ctk.CTkButton(module_setting_frame, text="Stop", fg_color="#25747D", hover_color="#2C8C99", border_width=1, border_color="#C0C0C0", width=60, height=25, command=lambda: module_thread(4_2)).place(x=70,y=102)
 
       # Reply Spam
       module_setting_frame = ctk.CTkFrame(module_frame, width=350, height=275, border_width=1, border_color="#C0C0C0", fg_color="#28464B")

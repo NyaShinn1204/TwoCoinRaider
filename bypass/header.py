@@ -1,6 +1,4 @@
 import base64
-import sys
-sys.dont_write_bytecode = True
 import json
 import random
 

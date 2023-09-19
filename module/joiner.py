@@ -1,6 +1,4 @@
 import requests
-import sys
-sys.dont_write_bytecode = True
 import time
 import threading
 import traceback
@@ -8,9 +6,7 @@ import random
 import base64
 import json
 import tls_client
-import binascii
 import re
-import os
 from httpx import Client
 import bypass.header as header
 from httpx_socks import SyncProxyTransport
@@ -22,15 +18,6 @@ def start(tokens, serverid, invitelink, memberscreen, delay, module_status):
     for token in tokens:
         threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen, module_status)).start()
         time.sleep(float(delay))
-
-def solvecaptcha(sitekey, rqdata, useragent):
-    capmonster = HCaptchaTask("1Mi37Ee2Ehsimx7DFohjQrBrER6Ysjfodk")
-    capmonster.set_user_agent(useragent)
-    task_id = capmonster.create_task(website_url="https://discord.com", website_key=sitekey, custom_data=rqdata)
-    result = capmonster.join_task_result(task_id)
-    aaa = result.get("gRecaptchaResponse")
-    print("Captcha Bypass")
-    return aaa
 
 def get_session():
     session = tls_client.Session(client_identifier="chrome_105")
@@ -105,15 +92,6 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
             print("[+] Success Join: " + extract_token)
             module_status(1, 1)
         if "captcha_key" in joinreq.json():
-            #payload = {'captcha_key': bypass_hcap(), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']}
-            #joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
-            #if joinreq2.status_code == 200:
-            #    print("[+] Success Join: " + extract_token)
-            #    module_status(1, 1)
-            #    return
-            #else:
-            #    print("[-] Failed join: " + extract_token)
-            #    module_status(1, 2)
             print("[-] Failed join: (Captcha Wrong) " + extract_token)
             
         if memberscreen == True:
