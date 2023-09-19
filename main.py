@@ -243,38 +243,38 @@ Boost Count
     print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [main.py:180] Unknown Invite")
 
 def get_hwid():
-    cmd = 'wmic csproduct get uuid'
-    uuid = str(subprocess.check_output(cmd))
-    pos1 = uuid.find("\\n")+2
-    uuid = uuid[pos1:-15]
-    return uuid
+  cmd = 'wmic csproduct get uuid'
+  uuid = str(subprocess.check_output(cmd))
+  pos1 = uuid.find("\\n")+2
+  uuid = uuid[pos1:-15]
+  return uuid
 
 def ffmpeg_load():
-    global ffmpegfile
-    fTyp = [("", "*.exe")]
-    iFile = os.path.abspath(os.path.dirname(__file__))
-    filepath = filedialog.askopenfilename(
-        filetype=fTyp, initialdir=iFile, title="Select FFmpeg.exe")
-    if filepath == "":
-        return
-    ffmpegfile = filepath
-    if ffmpegfile == []:
-        return
+  global ffmpegfile
+  fTyp = [("", "*.exe")]
+  iFile = os.path.abspath(os.path.dirname(__file__))
+  filepath = filedialog.askopenfilename(
+      filetype=fTyp, initialdir=iFile, title="Select FFmpeg.exe")
+  if filepath == "":
+      return
+  ffmpegfile = filepath
+  if ffmpegfile == []:
+      return
 
 def voice_load():
-    global voicefile
-    fTyp = [("", "*.mp3")]
-    iFile = os.path.abspath(os.path.dirname(__file__))
-    filepath = filedialog.askopenfilename(
-        filetype=fTyp, initialdir=iFile, title="Select Voice File")
-    if filepath == "":
-        return
-    voicefile = filepath
-    Setting.voicefile = voicefile
-    if voicefile == []:
-        return
-    voicefile_show = voicefile.split('/')[len(voicefile.split('/'))-1]
-    Setting.voicefile_filenameLabel.set(voicefile_show)
+  global voicefile
+  fTyp = [("", "*.mp3")]
+  iFile = os.path.abspath(os.path.dirname(__file__))
+  filepath = filedialog.askopenfilename(
+      filetype=fTyp, initialdir=iFile, title="Select Voice File")
+  if filepath == "":
+      return
+  voicefile = filepath
+  Setting.voicefile = voicefile
+  if voicefile == []:
+      return
+  voicefile_show = voicefile.split('/')[len(voicefile.split('/'))-1]
+  Setting.voicefile_filenameLabel.set(voicefile_show)
 
 def token_load():
   fTyp = [("", "*.txt")]
@@ -340,8 +340,8 @@ def update_proxy(status, proxy):
       Setting.invalidProxiesLabel.set("Invalid: "+str(Setting.invaildproxies).zfill(3))
 
 def clear_frame(frame):
-    for widget in frame.winfo_children():
-        widget.destroy()
+  for widget in frame.winfo_children():
+      widget.destroy()
 
 def module_thread(num):
   tokens = Setting.tokens
@@ -378,11 +378,11 @@ def module_thread(num):
   if num == 2_1:
     serverid = Setting.leaver_serverid.get()
     
+    delay = Setting.delay02.get()
+    
     if serverid == "":
         print("[-] ServerID is not set")
         return
-    
-    delay = Setting.delay02.get()
     
     threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
   
@@ -605,14 +605,11 @@ def set_moduleframe(num1, num2):
       module_setting_frame.place(x=20,y=200)
       tk.Label(module_frame, bg="#28464B", fg="#fff", text="Settings", font=("Roboto", 14)).place(x=35,y=184)
       def slider_event91(value):
-        #tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=210)
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
       ctk.CTkSlider(module_setting_frame, from_=0.1, to=3.0, variable=Setting.delay91, command=slider_event91).place(x=5,y=15)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
       tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="Defalut Delay", font=("Roboto", 12)).place(x=240,y=10)
       def slider_event92(value):
-        #tk.Label(module_frame, bg="#28464B", fg="#fff", text="        ", font=("Roboto", 12)).place(x=225,y=240)
-        #tk.Label(module_frame, bg="#28464B", fg="#fff", text=round(value), font=("Roboto", 12)).place(x=225,y=240)
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text="        ", font=("Roboto", 12)).place(x=205,y=40)
         tk.Label(module_setting_frame, bg="#28464B", fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
       ctk.CTkSlider(module_setting_frame, from_=1, to=50, variable=Setting.mention_count_def, command=slider_event92).place(x=5,y=45)
