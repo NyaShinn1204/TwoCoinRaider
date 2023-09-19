@@ -274,7 +274,6 @@ def ffmpeg_load():
       return
 
 def voice_load():
-  global voicefile
   fTyp = [("", "*.mp3")]
   iFile = os.path.abspath(os.path.dirname(__file__))
   filepath = filedialog.askopenfilename(
@@ -298,7 +297,7 @@ def token_load():
     tokens = open(filepath, 'r').read().splitlines()
   else:
     tokens = open(filepath, 'r').read().splitlines()
-    with open('config.json', 'w') as creating_new_json_file:
+    with open('config.json', 'w'):
       pass
     token_file_path = {
       "token_path": filepath
