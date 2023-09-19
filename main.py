@@ -196,6 +196,14 @@ def clear_entry12():
   
 def get_info():
   invite_code = invite_url.get()
+  if invite_code.__contains__('discord.gg/'):
+    invite_code = invite_code.replace('discord.gg/', '').replace('https://', '').replace('http://', '')
+  elif invite_code.__contains__('discord.com/invite/'):
+    invite_code = invite_code.replace('discord.com/invite/', '').replace('https://', '').replace('http://', '')
+  try:
+    invite_code = invite_code.split(".gg/")[1]
+  except:
+      pass
   print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] Connecting API Server...")
   res = requests.get(f"https://discord.com/api/v9/invites/{invite_code}?with_counts=true&with_expiration=true")
   if res.status_code == 200:
