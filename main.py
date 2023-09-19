@@ -161,19 +161,12 @@ class Setting:
   sbspam_channelid.set("")
   
   voicefile = []
-  
-  #color
-  fg_color_01 = "#28464B"
-  fg_color_02 = "#25747D"
-  fg_color_03 = "#C0C0C0"
-  fg_color_04 = "#275258"
-  fg_color_05 = "#2C8C99"
 
-c1 = Setting.fg_color_01
-c2 = Setting.fg_color_02
-c3 = Setting.fg_color_03
-c4 = Setting.fg_color_04
-c5 = Setting.fg_color_05
+c1 = "#28464B"
+c2 = "#25747D"
+c3 = "#C0C0C0"
+c4 = "#275258"
+c5 = "#2C8C99"
 
 class SettingVariable:
   joinerresult_success = 0
