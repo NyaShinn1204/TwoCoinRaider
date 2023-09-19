@@ -203,41 +203,41 @@ def get_info():
   try:
     invite_code = invite_code.split(".gg/")[1]
   except:
-      pass
+    pass
   print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] Connecting API Server...")
   res = requests.get(f"https://discord.com/api/v9/invites/{invite_code}?with_counts=true&with_expiration=true")
   if res.status_code == 200:
     print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] Successfull Get Info")
     info = json.loads(res.text)
-    print(f"""
-----------
-Server ID 
-{info["guild"]["id"]}
-----------
-Server Name
-{info["guild"]["name"]}
-
-Server Description
-{info["guild"]["description"]}
-----------
-Member Count
-{str(info["approximate_member_count"])}
-
-Boost Count
-{str(info["guild"]["premium_subscription_count"])}
-----------""")
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] End Info")
-    Setting.joiner_link.set(invite_code)
-    Setting.joiner_serverid.set(info["guild"]["id"])
-    Setting.leaver_serverid.set(info["guild"]["id"])
-    Setting.spam_serverid.set(info["guild"]["id"])
-    Setting.reply_serverid.set(info["guild"]["id"])
-    Setting.vcspam_serverid.set(info["guild"]["id"])
     serverid = info["guild"]["id"]
     servername = info["guild"]["name"]
     serverdescription = info["guild"]["description"]
     membercount = str(info["approximate_member_count"])
     boostcount = str(info["guild"]["premium_subscription_count"])
+    print(f"""
+----------
+Server ID 
+{serverid}
+----------
+Server Name
+{servername}
+
+Server Description
+{serverdescription}
+----------
+Member Count
+{membercount}
+
+Boost Count
+{boostcount}
+----------""")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] End Info")
+    Setting.joiner_link.set(invite_code)
+    Setting.joiner_serverid.set(serverid)
+    Setting.leaver_serverid.set(serverid)
+    Setting.spam_serverid.set(serverid)
+    Setting.reply_serverid.set(serverid)
+    Setting.vcspam_serverid.set(serverid)
     CTkMessagebox(title="Invite Info", message=f"Server ID: {serverid}\nServer Name: {servername}\nServer Description: {serverdescription}\n\nMember Count: {membercount}\nBoost Count: {boostcount}", width=450)
   if res.status_code == 404:
     print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [main.py:180] Unknown Invite")

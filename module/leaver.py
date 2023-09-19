@@ -41,6 +41,6 @@ def thread(serverid, token):
             if x.status_code == 403:
                 print("[-] Failed Leave: "+extract_token)
                 return
-    except Exception as err:
+    except Exception:
         print("[-] Failed Leave: "+extract_token)
         return

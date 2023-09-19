@@ -1,7 +1,6 @@
 import json
 import threading
 import time
-from tkinter.constants import E
 import websocket
 
 users = []

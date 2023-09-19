@@ -7,12 +7,7 @@ import base64
 import json
 import tls_client
 import re
-from httpx import Client
 import bypass.header as header
-from httpx_socks import SyncProxyTransport
-from capmonster_python import HCaptchaTask
-from concurrent.futures import ThreadPoolExecutor
-from anticaptchaofficial.hcaptchaproxyless import hCaptchaProxyless
     
 def start(tokens, serverid, invitelink, memberscreen, delay, module_status):
     for token in tokens:
@@ -42,6 +37,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
         os_version = f'Intel Mac OS X 10_15_{str(random.randint(5, 7))}'
     else:
         os_version = "10"
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     cookie_string = header.get_cookie.get_cookie()
     device_info = {
         "os": agent_os,
@@ -80,11 +76,10 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
         "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8"),
         "X-Debug-Options": "bugReporterEnabled"
     }
-    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     try:
         session = get_session()
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
-        x = requests.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=data)
+        requests.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=data)
         if "captcha_key" not in joinreq.json():
             if "You need to verify your account in order to perform this action." in joinreq.json():
                 print(f"{extract_token}は認証が必要としています。")
