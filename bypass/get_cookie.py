@@ -1,6 +1,4 @@
 import requests
-import sys
-sys.dont_write_bytecode = True
 
 def get_cookie():
     session = requests.Session()
