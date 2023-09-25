@@ -1,6 +1,4 @@
 import requests
-import sys
-sys.dont_write_bytecode = True
 import time
 import threading
 import traceback
@@ -8,41 +6,26 @@ import random
 import base64
 import json
 import tls_client
-import binascii
-import atexit
 import re
-import os
-from httpx import Client
 import bypass.header as header
-from httpx_socks import SyncProxyTransport
-from capmonster_python import HCaptchaTask
-from concurrent.futures import ThreadPoolExecutor
-from anticaptchaofficial.hcaptchaproxyless import hCaptchaProxyless
     
-def start(tokens, serverid, invitelink, memberscreen, delay, module_reload):
+def start(tokens, serverid, invitelink, memberscreen, delay):
     for token in tokens:
-        threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen, module_reload)).start()
+        threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen)).start()
         time.sleep(float(delay))
-
-def solvecaptcha(sitekey, rqdata, useragent):
-    capmonster = HCaptchaTask("1Mi37Ee2Ehsimx7DFohjQrBrER6Ysjfodk")
-    capmonster.set_user_agent(useragent)
-    task_id = capmonster.create_task(website_url="https://discord.com", website_key=sitekey, custom_data=rqdata)
-    result = capmonster.join_task_result(task_id)
-    aaa = result.get("gRecaptchaResponse")
-    print("Captcha Bypass")
-    return aaa
-
-def bypass_hcap():
-    resp = requests.get('https://www.hcaptcha.com/', json={'key':'a9b5fb07-92ff-493f-86fe-352a2803b3df', 'url':'https://discord.com/'})
-    return resp.json()['task_answer']
 
 def get_session():
     session = tls_client.Session(client_identifier="chrome_105")
     return session
-    
-def joiner_thread(token, serverid, invitelink, memberscreen, module_reload):
-    atexit.register(module_reload)
+
+def extract(format_token):
+    if re.compile(r"(.+):").match(format_token):
+        return format_token.split(":")[1]
+    else:
+        token = format_token
+    return token
+
+def joiner_thread(token, serverid, invitelink, memberscreen):
     data = {}
     agent_string = header.random_agent.random_agent()
     browser_data = agent_string.split(" ")[-1].split("/")
@@ -54,6 +37,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_reload):
         os_version = f'Intel Mac OS X 10_15_{str(random.randint(5, 7))}'
     else:
         os_version = "10"
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     cookie_string = header.get_cookie.get_cookie()
     device_info = {
         "os": agent_os,
@@ -92,23 +76,16 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_reload):
         "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8"),
         "X-Debug-Options": "bugReporterEnabled"
     }
-    
     try:
         session = get_session()
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
-        x = requests.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=data)
+        requests.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=data)
         if "captcha_key" not in joinreq.json():
             if "You need to verify your account in order to perform this action." in joinreq.json():
-                print(f"{token}は認証が必要としています。")
-            print("[+] Success Join: " + token)
+                print(f"{extract_token}は認証が必要としています。")
+            print("[+] Success Join: " + extract_token)
         if "captcha_key" in joinreq.json():
-            payload = {'captcha_key': bypass_hcap(), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']}
-            joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
-            if joinreq2.status_code == 200:
-                print("[+] Success Join: " + token)
-                return
-            else:
-                print("[-] Failed join: " + token)
+            print("[-] Failed join: (Captcha Wrong) " + extract_token)
             
         if memberscreen == True:
             device_info2 = {
@@ -147,10 +124,10 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_reload):
             data['form_fields'][0]['response'] = True
             x2 = requests.put(f"https://canary.discord.com/api/v9/guilds/{str(serverid)}/requests/@me", headers=headers2, json=data)
             if x2.status_code == 200 or 203:
-                print("[+] Success Memberbypass: " + token)
+                print("[+] Success Memberbypass: " + extract_token)
                 return
             else:
-                print("[-] Failed Memberbypass: " + token)
+                print("[-] Failed Memberbypass: " + extract_token)
     except Exception as err:
         print(f"[-] ERROR: {err} ")
         print(traceback.print_exc())

@@ -3,14 +3,17 @@ from httpx import Client
 
 def check(tokens, update_token):
     lock = threading.Lock()
+    
     def success(text):
         lock.acquire()
         update_token(True, text)
         lock.release()
+
     def invalid(text):
         lock.acquire()
         update_token(False, text)
         lock.release()
+
     def check_token(token:str):
         request = Client()
         x = request.get('https://discord.com/api/v9/users/@me/library', headers={"authorization": token},timeout=5)

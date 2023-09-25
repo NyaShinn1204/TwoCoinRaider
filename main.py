@@ -123,13 +123,15 @@ Select Mode >> """)
     if memberscreen == True:
       if serverid == "":
           print("[-] ServerID is not set")
-          
-    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_reload)).start()
+    
+    input("Enter to Start")
+    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay)).start()
     
   if module_mode == "2":
     serverid = input("ServerID >> ")
     
-    threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens, module_reload)).start()
+    input("Enter to Start")
+    threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
     
   if module_mode == "3":
     serverid = input("ServerID >> ")

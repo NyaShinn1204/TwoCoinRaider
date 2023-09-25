@@ -1,24 +1,17 @@
 import discord
-import sys
-sys.dont_write_bytecode = True
 import time
 import asyncio
 import threading
-status = False
 
-def start(tokens, serverid, channelid, ffmpeg, voicefile):
+def start(delay, tokens, serverid, channelid, ffmpeg, voicefile):
     global status
     status = True
     for token in tokens:
         loop = asyncio.new_event_loop()
         threading.Thread(target=voice_spam, args=(token, serverid, channelid, ffmpeg, voicefile, loop)).start()
-
-def stop():
-    global status
-    status = False
+        time.sleep(float(delay))
 
 def voice_spam(token, serverid, channelid, ffmpeg, voicefile, loop):
-    global status
     asyncio.set_event_loop(loop)
     client = discord.Client()
 
