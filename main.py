@@ -96,8 +96,8 @@ Loaded Token: {Setting.totaltoken}  Valid Token: {Setting.validtoken}  Invalid T
 Loaded Proxy: {Setting.totalproxies}  Valid Proxie: {Setting.vaildproxies}  Invalid Proxie: {Setting.invaildproxies}
 -------------------------""")
   module_mode = input("""
-    [01] Joiner     [03] Spammer
-    [02] Leaver     [04] VC Spammer
+    [01] Joiner     [03] Spammer    [05] Reply Spammer  
+    [02] Leaver     [04] VC Spammer [06] SoundBoard Spammer
 
 Select Mode >> """)
 
@@ -184,6 +184,12 @@ Select Mode >> """)
     
     input("Enter to Start")
     threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, file_name)).start()
+  
+  if module_mode == "5":
+    print("Reply")
+    
+  if module_mode == "6":
+    print("SoundBoard")
     
   else:
     menu()
