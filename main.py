@@ -2,6 +2,7 @@ import subprocess
 from customtkinter import *
 import threading
 import os
+import requests
 import time
 
 import module.token_checker as token_checker
@@ -41,6 +42,26 @@ def get_hwid():
     pos1 = uuid.find("\\n")+2
     uuid = uuid[pos1:-15]
     return uuid
+  
+def ffmpeg_load():
+  path1 = os.path.join(os.getcwd(),"ffmpeg.exe")
+  if os.path.exists(path1):
+    print("FFmpeg Found")
+  else :
+    print("FFmpge Not Found")
+    download_ffmpeg_ch = input("Download FFmpeg? True/False >> ")
+    if download_ffmpeg_ch == "True":
+      download_ffmpeg()
+
+def download_ffmpeg():
+  url='https://github.com/n00mkrad/smol-ffmpeg/releases/download/v1/ffmpeg.exe'
+  filename='ffmpeg.exe'
+  
+  urlData = requests.get(url).content
+  
+  with open(filename ,mode='wb') as f:
+    f.write(urlData)
+    print("Downloaded FFmpeg. Please Retry.")
 
 def token_load():
   tokens = open("tokens.txt", 'r').read().splitlines()
@@ -183,7 +204,11 @@ Select Mode >> """)
       ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
     except:
       print("Error load ffmpeg")
-    
+      download_ffmpeg_ch = input("Download FFmpeg? True/False")
+      if download_ffmpeg_ch == "True":
+        download_ffmpeg()
+        return
+        
     input("Enter to Start")
     threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, file_name)).start()
   
@@ -234,6 +259,7 @@ Select Mode >> """)
     menu()
     
 token_load()
+ffmpeg_load()
 time.sleep(1)
 proxy_load()
 print("Proxyの数が多いと時間がかかる可能性があります")
