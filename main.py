@@ -44,23 +44,16 @@ def get_hwid():
     return uuid
   
 def ffmpeg_load():
-  path1 = os.path.join(os.getcwd(),"ffmpeg.exe")
-  if os.path.exists(path1):
+  if os.path.exists(os.path.join(os.getcwd(),"ffmpeg.exe")):
     print("FFmpeg Found")
   else :
     print("FFmpge Not Found")
-    download_ffmpeg_ch = input("Download FFmpeg? True/False >> ")
-    if download_ffmpeg_ch == "True":
+    if input("Download FFmpeg? True/False >> ") == "True":
       download_ffmpeg()
 
-def download_ffmpeg():
-  url='https://github.com/n00mkrad/smol-ffmpeg/releases/download/v1/ffmpeg.exe'
-  filename='ffmpeg.exe'
-  
-  urlData = requests.get(url).content
-  
-  with open(filename ,mode='wb') as f:
-    f.write(urlData)
+def download_ffmpeg():  
+  with open('ffmpeg.exe' ,mode='wb') as f:
+    f.write(requests.get("https://github.com/n00mkrad/smol-ffmpeg/releases/download/v1/ffmpeg.exe").content)
     print("Downloaded FFmpeg. Please Retry.")
 
 def token_load():
@@ -204,8 +197,7 @@ Select Mode >> """)
       ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
     except:
       print("Error load ffmpeg")
-      download_ffmpeg_ch = input("Download FFmpeg? True/False")
-      if download_ffmpeg_ch == "True":
+      if input("Download FFmpeg? True/False >> ") == "True":
         download_ffmpeg()
         return
         
