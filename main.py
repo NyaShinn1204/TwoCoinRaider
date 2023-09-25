@@ -1,9 +1,5 @@
 import subprocess
-import tkinter as tk
-import customtkinter as ctk
 from customtkinter import *
-from PIL import Image
-import webbrowser
 import threading
 import os
 import time
@@ -165,11 +161,8 @@ Select Mode >> """)
   if module_mode == "4":
     serverid = input("ServerID >> ")
     channelid = input("ChannelID >> ")
-    file_name = input("Mp3 File Name >> ")
-    
-    if file_name.__contains__('.mp3'):
-      file_name = file_name.replace('.mp3', '')
-    
+    file_name = input("Mp3 File Name e.x test.mp3>> ")
+        
     if serverid == "":
       print("[-] ServerID is not set")
       return
@@ -179,6 +172,14 @@ Select Mode >> """)
     if file_name == "":
       print("[-] Mp3 File Name is not set")
       return
+    
+    try:
+      ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
+    except:
+      print("Error load ffmpeg")
+    
+    input("Enter to Start")
+    threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, file_name)).start()
     
   else:
     menu()
