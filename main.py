@@ -30,11 +30,16 @@ def clear_terminal():
     _ = os.system('cls')
 
 def get_hwid():
-  cmd = 'wmic csproduct get uuid'
-  uuid = str(subprocess.check_output(cmd))
-  pos1 = uuid.find("\\n")+2
-  uuid = uuid[pos1:-15]
-  return uuid
+  if os.name == 'posix':
+    cmd = 'cat /etc/machine-id'
+    uuid = str(subprocess.check_output(cmd))
+    return uuid
+  else:
+    cmd = 'wmic csproduct get uuid'
+    uuid = str(subprocess.check_output(cmd))
+    pos1 = uuid.find("\\n")+2
+    uuid = uuid[pos1:-15]
+    return uuid
 
 def token_load():
   tokens = open("tokens.txt", 'r').read().splitlines()
