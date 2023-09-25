@@ -107,11 +107,9 @@ Select Mode >> """)
   proxies = Setting.proxies
   proxytype = Setting.proxytype
   if module_mode == "1":
-    serverid = input("ServerID >> ")
-    invitelink = input("InvitURL >> ")
+    invitelink = input("InviteURL >> ")
     memberscreen = input("MemberScreen Found? True/False >> ")
-    if invitelink == "":
-      print("[-] InviteLink is not set")
+    
     if invitelink.__contains__('discord.gg/'):
       invitelink = invitelink.replace('discord.gg/', '').replace('https://', '').replace('http://', '')
     elif invitelink.__contains__('discord.com/invite/'):
@@ -120,9 +118,16 @@ Select Mode >> """)
       invitelink = invitelink.split(".gg/")[1]
     except:
       pass
+    
+    if invitelink == "":
+      print("[-] InviteLink is not set")
+      return
     if memberscreen == True:
+      serverid = input("ServerID >> ")
+      
       if serverid == "":
-          print("[-] ServerID is not set")
+        print("[-] ServerID is not set")
+        return
     
     input("Enter to Start")
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay)).start()
@@ -158,7 +163,22 @@ Select Mode >> """)
     threading.Thread(target=module_spammer.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
     
   if module_mode == "4":
-    print("a")
+    serverid = input("ServerID >> ")
+    channelid = input("ChannelID >> ")
+    file_name = input("Mp3 File Name >> ")
+    
+    if file_name.__contains__('.mp3'):
+      file_name = file_name.replace('.mp3', '')
+    
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return    
+    if file_name == "":
+      print("[-] Mp3 File Name is not set")
+      return
     
   else:
     menu()
