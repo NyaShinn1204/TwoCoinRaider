@@ -252,7 +252,6 @@ Select Mode >> """)
     
 token_load()
 ffmpeg_load()
-time.sleep(1)
 proxy_load()
 print("Proxyの数が多いと時間がかかる可能性があります")
 time.sleep(5)
