@@ -9,8 +9,6 @@ import typing
 from httpx import Client
 from httpx_socks import SyncProxyTransport
 
-import module.spam.message_scrape as mg_scrape
-import module.spam.user_scrape as user_scrape
 import bypass.header as header
 
 status = True
@@ -19,10 +17,6 @@ timelock = True
 def status():
     global status
     return status
-
-def stop():
-    global status
-    status = False
 
 def randomname(n):
     return ''.join(random.choice(string.ascii_letters + string.digits) for i in range(n))  
@@ -40,7 +34,7 @@ def get_default_soundboard_sounds(token):
     request = Client()
     return request.get("https://discord.com/api/v9/soundboard-default-sounds", headers=headers).json()
 
-def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, rdsongs):
+def start(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs):
     global status
     global timelock
     status = True
@@ -69,7 +63,7 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
             time.sleep(8)
             print("[+] RateLimit Fixed")
             timelock = False
-        threading.Thread(target=spammer_thread, args=(tokens, module_status, proxysetting, proxies, proxytype,
+        threading.Thread(target=spammer_thread, args=(tokens, proxysetting, proxies, proxytype,
                          serverid, channelid, sounds)).start()
         time.sleep(float(delay))
 
@@ -86,7 +80,7 @@ def connect_vc(serverid, channelid, token):
         ws.recv()
         time.sleep(hello.get("d").get("heartbeat_interval") / 1000)
 
-def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, sounds: list[dict[str, typing.Union[str, int]]]):
+def spammer_thread(tokens, proxysetting, proxies, proxytype, serverid, channelid, sounds: list[dict[str, typing.Union[str, int]]]):
     global status
     global timelock
 

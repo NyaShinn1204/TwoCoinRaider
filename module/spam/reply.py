@@ -17,10 +17,6 @@ def status():
     global status
     return status
 
-def stop():
-    global status
-    status = False
-
 def randomname(n):
     return ''.join(random.choice(string.ascii_letters + string.digits) for i in range(n))  
 
@@ -31,7 +27,7 @@ def extract(format_token):
         token = format_token
     return token
 
-def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit):
+def start(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit):
     global status
     global messages
     global users
@@ -63,11 +59,11 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
             time.sleep(8)
             print("[+] RateLimit Fixed")
             timelock = False
-        threading.Thread(target=spammer_thread, args=(tokens, module_status, allping, proxysetting, proxies, proxytype,
+        threading.Thread(target=spammer_thread, args=(tokens, allping, proxysetting, proxies, proxytype,
                          serverid, allmg, channelid, messageid, contents, randomstring, mentions, ratelimit)).start()
         time.sleep(float(delay))
         
-def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxytype, serverid, allmg, channelid, messageid, contents, randomstring, mentions, ratelimit):
+def spammer_thread(tokens, allping, proxysetting, proxies, proxytype, serverid, allmg, channelid, messageid, contents, randomstring, mentions, ratelimit):
     global messages
     global users
     global status
@@ -103,20 +99,17 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
         x = request.post(f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers, json=data)
         if x.status_code == 400:
             print(f"[-] 不明なエラー  Message: {x.json()['message']} ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
-            module_status(4, 2)
         if x.status_code == 403:
             print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
-            module_status(4, 2)
         if x.status_code == 404:
             print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
-            module_status(4, 2)
         if x.status_code == 200:
-            module_status(4, 1)
+            print("[+] Success Send: " + extract_token)
         else:
             if x.status_code == 429 or 20016:
                 if ratelimit == True:
                     timelock = True
                 return
-            module_status(4, 2)
+            print("[-] Failed Send: " + extract_token)
     except:
         pass

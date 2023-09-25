@@ -10,6 +10,8 @@ import module.joiner as module_joiner
 import module.leaver as module_leaver
 import module.spam.spammer as module_spammer
 import module.vcspam as module_vc
+import module.spam.reply as module_reply
+import module.spam.soundboard as module_soundboard
 
 class Setting:
   tokens = []
@@ -186,10 +188,47 @@ Select Mode >> """)
     threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, file_name)).start()
   
   if module_mode == "5":
-    print("Reply")
+    serverid = input("ServerID >> ")
+    channelid = input("ChannelID >> ")
+    messageid = input("MessageID >> ")
+    allmg = input("AllMessage True/False >> ")
+    allping = input("AllPing True/False >> ")
+    randomstring = input("RandomString True/False >> ")
+    ratelimit = input("RateLimitFixer True/False >> ")
     
+    contents = input("Spam Message >> ")
+    if allping == True:
+      mentions = int(input("How Many Mentions? int>> "))
+    else:
+      mentions = 20
+              
+    if serverid == "":
+        print("[-] ServerID is not set")
+        return
+    if channelid == "":
+        print("[-] ChannelID is not set")
+        return  
+    if messageid == "":
+        print("[-] MessageID is not set")
+        return    
+    
+    input("Enter to Start")
+    threading.Thread(target=module_reply.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
+        
   if module_mode == "6":
-    print("SoundBoard")
+    serverid = input("ServerID >> ")
+    channelid = input("ChannelID >> ")
+    rdsongs = input("RandomSong True/False >> ")
+        
+    if serverid == "":
+        print("[-] ServerID is not set")
+        return
+    if channelid == "":
+        print("[-] ChannelID is not set")
+        return   
+
+    threading.Thread(target=module_soundboard.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs)).start()
+    
     
   else:
     menu()

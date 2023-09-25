@@ -18,10 +18,6 @@ def status():
     global status
     return status
 
-def stop():
-    global status
-    status = False
-
 def randomname(n):
     return ''.join(random.choice(string.ascii_letters + string.digits) for i in range(n))  
 
@@ -107,12 +103,12 @@ def spammer_thread(tokens, allping, proxysetting, proxies, proxytype, allchannel
         if x.status_code == 404:
             print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {extract_token}.******** Status: {x.status_code}")
         if x.status_code == 200:
-            print("[+] Success Send")
+            print("[+] Success Send: " + extract_token)
         else:
             if x.status_code == 429 or 20016:
                 if ratelimit == True:
                     timelock = True
                 return
-            print("[-] Error Failed")
+            print("[-] Failed Send: " + extract_token)
     except:
         pass
