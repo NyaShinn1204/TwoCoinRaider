@@ -151,7 +151,8 @@ Select Mode >> """)
     if channelid == "":
         print("[-] ChannelID is not set")
         return    
-
+      
+    input("Enter to Start")
     threading.Thread(target=module_spammer.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
     
   if module_mode == "4":
