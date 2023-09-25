@@ -1,9 +1,9 @@
+import os
+import time
+import requests
+import threading
 import subprocess
 from customtkinter import *
-import threading
-import os
-import requests
-import time
 
 import module.token_checker as token_checker
 import module.proxy_checker as proxy_checker
@@ -59,7 +59,7 @@ def download_ffmpeg():
 def token_load():
   tokens = open("tokens.txt", 'r').read().splitlines()
   if tokens == []:
-      return
+    return
   Setting.tokens = []
   Setting.validtoken = 0
   Setting.invalidtoken = 0
@@ -68,15 +68,15 @@ def token_load():
 
 def update_token(status, token):
   if status == True:
-      Setting.tokens.append(token)
-      Setting.validtoken += 1
+    Setting.tokens.append(token)
+    Setting.validtoken += 1
   if status == False:
-      Setting.invalidtoken += 1
+    Setting.invalidtoken += 1
 
 def proxy_load():
   proxies = open("proxy.txt", 'r').read().splitlines()
   if proxies == []:
-      return
+    return
   Setting.proxies = []
   Setting.vaildproxies = 0
   Setting.invaildproxies = 0
@@ -86,10 +86,10 @@ def proxy_load():
      
 def update_proxy(status, proxy):
   if status == True:
-      Setting.proxies.append(proxy)
-      Setting.vaildproxies += 1
+    Setting.proxies.append(proxy)
+    Setting.vaildproxies += 1
   if status == False:
-      Setting.invaildproxies += 1
+    Setting.invaildproxies += 1
 
 def module_reload():
   time.sleep(3)
