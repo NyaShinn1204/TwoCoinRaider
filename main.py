@@ -31,8 +31,7 @@ def clear_terminal():
 
 def get_hwid():
   if os.name == 'posix':
-    cmd = 'cat /etc/machine-id'
-    uuid = str(subprocess.check_output(cmd))
+    uuid = "Linux User :)"
     return uuid
   else:
     cmd = 'wmic csproduct get uuid'
