@@ -44,7 +44,7 @@ def start(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, 
     sounds = False
     while not sounds:
         sounds = get_default_soundboard_sounds(token)
-    random_sounds = rdsongs == True
+    random_sounds = rdsongs == "True"
     if not random_sounds:
         for sound in sounds:
             print(f"[{sounds.index(sound) + 1}] {sound['name']}")

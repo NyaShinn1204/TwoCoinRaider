@@ -39,13 +39,13 @@ def start(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, 
     print(token)
     print(serverid)
     print(channelid)
-    if allmg == True:
+    if allmg == "True":
         messages = mg_scrape.get_messages(token,int(channelid))
         print(messages)
         if messages == None:
             print("[-] んーメッセージが取得できなかったっぽい token死なないように一回止めるね")
             return
-    if allping == True:
+    if allping == "True":
         users = user_scrape.get_members(serverid, channelid, token)
         if users == None:
             print("[-] んーメンバーが取得できなかったっぽい token死なないように一回止めるね")
@@ -78,12 +78,12 @@ def spammer_thread(tokens, allping, proxysetting, proxies, proxytype, serverid, 
     if content == "":
         print("[-] メッセージが設定されていないので初期のメッセージを送信します")
         content = "Sussy Raider V3 REWRITE"
-    if allping == True:
+    if allping == "True":
         for i in range(int(mentions)):
             content = content + f"<@{random.choice(users)}>"
-    if randomstring == True:
+    if randomstring == "True":
         content = f"{content}\n{randomname(10)}"
-    if allmg == True:
+    if allmg == "True":
         messageid = random.choice(messages)
     data = {"content": content,"message_reference": {"guild_id": serverid,"channel_id": channelid,"message_id": messageid}}
     req_header = header.request_header(token)
