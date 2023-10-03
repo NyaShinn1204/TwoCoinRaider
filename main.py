@@ -81,6 +81,7 @@ def proxy_load():
   Setting.vaildproxies = 0
   Setting.invaildproxies = 0
   Setting.totalproxies = (len(proxies))
+  print("Proxyをすべて読み込むには時間がかかります")
   proxy_checker.check(update_proxy, proxies, Setting.proxytype)
      
 def update_proxy(status, proxy):
@@ -248,6 +249,5 @@ Select Mode >> """)
 token_load()
 ffmpeg_load()
 proxy_load()
-print("Proxyの数が多いと時間がかかる可能性があります")
 time.sleep(5)
 menu()
