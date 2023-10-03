@@ -34,7 +34,7 @@ def clear_terminal():
 
 def get_hwid():
   if os.name == 'posix':
-    uuid = "Linux User :)"
+    uuid = "Linux User"
     return uuid
   else:
     cmd = 'wmic csproduct get uuid'
@@ -46,10 +46,10 @@ def get_hwid():
 def ffmpeg_load():
   if os.path.exists(os.path.join(os.getcwd(),"ffmpeg.exe")):
     print("FFmpeg Found")
-  else :
+  else:
     print("FFmpge Not Found")
-    if input("Download FFmpeg? True/False >> ") == "True":
-      download_ffmpeg()
+    print("Downloding FFmpeg")
+    download_ffmpeg()
 
 def download_ffmpeg():  
   with open('ffmpeg.exe' ,mode='wb') as f:
@@ -82,7 +82,6 @@ def proxy_load():
   Setting.invaildproxies = 0
   Setting.totalproxies = (len(proxies))
   proxy_checker.check(update_proxy, proxies, Setting.proxytype)
-  threading.Thread(target=proxy_checker.check(update_proxy, proxies, Setting.proxytype))
      
 def update_proxy(status, proxy):
   if status == True:
@@ -90,10 +89,6 @@ def update_proxy(status, proxy):
     Setting.vaildproxies += 1
   if status == False:
     Setting.invaildproxies += 1
-
-def module_reload():
-  time.sleep(3)
-  menu()
 
 def menu():
   clear_terminal()
