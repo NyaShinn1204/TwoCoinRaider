@@ -83,7 +83,7 @@ def proxy_load():
   Setting.totalproxies = (len(proxies))
   print("Proxyをすべて読み込むには時間がかかります")
   proxy_checker.check(update_proxy, proxies, Setting.proxytype)
-     
+
 def update_proxy(status, proxy):
   if status == True:
     Setting.proxies.append(proxy)
@@ -93,16 +93,16 @@ def update_proxy(status, proxy):
 
 def menu():
   clear_terminal()
-  print(f"""          
-       &#BB#&       
-     B?^:::^~?B        _______             _____      _       _____       _     _             
-    P^:::^^^^^^P      |__   __|           / ____|    (_)     |  __ \     (_)   | |          
+  print(f"""
+       &#BB#&
+     B?^:::^~?B        _______             _____      _       _____       _     _
+    P^:::^^^^^^P      |__   __|           / ____|    (_)     |  __ \     (_)   | |
     J~~^^~~~~~~J         | |_      _____ | |     ___  _ _ __ | |__) |__ _ _  __| | ___ _ __ 
     B7~!!~~~!~7B         | \ \ /\ / / _ \| |    / _ \| | '_ \|  _  // _` | |/ _` |/ _ \ '__|
-     #5J7777J55          | |\ V  V / (_) | |___| (_) | | | | | | \ \ (_| | | (_| |  __/ |    　
+     #5J7777J55          | |\ V  V / (_) | |___| (_) | | | | | | \ \ (_| | | (_| |  __/ |　
        &&&&&&&           |_| \_/\_/ \___/ \_____\___/|_|_| |_|_|  \_\__,_|_|\__,_|\___|_|   
-                                            This Software was Paid                                                      
-                                       
+                                            This Software was Paid
+
 You HWID: [{get_hwid()}]  
 Loaded Token: {Setting.totaltoken}  Valid Token: {Setting.validtoken}  Invalid Token: {Setting.invalidtoken}  
 Loaded Proxy: {Setting.totalproxies}  Valid Proxie: {Setting.vaildproxies}  Invalid Proxie: {Setting.invaildproxies}
@@ -121,7 +121,7 @@ Select Mode >> """)
   if module_mode == "1":
     invitelink = input("InviteURL >> ")
     memberscreen = input("MemberScreen Found? True/False >> ")
-    
+
     if invitelink.__contains__('discord.gg/'):
       invitelink = invitelink.replace('discord.gg/', '').replace('https://', '').replace('http://', '')
     elif invitelink.__contains__('discord.com/invite/'):
@@ -130,26 +130,26 @@ Select Mode >> """)
       invitelink = invitelink.split(".gg/")[1]
     except:
       pass
-    
+
     if invitelink == "":
       print("[-] InviteLink is not set")
       return
     if memberscreen == True:
       serverid = input("ServerID >> ")
-      
+
       if serverid == "":
         print("[-] ServerID is not set")
         return
-    
+
     input("Enter to Start")
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay)).start()
-    
+
   if module_mode == "2":
     serverid = input("ServerID >> ")
-    
+
     input("Enter to Start")
     threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
-    
+
   if module_mode == "3":
     serverid = input("ServerID >> ")
     channelid = input("ChannelID >> ")
@@ -157,38 +157,38 @@ Select Mode >> """)
     allping = input("AllPing True/False >> ")
     randomstring = input("RandomString True/False >> ")
     ratelimit = input("RateLimitFixer True/False >> ")
-    
+
     contents = input("Spam Message >> ")
     if allping == True:
       mentions = int(input("How Many Mentions? int>> "))
     else:
       mentions = 20
-    
+
     if serverid == "":
         print("[-] ServerID is not set")
         return
     if channelid == "":
         print("[-] ChannelID is not set")
-        return    
-      
+        return
+
     input("Enter to Start")
     threading.Thread(target=module_spammer.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
-    
+
   if module_mode == "4":
     serverid = input("ServerID >> ")
     channelid = input("ChannelID >> ")
     file_name = input("Mp3 File Name e.x test.mp3>> ")
-        
+
     if serverid == "":
       print("[-] ServerID is not set")
       return
     if channelid == "":
       print("[-] ChannelID is not set")
-      return    
+      return
     if file_name == "":
       print("[-] Mp3 File Name is not set")
       return
-    
+
     try:
       ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
     except:
@@ -196,7 +196,7 @@ Select Mode >> """)
       if input("Download FFmpeg? True/False >> ") == "True":
         download_ffmpeg()
         return
-        
+
     input("Enter to Start")
     threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, file_name)).start()
   
@@ -208,13 +208,13 @@ Select Mode >> """)
     allping = input("AllPing True/False >> ")
     randomstring = input("RandomString True/False >> ")
     ratelimit = input("RateLimitFixer True/False >> ")
-    
+
     contents = input("Spam Message >> ")
     if allping == True:
       mentions = int(input("How Many Mentions? int>> "))
     else:
       mentions = 20
-              
+
     if serverid == "":
         print("[-] ServerID is not set")
         return
@@ -223,16 +223,16 @@ Select Mode >> """)
         return  
     if messageid == "":
         print("[-] MessageID is not set")
-        return    
-    
+        return
+
     input("Enter to Start")
     threading.Thread(target=module_reply.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
-        
+
   if module_mode == "6":
     serverid = input("ServerID >> ")
     channelid = input("ChannelID >> ")
     rdsongs = input("RandomSong True/False >> ")
-        
+
     if serverid == "":
         print("[-] ServerID is not set")
         return
@@ -241,11 +241,10 @@ Select Mode >> """)
         return   
 
     threading.Thread(target=module_soundboard.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs)).start()
-    
-    
+
   else:
     menu()
-    
+
 token_load()
 ffmpeg_load()
 proxy_load()
