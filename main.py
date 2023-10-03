@@ -240,6 +240,7 @@ Select Mode >> """)
         print("[-] ChannelID is not set")
         return   
 
+    input("Enter to Start")
     threading.Thread(target=module_soundboard.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs)).start()
 
   else:
