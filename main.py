@@ -40,7 +40,7 @@ def clear_terminal():
 
 def get_hwid():
   if os.name == 'posix':
-    uuid = "Linux User"
+    uuid = "Linux User Nothing HWID"
     return uuid
   else:
     cmd = 'wmic csproduct get uuid'
@@ -53,14 +53,13 @@ def ffmpeg_load():
   if os.path.exists(os.path.join(os.getcwd(),"ffmpeg.exe")):
     print("FFmpeg Found")
   else:
-    print("FFmpge Not Found")
-    print("Downloding FFmpeg")
+    print("FFmpge Not Found\nDownloding FFmpeg")
     download_ffmpeg()
 
 def download_ffmpeg():  
   with open('ffmpeg.exe' ,mode='wb') as f:
     f.write(requests.get("https://github.com/n00mkrad/smol-ffmpeg/releases/download/v1/ffmpeg.exe").content)
-    print("Downloaded FFmpeg. Please Retry.")
+    print("Downloaded FFmpeg")
 
 def token_load():
   tokens = open("tokens.txt", 'r').read().splitlines()
@@ -175,11 +174,11 @@ Select Mode >> """)
       mentions = 20
 
     if serverid == "":
-        notset("ServerID")
-        return
+      notset("ServerID")
+      return
     if channelid == "":
-        notset("ChannelID")
-        return
+      notset("ChannelID")
+      return
 
     input("Enter to Start")
     threading.Thread(target=module_spammer.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
@@ -226,14 +225,14 @@ Select Mode >> """)
       mentions = 20
 
     if serverid == "":
-        notset("ServerID")
-        return
+      notset("ServerID")
+      return
     if channelid == "":
-        notset("ChannelID")
-        return  
+      notset("ChannelID")
+      return  
     if messageid == "":
-        notset("MessageID")
-        return
+      notset("MessageID")
+      return
 
     input("Enter to Start")
     threading.Thread(target=module_reply.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
@@ -244,11 +243,11 @@ Select Mode >> """)
     rdsongs = input("RandomSong True/False >> ")
 
     if serverid == "":
-        notset("ServerID")
-        return
+      notset("ServerID")
+      return
     if channelid == "":
-        notset("ChannelID")
-        return   
+      notset("ChannelID")
+      return   
 
     input("Enter to Start")
     threading.Thread(target=module_soundboard.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs)).start()
