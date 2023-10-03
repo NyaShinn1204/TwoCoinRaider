@@ -26,6 +26,12 @@ class Setting:
   proxytype = "http"
 
 
+def notset(num):
+  print("[-] "+num+" is not set")
+  time.sleep(3)
+  menu()
+  return
+
 def clear_terminal():
   if os.name == 'posix':
     _ = os.system('clear')
@@ -130,15 +136,15 @@ Select Mode >> """)
       invitelink = invitelink.split(".gg/")[1]
     except:
       pass
-
+        
     if invitelink == "":
-      print("[-] InviteLink is not set")
+      notset("InviteLink")
       return
     if memberscreen == True:
       serverid = input("ServerID >> ")
 
       if serverid == "":
-        print("[-] ServerID is not set")
+        notset("ServerID")
         return
 
     input("Enter to Start")
@@ -146,6 +152,10 @@ Select Mode >> """)
 
   if module_mode == "2":
     serverid = input("ServerID >> ")
+    
+    if serverid == "":
+      notset("ServerID")
+      return
 
     input("Enter to Start")
     threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
@@ -165,10 +175,10 @@ Select Mode >> """)
       mentions = 20
 
     if serverid == "":
-        print("[-] ServerID is not set")
+        notset("ServerID")
         return
     if channelid == "":
-        print("[-] ChannelID is not set")
+        notset("ChannelID")
         return
 
     input("Enter to Start")
@@ -180,13 +190,13 @@ Select Mode >> """)
     file_name = input("Mp3 File Name e.x test.mp3>> ")
 
     if serverid == "":
-      print("[-] ServerID is not set")
+      notset("ServerID")
       return
     if channelid == "":
-      print("[-] ChannelID is not set")
+      notset("ChannelID")
       return
     if file_name == "":
-      print("[-] Mp3 File Name is not set")
+      notset("Mp3 File Name")
       return
 
     try:
@@ -216,13 +226,13 @@ Select Mode >> """)
       mentions = 20
 
     if serverid == "":
-        print("[-] ServerID is not set")
+        notset("ServerID")
         return
     if channelid == "":
-        print("[-] ChannelID is not set")
+        notset("ChannelID")
         return  
     if messageid == "":
-        print("[-] MessageID is not set")
+        notset("MessageID")
         return
 
     input("Enter to Start")
@@ -234,10 +244,10 @@ Select Mode >> """)
     rdsongs = input("RandomSong True/False >> ")
 
     if serverid == "":
-        print("[-] ServerID is not set")
+        notset("ServerID")
         return
     if channelid == "":
-        print("[-] ChannelID is not set")
+        notset("ChannelID")
         return   
 
     input("Enter to Start")
