@@ -145,9 +145,13 @@ Select Mode >> """)
       if serverid == "":
         notset("ServerID")
         return
+    
+    else:
+      serverid = ""
 
     input("Enter to Start")
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay)).start()
+    input("Enter to Menu\n")
 
   if module_mode == "2":
     serverid = input("ServerID >> ")
@@ -158,6 +162,7 @@ Select Mode >> """)
 
     input("Enter to Start")
     threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
+    input("Enter to Menu\n")
 
   if module_mode == "3":
     serverid = input("ServerID >> ")
@@ -182,6 +187,7 @@ Select Mode >> """)
 
     input("Enter to Start")
     threading.Thread(target=module_spammer.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
+    input("Enter to Menu\n")
 
   if module_mode == "4":
     serverid = input("ServerID >> ")
@@ -208,7 +214,8 @@ Select Mode >> """)
 
     input("Enter to Start")
     threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, file_name)).start()
-  
+    input("Enter to Menu\n")
+
   if module_mode == "5":
     serverid = input("ServerID >> ")
     channelid = input("ChannelID >> ")
@@ -236,6 +243,7 @@ Select Mode >> """)
 
     input("Enter to Start")
     threading.Thread(target=module_reply.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
+    input("Enter to Menu\n")
 
   if module_mode == "6":
     serverid = input("ServerID >> ")
@@ -251,6 +259,7 @@ Select Mode >> """)
 
     input("Enter to Start")
     threading.Thread(target=module_soundboard.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs)).start()
+    input("Enter to Menu\n")
 
   else:
     menu()
