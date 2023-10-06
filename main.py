@@ -1,9 +1,13 @@
 import os
 import time
+import random
 import requests
 import threading
 import subprocess
 from customtkinter import *
+from httpx import Client
+
+import bypass.header as header
 
 import module.token_checker as token_checker
 import module.proxy_checker as proxy_checker
@@ -13,6 +17,7 @@ import module.spam.spammer as module_spammer
 import module.vcspam as module_vc
 import module.spam.reply as module_reply
 import module.spam.soundboard as module_soundboard
+import module.btn as module_btn
 
 class Setting:
   tokens = []
@@ -25,6 +30,12 @@ class Setting:
   totalproxies = StringVar
   proxytype = "http"
 
+
+def get_default_soundboard_sounds(token):
+  req_header = header.request_header(token)
+  headers = req_header[0]
+  request = Client()
+  return request.get("https://discord.com/api/v9/soundboard-default-sounds", headers=headers).json()
 
 def notset(num):
   print("[-] "+num+" is not set")
@@ -113,8 +124,9 @@ Loaded Token: {Setting.totaltoken}  Valid Token: {Setting.validtoken}  Invalid T
 Loaded Proxy: {Setting.totalproxies}  Valid Proxie: {Setting.vaildproxies}  Invalid Proxie: {Setting.invaildproxies}
 -------------------------""")
   module_mode = input("""
-    [01] Joiner     [03] Spammer    [05] Reply Spammer  
-    [02] Leaver     [04] VC Spammer [06] SoundBoard Spammer
+    [01] Joiner        [04] VC Spammer    [07] Btn Pres  
+    [02] Leaver        [05] Reply Spammer [00] soon
+    [03] Spammer       [06] SB Spammer    [00] soon
 
 Select Mode >> """)
 
@@ -250,16 +262,49 @@ Select Mode >> """)
     channelid = input("ChannelID >> ")
     rdsongs = input("RandomSong True/False >> ")
 
+    sounds = False
+
     if serverid == "":
       notset("ServerID")
       return
     if channelid == "":
       notset("ChannelID")
       return   
+    if rdsongs == "False":
+      while not sounds:
+        sounds = get_default_soundboard_sounds(random.choice(tokens))
+      for sound in sounds:
+        print(f"[{sounds.index(sound) + 1}] {sound['name']}")
+      sound_index = input(f"[sound] -> ")
+      sounds = [sounds[int(sound_index) - 1]]
 
     input("Enter to Start")
-    threading.Thread(target=module_soundboard.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs)).start()
-    input("Enter to Menu\n")
+    threading.Thread(target=module_soundboard.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs, sounds)).start()
+    time.sleep(10)
+    input("Enter to End & Menu\n")
+    module_soundboard.req_stop()
+    time.sleep(5)
+
+  if module_mode == "7":
+    serverid = input("ServerID >> ")
+    channelid = input("ChannelID >> ")
+    messageid = input("MessageID >> ")
+
+    if serverid == "":
+      notset("ServerID")
+      return
+    if channelid == "":
+      notset("ChannelID")
+      return   
+    if messageid == "":
+      notset("MessageID")
+      return
+
+    input("Enter to Start")
+    threading.Thread(target=module_btn.start, args=(delay, tokens, serverid, channelid, messageid)).start()
+    input("Enter to End & Menu\n")
+    module_btn.req_stop()
+    time.sleep(5)
 
   else:
     menu()

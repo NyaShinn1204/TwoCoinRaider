@@ -18,6 +18,10 @@ def status():
     global status
     return status
 
+def req_stop():
+    global status
+    status = False
+
 def randomname(n):
     return ''.join(random.choice(string.ascii_letters + string.digits) for i in range(n))  
 
@@ -34,26 +38,19 @@ def get_default_soundboard_sounds(token):
     request = Client()
     return request.get("https://discord.com/api/v9/soundboard-default-sounds", headers=headers).json()
 
-def start(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs):
+def start(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, rdsongs, soundssb):
     global status
     global timelock
     status = True
     
     token = random.choice(tokens)
     
-    sounds = False
-    while not sounds:
-        sounds = get_default_soundboard_sounds(token)
-    random_sounds = rdsongs == "True"
-    if not random_sounds:
-        for sound in sounds:
-            print(f"[{sounds.index(sound) + 1}] {sound['name']}")
-        sound_index = input(f"[sound] -> ")
-        sounds = [sounds[int(sound_index) - 1]]
-    
-    print(token)
-    print(serverid)
-    print(channelid)
+    if rdsongs == "True":
+        sounds = False
+        while not sounds:
+            sounds = get_default_soundboard_sounds(token)
+    else:
+        sounds = soundssb
     
     while status is True:
         if status == False:
@@ -112,7 +109,7 @@ def spammer_thread(tokens, proxysetting, proxies, proxytype, serverid, channelid
             print(f"[-] 不明なエラー  Message: {x.json()['message']} ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
         if x.status_code == 404:
             print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
-        if x.status_code == 200:
+        if x.status_code == 204:
             print("[+] Success Send: " + extract_token)
         else:
             print("[-] Failed Send: " + extract_token)

@@ -97,18 +97,18 @@ def joiner_thread(token, serverid, invitelink, memberscreen):
                 print(f"{extract_token}は認証が必要としています。")
             print("[+] Success Join: " + extract_token)
         if "captcha_key" in joinreq.json():
-            print("[-] Captcha Detected: "+ token)
-            wsitekey = joinreq.json()['captcha_sitekey']
-            crqdata = joinreq.json()["captcha_rqdata"]
-            captchakey = solvecaptcha(sitekey=wsitekey, rqdata=crqdata, useragent=headers["user-agent"])
-            captcha_rqtoken = joinreq.json()["captcha_rqtoken"]
-            payload = {'captcha_key': captchakey, 'captcha_rqtoken': captcha_rqtoken}
-            joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
-            if joinreq2.status_code == 200:
-                print("[+] Success Join Cap: " + token)
-                return
-            else:
-                print("[-] Failed join Cap: " + token)
+            print("[-] Captcha Detected Failed to Join: "+ token)
+            #wsitekey = joinreq.json()['captcha_sitekey']
+            #crqdata = joinreq.json()["captcha_rqdata"]
+            #captchakey = solvecaptcha(sitekey=wsitekey, rqdata=crqdata, useragent=headers["user-agent"])
+            #captcha_rqtoken = joinreq.json()["captcha_rqtoken"]
+            #payload = {'captcha_key': captchakey, 'captcha_rqtoken': captcha_rqtoken}
+            #joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
+            #if joinreq2.status_code == 200:
+            #    print("[+] Success Join Cap: " + token)
+            #    return
+            #else:
+            #    print("[-] Failed join Cap: " + token)
             
         if memberscreen == True:
             device_info2 = {
@@ -153,5 +153,4 @@ def joiner_thread(token, serverid, invitelink, memberscreen):
                 print("[-] Failed Memberbypass: " + extract_token)
     except Exception as err:
         print(f"[-] ERROR: {err} ")
-        print(traceback.print_exc())
         return
