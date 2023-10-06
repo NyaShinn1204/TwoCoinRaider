@@ -9,6 +9,8 @@ import tls_client
 import re
 import bypass.header as header
 from capmonster_python import HCaptchaTask
+
+capmonster_key = "1Mi37Ee2Ehsimx7DFohjQrBrER6Ysjfodk"
     
 def start(tokens, serverid, invitelink, memberscreen, delay):
     for token in tokens:
@@ -16,7 +18,7 @@ def start(tokens, serverid, invitelink, memberscreen, delay):
         time.sleep(float(delay))
 
 def solvecaptcha(sitekey, rqdata, useragent):
-    capmonster = HCaptchaTask("1Mi37Ee2Ehsimx7DFohjQrBrER6Ysjfodk")
+    capmonster = HCaptchaTask(capmonster_key)
     capmonster.set_user_agent(useragent)
     task_id = capmonster.create_task(website_url="https://discord.com", website_key=sitekey, custom_data=rqdata)
     result = capmonster.join_task_result(task_id)
@@ -25,7 +27,7 @@ def solvecaptcha(sitekey, rqdata, useragent):
     return aaa
 
 def get_session():
-    session = tls_client.Session(client_identifier="chrome_105")
+    session = tls_client.Session(client_identifier="chrome_105", random_tls_extension_order=True)
     return session
 
 def extract(format_token):
