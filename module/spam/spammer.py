@@ -12,7 +12,7 @@ import module.spam.user_scrape as user_scrape
 import bypass.header as header
 
 status = True
-timelock = True
+timelock = False
 
 def status():
     global status
