@@ -85,7 +85,15 @@ def spammer_thread(tokens, allping, proxysetting, proxies, proxytype, serverid, 
         content = f"{content}\n{randomname(10)}"
     if allmg == "True":
         messageid = random.choice(messages)
-    data = {"content": content,"message_reference": {"guild_id": serverid,"channel_id": channelid,"message_id": messageid}}
+    data = {
+        "content": content,
+        "message_reference":
+        {
+                "guild_id": serverid,
+                "channel_id": channelid,
+                "message_id": messageid
+        }
+    }
     req_header = header.request_header(token)
     headers = req_header[0]
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"

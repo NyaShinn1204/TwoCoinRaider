@@ -8,23 +8,11 @@ import json
 import tls_client
 import re
 import bypass.header as header
-from capmonster_python import HCaptchaTask
-
-capmonster_key = "1Mi37Ee2Ehsimx7DFohjQrBrER6Ysjfodk"
     
 def start(tokens, serverid, invitelink, memberscreen, delay):
     for token in tokens:
         threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen)).start()
         time.sleep(float(delay))
-
-def solvecaptcha(sitekey, rqdata, useragent):
-    capmonster = HCaptchaTask(capmonster_key)
-    capmonster.set_user_agent(useragent)
-    task_id = capmonster.create_task(website_url="https://discord.com", website_key=sitekey, custom_data=rqdata)
-    result = capmonster.join_task_result(task_id)
-    aaa = result.get("gRecaptchaResponse")
-    print("Captcha Bypass")
-    return aaa
 
 def get_session():
     session = tls_client.Session(client_identifier="chrome_105", random_tls_extension_order=True)
@@ -98,18 +86,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen):
             print("[+] Success Join: " + extract_token)
         if "captcha_key" in joinreq.json():
             print("[-] Captcha Detected Failed to Join: "+ token)
-            #wsitekey = joinreq.json()['captcha_sitekey']
-            #crqdata = joinreq.json()["captcha_rqdata"]
-            #captchakey = solvecaptcha(sitekey=wsitekey, rqdata=crqdata, useragent=headers["user-agent"])
-            #captcha_rqtoken = joinreq.json()["captcha_rqtoken"]
-            #payload = {'captcha_key': captchakey, 'captcha_rqtoken': captcha_rqtoken}
-            #joinreq2 = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
-            #if joinreq2.status_code == 200:
-            #    print("[+] Success Join Cap: " + token)
-            #    return
-            #else:
-            #    print("[-] Failed join Cap: " + token)
-            
+
         if memberscreen == True:
             device_info2 = {
                 "os": agent_os,

@@ -29,7 +29,7 @@ def check(tokens, update_token):
             except Exception as e:
                 pass
         for thread in threads:
-             thread.start()
+            thread.start()
         for thread in threads:
-             thread.join()
+            thread.join()
     threading.Thread(target=check_tokens).start()

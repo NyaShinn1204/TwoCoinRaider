@@ -41,7 +41,7 @@ def notset(num):
   print("[-] "+num+" is not set")
   time.sleep(3)
   menu()
-  return
+  return  
 
 def clear_terminal():
   if os.name == 'posix':
