@@ -18,6 +18,7 @@ import module.vcspam as module_vc
 import module.spam.reply as module_reply
 import module.spam.soundboard as module_soundboard
 import module.btn as module_btn
+import module.spam.forum as module_forum
 
 class Setting:
   tokens = []
@@ -124,9 +125,9 @@ Loaded Token: {Setting.totaltoken}  Valid Token: {Setting.validtoken}  Invalid T
 Loaded Proxy: {Setting.totalproxies}  Valid Proxie: {Setting.vaildproxies}  Invalid Proxie: {Setting.invaildproxies}
 -------------------------""")
   module_mode = input("""
-    [01] Joiner        [04] VC Spammer    [07] Btn Pres  
-    [02] Leaver        [05] Reply Spammer [00] soon
-    [03] Spammer       [06] SB Spammer    [00] soon
+    [01] Joiner        [04] VC Spammer    [07] Btn Press  
+    [02] Leaver        [05] Reply Spammer [08] Slash Spam
+    [03] Spammer       [06] SB Spammer    [09] soon
 
 Select Mode >> """)
 
@@ -151,7 +152,7 @@ Select Mode >> """)
     if invitelink == "":
       notset("InviteLink")
       return
-    if memberscreen == True:
+    if memberscreen == "True":
       serverid = input("ServerID >> ")
 
       if serverid == "":
@@ -304,6 +305,33 @@ Select Mode >> """)
     threading.Thread(target=module_btn.start, args=(delay, tokens, serverid, channelid, messageid)).start()
     input("Enter to End & Menu\n")
     module_btn.req_stop()
+    time.sleep(5)
+    
+  if module_mode == "8":
+    serverid = input("ServerID >> ")
+    channelid = input("ChannelID >> ")
+    forum_name = input("Forum Name >>")
+    forum_message = input("Forum Message >> ")
+    ratelimit = input("RateLimitFixer True/False >> ")
+
+    if serverid == "":
+      notset("ServerID")
+      return
+    if channelid == "":
+      notset("ChannelID")
+      return   
+    if forum_name == "":
+      notset("Forum Name")
+      return
+    if forum_message == "":
+      notset("Forum Message")
+      return
+
+    input("Enter to Start")
+    threading.Thread(target=module_forum.start, args=(tokens, proxysetting, proxies, proxytype, channelid, forum_name, forum_message, delay, ratelimit)).start()
+    time.sleep(10)
+    input("Enter to End & Menu\n")
+    module_forum.req_stop()
     time.sleep(5)
 
   else:

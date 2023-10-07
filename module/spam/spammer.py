@@ -2,7 +2,6 @@ import random
 import string
 import threading
 import time
-import json
 import re
 from httpx import Client
 from httpx_socks import SyncProxyTransport
@@ -106,7 +105,7 @@ def spammer_thread(tokens, allping, proxysetting, proxies, proxytype, allchannel
             print("[+] Success Send: " + extract_token)
         else:
             if x.status_code == 429 or 20016:
-                if ratelimit == True:
+                if ratelimit == "True":
                     timelock = True
                 return
             print("[-] Failed Send: " + extract_token)
