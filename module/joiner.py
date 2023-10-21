@@ -26,7 +26,6 @@ def extract(format_token):
     return token
 
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
-    data = {}
     agent_string = header.random_agent.random_agent()
     browser_data = agent_string.split(" ")[-1].split("/")
     possible_os_list = ["Windows", "Macintosh"]
@@ -79,7 +78,6 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
     try:
         session = get_session()
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
-        requests.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=data)
         if "captcha_key" not in joinreq.json():
             if "You need to verify your account in order to perform this action." in joinreq.json():
                 print(f"{extract_token}は認証が必要としています。")
