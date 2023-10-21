@@ -55,25 +55,29 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
         "client_event_source": None
     }
     headers = {
+        "Authorization": token,
+        "Cookie": cookie_string,
+        "Host": "discord.com",
+        "Pragma": "no-cache",
+        "Authority": "discord.com",
         "Accept":"*/*",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US",
-        "Authorization": token,
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Cookie": cookie_string,
-        "Host": "discord.com",
         "Origin": "https://discord.com",
-        "Pragma": "no-cache",
+        "Referer": "https://discord.com/channels/@me",
+        "Sec-ch-ua": '"Not?A_Brand";v="8", "Chromium";v="108"',
+        "Sec-ch-ua-mobile": "?0",
+        "Sec-ch-ua-platform": "Windows",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
-        "sec-ch-ua-platform": "Windows",
-        "sec-ch-ua-mobile": "?0",
-        "TE": "Trailers",
         "User-Agent": header.random_agent.random_agent(),
-        "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8"),
-        "X-Debug-Options": "bugReporterEnabled"
+        "X-Debug-Options": "bugReporterEnabled",
+        "X-Discord-Locale": "en-US",
+        "X-Discord-Timezone": "America/New_York",
+        "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8")
     }
     try:
         session = get_session()
