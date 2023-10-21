@@ -254,6 +254,19 @@ def get_hwid():
   uuid = uuid[pos1:-15]
   return uuid
 
+def ffmpeg_check():
+  ffmpeg_path = os.path.join(os.getcwd(),"ffmpeg.exe")
+  if os.path.exists(ffmpeg_path):
+    print("FFmpeg Found")
+  else :
+    print("FFmpge Not Found")
+    ffmpeg_dl()
+
+def ffmpeg_dl():
+  with open("ffmpeg.exe" ,mode='wb') as f:
+    f.write(requests.get("https://github.com/n00mkrad/smol-ffmpeg/releases/download/v1/ffmpeg.exe").content)
+    print("Downloaded FFmpeg.")
+
 def ffmpeg_load():
   global ffmpegfile
   fTyp = [("", "*.exe")]
@@ -761,6 +774,7 @@ print(f"""
                                        
 You HWID: [{get_hwid()}]                
 -----------------------""")
+ffmpeg_check()
 if os.path.exists(r"config.json"):
   filepath = json.load(open("config.json", "r"))["token_path"]
   tokens = open(filepath, 'r').read().splitlines()
