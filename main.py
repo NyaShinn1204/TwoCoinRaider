@@ -364,7 +364,6 @@ def proxy_load():
   Setting.vaildproxies = 0
   Setting.invaildproxies = 0
   Setting.totalProxiesLabel.set("Total: "+str(len(proxies)).zfill(3))
-  proxy_checker.check(update_proxy, proxies, Setting.proxytype)
   threading.Thread(target=proxy_checker.check(update_proxy, proxies, Setting.proxytype))
      
 def update_proxy(status, proxy):
