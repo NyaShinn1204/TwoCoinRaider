@@ -100,7 +100,7 @@ class Setting:
   
   # ticket spam
   suc_ticketspam_Label = tk.StringVar()
-  suc_ticketspam_Label.set("Failed: 000")
+  suc_ticketspam_Label.set("Success: 000")
   fai_ticketspam_Label = tk.StringVar()
   fai_ticketspam_Label.set("Failed: 000")
   
@@ -850,9 +850,9 @@ def set_moduleframe_scroll(num1, num2):
 
       ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_1)).place(x=5,y=102)
       
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=202)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=227)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=247)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=85,y=95)
+      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=90,y=120)
+      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=90,y=140)
       
       print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:677] Open Spam Tab")
       
