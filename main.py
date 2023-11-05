@@ -26,7 +26,10 @@ root = tk.Tk()
 root.geometry("1280x720")
 root.resizable(0, 0)
 root.title("TwoCoinRaider")
+root.iconbitmap(default="data/favicon.ico")
 root.configure(bg="#213A3E")
+
+version = "v1.0.2d"
 
 class Setting:
   tokens = []
@@ -794,7 +797,7 @@ print(f"""
        &&&&&&&           |_| \_/\_/ \___/ \_____\___/|_|_| |_|_|  \_\__,_|_|\__,_|\___|_|   
                                             This Software was Paid Only                                                     
                                        
-You HWID: [{get_hwid()}]                
+You HWID: [{get_hwid()}]                Version: [{version}]
 -----------------------""")
 ffmpeg_check()
 if config_check():
@@ -807,7 +810,7 @@ tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
 ctk.CTkLabel(master=root, bg_color="#142326", text="", image=ctk.CTkImage(Image.open("data/coin.png"),size=(80, 80))).place(x=20,y=20)
 tk.Label(bg="#142326", text="Two Coin", fg="#fff", font=("Roboto", 20)).place(x=100,y=10)
 tk.Label(bg="#142326", text="Raider", fg="#fff", font=("Roboto", 20)).place(x=160,y=40)
-tk.Label(bg="#142326", text="v1.0.2", fg="#F8F8F8", font=("Roboto", 18)).place(x=100,y=70)
+tk.Label(bg="#142326", text=version, fg="#F8F8F8", font=("Roboto", 18)).place(x=100,y=70)
 
 modulelist = ctk.CTkFrame(master=root, width=250, height=500, border_width=0, bg_color="#142326", fg_color="#142326")
 modulelist.place(x=0,y=100)
