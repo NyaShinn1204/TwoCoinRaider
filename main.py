@@ -254,12 +254,30 @@ def get_hwid():
   uuid = uuid[pos1:-15]
   return uuid
 
+def config_check():
+  if os.path.exists(r"config.json"):
+    filepath = json.load(open("config.json", "r"))["token_path"]
+    tokens = open(filepath, 'r').read().splitlines()
+    Setting.tokens = []
+    Setting.validtoken = 0
+    Setting.invalidtoken = 0
+    Setting.token_filenameLabel.set(os.path.basename(filepath))
+    Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
+    threading.Thread(target=token_checker.check(tokens, update_token)).start()
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:800] Config Found")
+    return True
+  else:
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:800] Config Not Found")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:162] token path not found. Please point to it manually.")
+    token_load()
+    return False
+
 def ffmpeg_check():
   ffmpeg_path = os.path.join(os.getcwd(),"ffmpeg.exe")
   if os.path.exists(ffmpeg_path):
-    print("FFmpeg Found")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:799] FFmpeg Found")
   else :
-    print("FFmpge Not Found")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:799] FFmpeg Not Found")
     ffmpeg_dl()
 
 def ffmpeg_dl():
@@ -569,8 +587,8 @@ def set_moduleframe(num1, num2):
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.leaver_serverid).place(x=85,y=13)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
       
-      def slider_event02():
-        tk.Label(module_frame, bg=c1, fg="#fff", text=round(Setting.delay02.get(),1), font=("Roboto", 12)).place(x=605,y=55)
+      def slider_event02(value):
+        tk.Label(module_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=605,y=55)
       
       ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay02, command=slider_event02).place(x=5,y=40)
       tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay02.get(),1), font=("Roboto", 12)).place(x=205,y=35)
@@ -617,14 +635,18 @@ def set_moduleframe(num1, num2):
       modules_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=20,y=200)
       tk.Label(module_frame, bg=c1, fg="#fff", text="Settings", font=("Roboto", 14)).place(x=35,y=184)
-      def slider_event91():
-        tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
+      
+      def slider_event91(value):
+        tk.Label(modules_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=10)
+        
       ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay91, command=slider_event91).place(x=5,y=15)
       tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Defalut Delay", font=("Roboto", 12)).place(x=240,y=10)
-      def slider_event92():
+      
+      def slider_event92(value):
         tk.Label(modules_frame, bg=c1, fg="#fff", text="        ", font=("Roboto", 12)).place(x=205,y=40)
-        tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
+        tk.Label(modules_frame, bg=c1, fg="#fff", text=round(value), font=("Roboto", 12)).place(x=205,y=40)
+        
       ctk.CTkSlider(modules_frame, from_=1, to=50, variable=Setting.mention_count_def, command=slider_event92).place(x=5,y=45)
       tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Defalut Mt Ct", font=("Roboto", 12)).place(x=240,y=40)
@@ -637,11 +659,11 @@ def set_moduleframe(num1, num2):
     if num2 == 2:
       tk.Label(module_frame, text="TwoCoin Github: ", bg=c1, fg="#4D8387", font=("Roboto", 12)).place(x=10,y=10)
       link01 = tk.Label(module_frame, text="GitHub link", bg=c1, fg="#fff", font=("Roboto", 12))
-      link01.place(x=130,y=10)
+      link01.place(x=135,y=10)
       link01.bind("<Button-1>", lambda e:webbrowser.open_new("https://github.com/NyaShinn1204/TwoCoinRaider"))
       tk.Label(module_frame, text="TwoCoin discord: ", bg=c1, fg="#4D8387", font=("Roboto", 12)).place(x=10,y=35)
       link02 = tk.Label(module_frame, text="Discord invite link", bg=c1, fg="#fff", font=("Roboto", 12))
-      link02.place(x=135,y=35)
+      link02.place(x=140,y=35)
       link02.bind("<Button-1>", lambda e:webbrowser.open_new("https://discord.gg/ntra"))
       
       print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:679] Open Abouts Tab")
@@ -669,11 +691,11 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.spam_channelid).place(x=85,y=135)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
       
-      def slider_event03():
-        tk.Label(module_frame, bg=c1, fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=225,y=175)
+      def slider_event11(value):
+        tk.Label(module_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=217,y=170)
       
-      ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay03, command=slider_event03).place(x=5,y=160)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=155)
+      ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay03, command=slider_event11).place(x=5,y=162)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=157)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=155)
       
       spam_message = ctk.CTkTextbox(modules_frame, bg_color=c1, fg_color=c4, text_color="#fff", width=150, height=60)
@@ -725,11 +747,11 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_messageid).place(x=85,y=164)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=162)
       
-      def slider_event04():
-        tk.Label(module_frame, bg=c1, fg="#fff", text=round(Setting.delay04.get(),1), font=("Roboto", 12)).place(x=225,y=482)
+      def slider_event12(value):
+        tk.Label(module_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=220,y=480)
       
-      ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay04, command=slider_event04).place(x=5,y=189)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay04.get(),1), font=("Roboto", 12)).place(x=205,y=184)
+      ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay04, command=slider_event12).place(x=5,y=189)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay04.get(),1), font=("Roboto", 12)).place(x=208,y=186)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=184)
       
       reply_message = ctk.CTkTextbox(modules_frame, bg_color=c1, fg_color=c4, text_color="#fff", width=150, height=60)
@@ -775,19 +797,9 @@ print(f"""
 You HWID: [{get_hwid()}]                
 -----------------------""")
 ffmpeg_check()
-if os.path.exists(r"config.json"):
-  filepath = json.load(open("config.json", "r"))["token_path"]
-  tokens = open(filepath, 'r').read().splitlines()
-  Setting.tokens = []
-  Setting.validtoken = 0
-  Setting.invalidtoken = 0
-  Setting.token_filenameLabel.set(os.path.basename(filepath))
-  Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
-  threading.Thread(target=token_checker.check(tokens, update_token)).start()
+if config_check():
   print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:21] Loading Tkinter")
 else:
-  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:162] token path not found. Please point to it manually.")
-  token_load()
   print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:21] Loading Tkinter")
 
 tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
@@ -795,7 +807,7 @@ tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
 ctk.CTkLabel(master=root, bg_color="#142326", text="", image=ctk.CTkImage(Image.open("data/coin.png"),size=(80, 80))).place(x=20,y=20)
 tk.Label(bg="#142326", text="Two Coin", fg="#fff", font=("Roboto", 20)).place(x=100,y=10)
 tk.Label(bg="#142326", text="Raider", fg="#fff", font=("Roboto", 20)).place(x=160,y=40)
-tk.Label(bg="#142326", text="v1.0.1", fg="#F8F8F8", font=("Roboto", 18)).place(x=100,y=70)
+tk.Label(bg="#142326", text="v1.0.2", fg="#F8F8F8", font=("Roboto", 18)).place(x=100,y=70)
 
 modulelist = ctk.CTkFrame(master=root, width=250, height=500, border_width=0, bg_color="#142326", fg_color="#142326")
 modulelist.place(x=0,y=100)
