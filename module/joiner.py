@@ -1,4 +1,4 @@
-import requests
+import colorama
 import time
 import threading
 import traceback
@@ -7,7 +7,14 @@ import base64
 import json
 import tls_client
 import re
+from capmonster_python import HCaptchaTask
+from colorama import Fore
+
 import bypass.header as header
+
+colorama.init(autoreset=True)
+    
+enable_captcha = False
     
 def start(tokens, serverid, invitelink, memberscreen, delay, module_status):
     for token in tokens:
@@ -24,6 +31,15 @@ def extract(format_token):
     else:
         token = format_token
     return token
+
+def captcha_bypass(token, url, key, captcha_rqdata):
+    startedSolving = time.time()
+    capmonster = HCaptchaTask('capmonster_key')
+    task_id = capmonster.create_task(url, key, is_invisible=True, custom_data=captcha_rqdata)
+    result = capmonster.join_task_result(task_id)
+    response = result.get("gRecaptchaResponse")
+    print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [joiner.py:34] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Solved{Fore.RESET} | {Fore.YELLOW}{response[-32:]} {Fore.RESET}In {Fore.YELLOW}{round(time.time()-startedSolving)}s{Fore.RESET}")
+    return response
 
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
     agent_string = header.random_agent.random_agent()
@@ -82,57 +98,53 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
     try:
         session = get_session()
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
-        if "captcha_key" not in joinreq.json():
-            if "You need to verify your account in order to perform this action." in joinreq.json():
-                print(f"{extract_token}は認証が必要としています。")
-                module_status(1, 2)
-            print("[+] Success Join: " + extract_token)
-            module_status(1, 1)
-        if "captcha_key" in joinreq.json():
-            print("[-] Failed join: (Captcha Wrong) " + extract_token)
+        if joinreq.status_code == 400:
             
-        if memberscreen == True:
-            device_info2 = {
-                "os": agent_os,
-                "browser": browser_data[0],
-                "device": "",
-                "system_locale": "ja-JP",
-                "browser_user_agent": agent_string,
-                "browser_version": browser_data[1],
-                "os_version": os_version,
-                "referrer": "",
-                "referring_domain": "",
-                "referrer_current": "",
-                "referring_domain_current": "",
-                "release_channel": "stable",
-                "client_build_number": 36127,
-                "client_event_source": None
-            }
-            headers2 = {
-                'Content-Type': 'application/json',
-                'Accept': '*/*',
-                'Accept-Encoding': 'gzip, deflate, br',
-                'Accept-Language': 'en-US',
-                'Cookie': cookie_string,
-                'DNT': '1',
-                'origin': 'https://discord.com',
-                'TE': 'Trailers',
-                'X-Super-Properties': base64.b64encode(json.dumps(device_info2).encode('utf-8')).decode("utf-8"),
-                'authorization': token,
-                'user-agent': header.random_agent.random_agent()
-            }
-            x1 = requests.get(f"https://canary.discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false&invite_code=" + invitelink, headers=headers2).json()
-            data = {}
-            data['version'] = x1['version']
-            data['form_fields'] = x1['form_fields']
-            data['form_fields'][0]['response'] = True
-            x2 = requests.put(f"https://canary.discord.com/api/v9/guilds/{str(serverid)}/requests/@me", headers=headers2, json=data)
-            if x2.status_code == 200 or 203:
-                print("[+] Success Memberbypass: " + extract_token)
-                module_status(1, 3)
-                return
-            else:
-                print("[-] Failed Memberbypass: " + extract_token)
+            if enable_captcha == True:
+                payload = {
+                    "captcha_key": captcha_bypass(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", joinreq.json()['captcha_rqdata']), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']
+                }
+                newresponse = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
+                if newresponse.status_code == 200:
+                    if "captcha_key" not in newresponse.json():
+                        if "You need to verify your account in order to perform this action." in newresponse.json():
+                            print(f"{extract_token}は認証が必要としています。")
+                            module_status(1, 2)
+                        print("[+] Success Join: " + extract_token)
+                        module_status(1, 1)
+                    if memberscreen == True:
+                        b = newresponse.json()
+                        server_id = b["guild"]["id"]
+                        if 'show_verification_form' in b:
+                            bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{server_id}/member-verification?with_guild=false", headers=headers).json()
+                            accept_rules = session.get(f"https://discord.com/api/v9/guilds/{server_id}/requests/@me", headers=headers, json=bypass_rules)
+                            if accept_rules.status_code == 201 or accept_rules.status_code == 204:
+                                print("[+] Success Memberbypass: " + extract_token)
+                                return
+                            else:
+                                print("[-] Failed Memberbypass: " + extract_token)
+            
+            if "captcha_key" in joinreq.json():
+                print("[-] Failed join: (Captcha Wrong) " + extract_token)
+                module_status(1, 2)
+        elif joinreq.status_code == 200:
+            if "captcha_key" not in joinreq.json():
+                if "You need to verify your account in order to perform this action." in joinreq.json():
+                    print(f"{extract_token}は認証が必要としています。")
+                    module_status(1, 2)
+                print("[+] Success Join: " + extract_token)
+                module_status(1, 1)
+            if memberscreen == True:
+                b = joinreq.json()
+                server_id = b["guild"]["id"]
+                if 'show_verification_form' in b:
+                    bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{server_id}/member-verification?with_guild=false", headers=headers).json()
+                    accept_rules = session.get(f"https://discord.com/api/v9/guilds/{server_id}/requests/@me", headers=headers, json=bypass_rules)
+                    if accept_rules.status_code == 201 or accept_rules.status_code == 204:
+                        print("[+] Success Memberbypass: " + extract_token)
+                        return
+                    else:
+                        print("[-] Failed Memberbypass: " + extract_token)
     except Exception as err:
         print(f"[-] ERROR: {err} ")
         print(traceback.print_exc())
