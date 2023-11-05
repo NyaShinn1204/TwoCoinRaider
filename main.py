@@ -20,6 +20,7 @@ import module.spam.spammer as module_spammer
 import module.vcspam as module_vc
 import module.spam.reply as module_reply
 import module.spam.soundboard as module_soundboard
+import module.spam.ticket as module_ticket
 
 colorama.init(autoreset=True)
 root = tk.Tk()
@@ -97,6 +98,12 @@ class Setting:
   fai_replyspam_Label = tk.StringVar()
   fai_replyspam_Label.set("Failed: 000")
   
+  # ticket spam
+  suc_ticketspam_Label = tk.StringVar()
+  suc_ticketspam_Label.set("Failed: 000")
+  fai_ticketspam_Label = tk.StringVar()
+  fai_ticketspam_Label.set("Failed: 000")
+  
   spam_allping = BooleanVar()
   spam_allping.set("False")
   spam_allch = BooleanVar()
@@ -162,6 +169,12 @@ class Setting:
   sbspam_serverid.set("")
   sbspam_channelid = tk.StringVar()
   sbspam_channelid.set("")
+  ticket_serverid = tk.StringVar()
+  ticket_serverid.set("")
+  ticket_channelid = tk.StringVar()
+  ticket_channelid.set("")
+  ticket_messageid = tk.StringVar()
+  ticket_messageid.set("")
   
   voicefile = []
 
@@ -180,6 +193,8 @@ class SettingVariable:
   nmspamresult_failed = 0
   replyspamresult_success = 0
   replyspamresult_failed = 0
+  ticketspamresult_success = 0
+  ticketspamresult_failed = 0
 
 # value def
 def clear_entry01():
@@ -192,16 +207,26 @@ def clear_entry04():
   Setting.spam_serverid.set("")
 def clear_entry05():
   Setting.spam_channelid.set("")
-def clear_entry04():
+def clear_entry06():
   Setting.reply_serverid.set("")
-def clear_entry05():
+def clear_entry07():
   Setting.reply_channelid.set("")
-def clear_entry05():
+def clear_entry08():
   Setting.reply_messageid.set("")
 def clear_entry11():
   Setting.vcspam_serverid.set("")
 def clear_entry12():
   Setting.vcspam_channelid.set("") 
+def clear_entry13():
+  Setting.sbspam_serverid.set("")
+def clear_entry14():
+  Setting.sbspam_channelid.set("")
+def clear_entry15():
+  Setting.ticket_serverid.set("")
+def clear_entry16():
+  Setting.ticket_channelid.set("")
+def clear_entry17():
+  Setting.ticket_messageid.set("")
   
 def get_info():
   invite_code = invite_url.get()
@@ -395,20 +420,20 @@ def module_thread(num):
     delay = Setting.delay01.get()
     
     if invitelink == "":
-        print("[-] InviteLink is not set")
-        return
+      print("[-] InviteLink is not set")
+      return
     if invitelink.__contains__('discord.gg/'):
-        invitelink = invitelink.replace('discord.gg/', '').replace('https://', '').replace('http://', '')
+      invitelink = invitelink.replace('discord.gg/', '').replace('https://', '').replace('http://', '')
     elif invitelink.__contains__('discord.com/invite/'):
-        invitelink = invitelink.replace('discord.com/invite/', '').replace('https://', '').replace('http://', '')
+      invitelink = invitelink.replace('discord.com/invite/', '').replace('https://', '').replace('http://', '')
     try:
-        invitelink = invitelink.split(".gg/")[1]
+      invitelink = invitelink.split(".gg/")[1]
     except:
-        pass
+      pass
     if memberscreen == True:
-        if serverid == "":
-            print("[-] ServerID is not set")
-            return
+      if serverid == "":
+        print("[-] ServerID is not set")
+        return
           
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status)).start()
     
@@ -418,8 +443,8 @@ def module_thread(num):
     delay = Setting.delay02.get()
     
     if serverid == "":
-        print("[-] ServerID is not set")
-        return
+      print("[-] ServerID is not set")
+      return
     
     threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
   
@@ -440,11 +465,11 @@ def module_thread(num):
     delay = Setting.delay03.get()
     
     if serverid == "":
-        print("[-] ServerID is not set")
-        return
+      print("[-] ServerID is not set")
+      return
     if channelid == "":
-        print("[-] ChannelID is not set")
-        return    
+      print("[-] ChannelID is not set")
+      return    
 
     threading.Thread(target=module_spammer.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
     
@@ -457,17 +482,17 @@ def module_thread(num):
     voicefile = Setting.voicefile
       
     if serverid == "":
-        print("[-] ServerID is not set")
-        return
+      print("[-] ServerID is not set")
+      return
     if channelid == "":
-        print("[-] ChannelID is not set")
-        return  
+      print("[-] ChannelID is not set")
+      return  
        
     try:
-        ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
+      ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
     except:
-        print("Error load ffmpeg")
-        ffmpeg = ffmpeg_load()
+      print("Error load ffmpeg")
+      ffmpeg = ffmpeg_load()
         
     threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, voicefile)).start()
         
@@ -486,14 +511,14 @@ def module_thread(num):
     delay = Setting.delay04.get()
     
     if serverid == "":
-        print("[-] ServerID is not set")
-        return
+      print("[-] ServerID is not set")
+      return
     if channelid == "":
-        print("[-] ChannelID is not set")
-        return  
+      print("[-] ChannelID is not set")
+      return  
     if messageid == "":
-        print("[-] ChannelID is not set")
-        return    
+      print("[-] ChannelID is not set")
+      return    
 
     threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
     
@@ -506,16 +531,33 @@ def module_thread(num):
     rdsongs = Setting.sbspam_rdsounds.get()
         
     if serverid == "":
-        print("[-] ServerID is not set")
-        return
+      print("[-] ServerID is not set")
+      return
     if channelid == "":
-        print("[-] ChannelID is not set")
-        return   
+      print("[-] ChannelID is not set")
+      return   
 
     threading.Thread(target=module_soundboard.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, rdsongs)).start()
     
   if num == 6_2:
     module_soundboard.stop()
+    
+  if num == 7_1:
+    serverid = str(Setting.ticket_serverid.get())
+    channelid = str(Setting.ticket_chanelid.get())
+    messageid = str(Setting.ticket_messageid.get())
+    
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return   
+    if messageid == "":
+      print("[-] MessageID is not set")
+      return
+    
+    threading.Thread(target=module_ticket.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid)).start()
 
 def module_status(num1, num2):
   if num1 == 1:
@@ -546,6 +588,13 @@ def module_status(num1, num2):
     if num2 == 2:
       SettingVariable.replyspamresult_failed +=1
       Setting.fai_replyspam_Label.set("Failed: "+str(SettingVariable.replyspamresult_failed).zfill(3))      
+  if num1 == 5:
+    if num2 == 1:
+      SettingVariable.ticketspamresult_success +=1
+      Setting.suc_ticketspam_Label.set("Success: "+str(SettingVariable.ticketspamresult_success).zfill(3))
+    if num2 == 2:
+      SettingVariable.ticketspamresult_failed +=1
+      Setting.fai_ticketspam_Label.set("Failed: "+str(SettingVariable.ticketspamresult_failed).zfill(3))      
         
 def set_moduleframe(num1, num2):
   global invite_url
@@ -738,15 +787,15 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_rdstring ,text="Random String").place(x=5,y=55)
       ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_ratefixer ,text="RateLimitFixer").place(x=5,y=77)
       
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry04).place(x=5,y=106)
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry06).place(x=5,y=106)
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_serverid).place(x=85,y=106)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=104)
       
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry05).place(x=5,y=135)
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry07).place(x=5,y=135)
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_channelid).place(x=85,y=135)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
       
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry05).place(x=5,y=164)
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry08).place(x=5,y=164)
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_messageid).place(x=85,y=164)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=162)
       
@@ -774,16 +823,36 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(module_frame, bg=c1, fg="#fff", text="SoundBoard Spammer", font=("Roboto", 14)).place(x=407,y=202)
       ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.sbspam_rdsounds, text="Random Sounds").place(x=5,y=11)
       
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry11).place(x=5,y=40)
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry13).place(x=5,y=40)
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.sbspam_serverid).place(x=85,y=40)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=38)
       
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry12).place(x=5,y=69)
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry14).place(x=5,y=69)
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.sbspam_channelid).place(x=85,y=69)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=67)
 
       ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_1)).place(x=5,y=102)
       ctk.CTkButton(modules_frame, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_2)).place(x=70,y=102)
+      
+      # Ticket Spam
+      modules_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame.place(x=390,y=400)
+      tk.Label(module_frame, bg=c1, fg="#fff", text="Ticket Spammer", font=("Roboto", 14)).place(x=407,y=382)
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry15).place(x=5,y=13)
+      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_serverid).place(x=85,y=13)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry16).place(x=5,y=42)
+      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_channelid).place(x=85,y=42)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=40)
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry17).place(x=5,y=71)
+      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_messageid).place(x=85,y=71)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=69)
+
+      ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_1)).place(x=5,y=102)
+      
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=202)
+      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=227)
+      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=247)
       
       print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:677] Open Spam Tab")
       
