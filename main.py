@@ -19,7 +19,6 @@ import module.leaver as module_leaver
 import module.spam.spammer as module_spammer
 import module.vcspam as module_vc
 import module.spam.reply as module_reply
-import module.spam.soundboard as module_soundboard
 import module.spam.ticket as module_ticket
 
 colorama.init(autoreset=True)
@@ -30,7 +29,7 @@ root.title("TwoCoinRaider")
 root.iconbitmap(default="data/favicon.ico")
 root.configure(bg="#213A3E")
 
-version = "v1.0.2d"
+version = "v1.0.2"
 
 class Setting:
   tokens = []
@@ -729,131 +728,114 @@ def set_moduleframe_scroll(num1, num2):
   if num1 == 1:
     if num2 == 2: # Spammer Tab
       # Spammer
-      modules_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color=c3, fg_color=c1)
-      modules_frame.grid(row=0, column=0, padx=12, pady=12)
-      tk.Label(module_frame, bg=c1, fg="#fff", text="Spammer", font=("Roboto", 14)).place(x=30,y=-6)
-      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allping ,text="All Ping").place(x=5,y=11)
-      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allch ,text="All Ch").place(x=5,y=33)
-      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_rdstring ,text="Random String").place(x=5,y=55)
-      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_ratefixer ,text="RateLimitFixer").place(x=5,y=77)
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry04).place(x=5,y=106)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.spam_serverid).place(x=85,y=106)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=104)
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry05).place(x=5,y=135)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.spam_channelid).place(x=85,y=135)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
-      
+      modules_frame01 = ctk.CTkFrame(module_frame, width=350, height=300, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame01.grid(row=0, column=0, padx=12, pady=12)
+      tk.Label(modules_frame01, bg=c1, fg="#fff", text="Spammer", font=("Roboto", 12)).place(x=10,y=2)
+      ctk.CTkCheckBox(modules_frame01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allping ,text="All Ping").place(x=5,y=26)
+      ctk.CTkCheckBox(modules_frame01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allch ,text="All Ch").place(x=5,y=48)
+      ctk.CTkCheckBox(modules_frame01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_rdstring ,text="Random String").place(x=5,y=70)
+      ctk.CTkCheckBox(modules_frame01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_ratefixer ,text="RateLimitFixer").place(x=5,y=92)
+      ctk.CTkButton(modules_frame01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry04).place(x=5,y=121)
+      ctk.CTkEntry(modules_frame01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.spam_serverid).place(x=85,y=121)
+      tk.Label(modules_frame01, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=119)
+      ctk.CTkButton(modules_frame01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry05).place(x=5,y=150)
+      ctk.CTkEntry(modules_frame01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.spam_channelid).place(x=85,y=150)
+      tk.Label(modules_frame01, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=148)
+
       def slider_event11(value):
-        tk.Label(module_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=217,y=170)
+        tk.Label(modules_frame01, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=172)
       
-      ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay03, command=slider_event11).place(x=5,y=162)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=157)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=155)
-      
-      spam_message = ctk.CTkTextbox(modules_frame, bg_color=c1, fg_color=c4, text_color="#fff", width=150, height=60)
-      spam_message.place(x=120,y=11)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=25)
+      ctk.CTkSlider(modules_frame01, from_=0.1, to=3.0, variable=Setting.delay03, command=slider_event11).place(x=5,y=177)
+      tk.Label(modules_frame01, bg=c1, fg="#fff", text=round(Setting.delay03.get(),1), font=("Roboto", 12)).place(x=205,y=172)
+      tk.Label(modules_frame01, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=170)
+       
+      spam_message = ctk.CTkTextbox(modules_frame01, bg_color=c1, fg_color=c4, text_color="#fff", width=150, height=60)
+      spam_message.place(x=120,y=26)
+      tk.Label(modules_frame01, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=40)
         
-      ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(3_1)).place(x=5,y=182)
-      ctk.CTkButton(modules_frame, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(3_2)).place(x=70,y=182)
+      ctk.CTkButton(modules_frame01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(3_1)).place(x=5,y=197)
+      ctk.CTkButton(modules_frame01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(3_2)).place(x=70,y=197)
 
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=175)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=140,y=200)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=140,y=220)
-
-      # VC Spam
-      modules_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color=c3, fg_color=c1)
-      modules_frame.place(x=390,y=12)
-      tk.Label(module_frame, bg=c1, fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=407,y=-6)
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry11).place(x=5,y=13)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcspam_serverid).place(x=85,y=13)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry12).place(x=5,y=42)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcspam_channelid).place(x=85,y=42)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=40)
-      ctk.CTkButton(modules_frame, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: voice_load()).place(x=5,y=71)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=71)
-      ctk.CTkLabel(modules_frame, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.voicefile_filenameLabel).place(x=85,y=71)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=69)
-
-      ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(4_1)).place(x=5,y=102)
+      tk.Label(modules_frame01, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=190)
+      tk.Label(modules_frame01, bg=c1, fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=140,y=215)
+      tk.Label(modules_frame01, bg=c1, fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=140,y=235)
 
       # Reply Spam
-      modules_frame = ctk.CTkFrame(module_frame, width=350, height=275, border_width=1, border_color=c3, fg_color=c1)
-      modules_frame.grid(row=1, column=0, padx=12, pady=20)
-      tk.Label(module_frame, bg=c1, fg="#fff", text="Reply", font=("Roboto", 14)).place(x=30,y=274)
-      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_allping ,text="All Ping").place(x=5,y=11)
-      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_allmg ,text="All Mg").place(x=5,y=33)
-      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_rdstring ,text="Random String").place(x=5,y=55)
-      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_ratefixer ,text="RateLimitFixer").place(x=5,y=77)
+      modules_frame03 = ctk.CTkFrame(module_frame, width=350, height=300, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame03.grid(row=0, column=1, padx=12, pady=12)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", text="Reply", font=("Roboto", 12)).place(x=10,y=2)
+      ctk.CTkCheckBox(modules_frame03, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_allping ,text="All Ping").place(x=5,y=26)
+      ctk.CTkCheckBox(modules_frame03, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_allmg ,text="All Mg").place(x=5,y=48)
+      ctk.CTkCheckBox(modules_frame03, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_rdstring ,text="Random String").place(x=5,y=70)
+      ctk.CTkCheckBox(modules_frame03, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.reply_ratefixer ,text="RateLimitFixer").place(x=5,y=92)
       
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry06).place(x=5,y=106)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_serverid).place(x=85,y=106)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=104)
+      ctk.CTkButton(modules_frame03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry06).place(x=5,y=121)
+      ctk.CTkEntry(modules_frame03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_serverid).place(x=85,y=121)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=119)
       
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry07).place(x=5,y=135)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_channelid).place(x=85,y=135)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=133)
+      ctk.CTkButton(modules_frame03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry07).place(x=5,y=150)
+      ctk.CTkEntry(modules_frame03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_channelid).place(x=85,y=150)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=148)
       
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry08).place(x=5,y=164)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_messageid).place(x=85,y=164)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=162)
+      ctk.CTkButton(modules_frame03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry08).place(x=5,y=179)
+      ctk.CTkEntry(modules_frame03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reply_messageid).place(x=85,y=179)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=177)
       
       def slider_event12(value):
-        tk.Label(module_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=220,y=480)
+        tk.Label(modules_frame03, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=208,y=201)
       
-      ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay04, command=slider_event12).place(x=5,y=189)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay04.get(),1), font=("Roboto", 12)).place(x=208,y=186)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=184)
+      ctk.CTkSlider(modules_frame03, from_=0.1, to=3.0, variable=Setting.delay04, command=slider_event12).place(x=5,y=204)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", text=round(Setting.delay04.get(),1), font=("Roboto", 12)).place(x=208,y=201)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=199)
       
-      reply_message = ctk.CTkTextbox(modules_frame, bg_color=c1, fg_color=c4, text_color="#fff", width=150, height=60)
-      reply_message.place(x=120,y=11)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=25)
+      reply_message = ctk.CTkTextbox(modules_frame03, bg_color=c1, fg_color=c4, text_color="#fff", width=150, height=60)
+      reply_message.place(x=120,y=26)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=40)
   
-      ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(5_1)).place(x=5,y=209)
-      ctk.CTkButton(modules_frame, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(5_2)).place(x=70,y=209)
+      ctk.CTkButton(modules_frame03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(5_1)).place(x=5,y=224)
+      ctk.CTkButton(modules_frame03, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(5_2)).place(x=70,y=224)
 
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=202)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_replyspam_Label, font=("Roboto", 12)).place(x=140,y=227)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_replyspam_Label, font=("Roboto", 12)).place(x=140,y=247)
-      
-      # SoundBoard Spam
-      modules_frame = ctk.CTkFrame(module_frame, width=350, height=135, border_width=1, border_color=c3, fg_color=c1)
-      modules_frame.place(x=390,y=220)
-      tk.Label(module_frame, bg=c1, fg="#fff", text="SoundBoard Spammer", font=("Roboto", 14)).place(x=407,y=202)
-      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.sbspam_rdsounds, text="Random Sounds").place(x=5,y=11)
-      
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry13).place(x=5,y=40)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.sbspam_serverid).place(x=85,y=40)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=38)
-      
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry14).place(x=5,y=69)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.sbspam_channelid).place(x=85,y=69)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=67)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=217)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", textvariable=Setting.suc_replyspam_Label, font=("Roboto", 12)).place(x=140,y=242)
+      tk.Label(modules_frame03, bg=c1, fg="#fff", textvariable=Setting.fai_replyspam_Label, font=("Roboto", 12)).place(x=140,y=262)
 
-      ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_1)).place(x=5,y=102)
-      ctk.CTkButton(modules_frame, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_2)).place(x=70,y=102)
-      
       # Ticket Spam
-      modules_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color=c3, fg_color=c1)
-      modules_frame.place(x=390,y=400)
-      tk.Label(module_frame, bg=c1, fg="#fff", text="Ticket Spammer", font=("Roboto", 14)).place(x=407,y=382)
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry15).place(x=5,y=13)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_serverid).place(x=85,y=13)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry16).place(x=5,y=42)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_channelid).place(x=85,y=42)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=40)
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry17).place(x=5,y=71)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_messageid).place(x=85,y=71)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=69)
+      modules_frame04 = ctk.CTkFrame(module_frame, width=350, height=200, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame04.grid(row=1, column=0, padx=12, pady=12)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Ticket Spammer", font=("Roboto", 12)).place(x=10,y=2)
+      ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry15).place(x=5,y=28)
+      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_serverid).place(x=85,y=28)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=26)
+      ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry16).place(x=5,y=57)
+      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_channelid).place(x=85,y=57)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
+      ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry17).place(x=5,y=86)
+      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_messageid).place(x=85,y=86)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=84)
 
-      ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_1)).place(x=5,y=102)
+      ctk.CTkButton(modules_frame04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_1)).place(x=5,y=117)
       
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=85,y=95)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=90,y=120)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=90,y=140)
-      
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=85,y=105)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=90,y=135)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=90,y=155)
+
+      # VC Spam
+      modules_frame02 = ctk.CTkFrame(module_frame, width=350, height=200, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame02.grid(row=1, column=1, padx=12, pady=12)
+      tk.Label(modules_frame02, bg=c1, fg="#fff", text="VC Spammer", font=("Roboto", 12)).place(x=10,y=2)
+      ctk.CTkButton(modules_frame02, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry11).place(x=5,y=28)
+      ctk.CTkEntry(modules_frame02, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcspam_serverid).place(x=85,y=28)
+      tk.Label(modules_frame02, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=26)
+      ctk.CTkButton(modules_frame02, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry12).place(x=5,y=57)
+      ctk.CTkEntry(modules_frame02, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcspam_channelid).place(x=85,y=57)
+      tk.Label(modules_frame02, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
+      ctk.CTkButton(modules_frame02, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: voice_load()).place(x=5,y=86)
+      ctk.CTkEntry(modules_frame02, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=86)
+      ctk.CTkLabel(modules_frame02, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.voicefile_filenameLabel).place(x=85,y=86)
+      tk.Label(modules_frame02, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=84)
+
+      ctk.CTkButton(modules_frame02, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(4_1)).place(x=5,y=117)
+        
       print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:677] Open Spam Tab")
       
 print(f"""          
