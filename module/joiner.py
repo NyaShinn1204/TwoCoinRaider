@@ -7,6 +7,7 @@ import base64
 import json
 import tls_client
 import re
+import httpx
 from capmonster_python import HCaptchaTask
 from colorama import Fore
 
@@ -15,6 +16,7 @@ import bypass.header as header
 colorama.init(autoreset=True)
     
 enable_captcha = False
+capmonster_key = ""
     
 def start(tokens, serverid, invitelink, memberscreen, delay, module_status):
     for token in tokens:
@@ -32,9 +34,17 @@ def extract(format_token):
         token = format_token
     return token
 
+def get_balance():
+    resp = httpx.post(f"https://api.capmonster.cloud/getBalance", json={"clientKey": capmonster_key}).json()
+    if resp.get("errorId") > 0:
+        print(f"Error while getting captcha balance: {resp.get('errorDescription')}")
+        return 0.0
+    return resp.get("balance")
+
 def captcha_bypass(token, url, key, captcha_rqdata):
+    print(get_balance())
     startedSolving = time.time()
-    capmonster = HCaptchaTask('capmonster_key')
+    capmonster = HCaptchaTask(capmonster_key)
     task_id = capmonster.create_task(url, key, is_invisible=True, custom_data=captcha_rqdata)
     result = capmonster.join_task_result(task_id)
     response = result.get("gRecaptchaResponse")
@@ -148,8 +158,10 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
                 module_status(1, 2)
         elif joinreq.status_code == 200:
             if "captcha_key" not in joinreq.json():
+                if joinreq.json().get("message") == "The user is banned from this guild.":
+                    print(f"{extract_token}はサーバーからBANされています")
                 if "You need to verify your account in order to perform this action." in joinreq.json():
-                    print(f"{extract_token}は認証が必要としています。")
+                    print(f"{extract_token}は認証が必要としています")
                     module_status(1, 2)
                 print("[+] Success Join: " + extract_token)
                 module_status(1, 1)

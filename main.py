@@ -29,7 +29,7 @@ root.title("TwoCoinRaider")
 root.iconbitmap(default="data/favicon.ico")
 root.configure(bg="#213A3E")
 
-version = "v1.0.2"
+version = "v1.0.2a"
 
 class Setting:
   tokens = []
@@ -271,6 +271,7 @@ Boost Count
     Setting.spam_serverid.set(serverid)
     Setting.reply_serverid.set(serverid)
     Setting.vcspam_serverid.set(serverid)
+    Setting.ticket_serverid.set(serverid)
     CTkMessagebox(title="Invite Info", message=f"Server ID: {serverid}\nServer Name: {servername}\nServer Description: {serverdescription}\n\nMember Count: {membercount}\nBoost Count: {boostcount}", width=450)
   if res.status_code == 404:
     print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [main.py:180] Unknown Invite")
