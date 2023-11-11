@@ -30,7 +30,7 @@ root.iconbitmap(default="data/favicon.ico")
 root.configure(bg="#213A3E")
 
 version = "v1.0.2a"
-
+ 
 class Setting:
   tokens = []
   validtoken = 0
