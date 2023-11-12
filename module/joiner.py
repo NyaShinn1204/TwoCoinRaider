@@ -12,6 +12,7 @@ from capmonster_python import HCaptchaTask
 from colorama import Fore
 
 import bypass.header as header
+import bypass.solver.solver as solver
 
 colorama.init(autoreset=True)
     
@@ -46,45 +47,6 @@ def extract(format_token):
     else:
         token = format_token
     return token
-
-def get_balance():
-    resp = httpx.post(f"https://api.capmonster.cloud/getBalance", json={"clientKey": capmonster_key}).json()
-    if resp.get("errorId") > 0:
-        print(f"Error while getting captcha balance: {resp.get('errorDescription')}")
-        return 0.0
-    return resp.get("balance")
-
-def captcha_bypass(token, url, key, captcha_rqdata):
-    print(get_balance())
-    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
-    startedSolving = time.time()
-    url = "https://api.capmonster.cloud/createTask"
-    data = {
-        "clientKey": capmonster_key,
-        "task":
-        {
-            "type": "HCaptchaTaskProxyless",
-            "websiteURL": url,
-            "websiteKey": key
-        }
-    }
-    response = httpx.post(url,json=data)
-    if response.json()['errorId'] == 0:
-        task_id = response.json()['taskId']
-        url = "https://api.capmonster.cloud/getTaskResult"
-        data = {
-            "clientKey": capmonster_key,
-            "taskId": task_id
-        }
-        response = httpx.post(url,json=data)
-        while response.json()['status'] == 'processing':
-            time.sleep(3)
-            response = httpx.post(url,json=data)
-        return response.json()['solution']['gRecaptchaResponse']
-        print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [joiner.py:34] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Solved{Fore.RESET} | {Fore.YELLOW}{response[-32:]} {Fore.RESET}In {Fore.YELLOW}{round(time.time()-startedSolving)}s{Fore.RESET} | " + extract_token)
-    else:
-        print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [joiner.py:34] {(response.json()['errorDescription'])}")
-        return False
 
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
     agent_string = header.random_agent.random_agent()
@@ -167,7 +129,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
             if enable_captcha == True:
                 print("[-] Captcha Bypassing.. "+ extract_token)
                 payload = {
-                    "captcha_key": captcha_bypass(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", joinreq.json()['captcha_rqdata']), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']
+                    "captcha_key": solver.captcha_bypass_capmonster(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", joinreq.json()['captcha_rqdata']), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']
                 }
                 newresponse = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
                 if newresponse.status_code == 200:
