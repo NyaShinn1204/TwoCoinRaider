@@ -32,7 +32,7 @@ def get_balance_2cap():
     return resp.get("balance")
 
 def get_balance_capsolver():
-    resp = httpx.post(f"https://api.capsolver.cloud/getBalance", json={"clientKey": _capsolver_key}).json()
+    resp = httpx.post(f"https://api.capsolver.com/getBalance", json={"clientKey": _capsolver_key}).json()
     if resp.get("errorId") > 0:
         print(f"Error while getting captcha balance: {resp.get('errorDescription')}")
         return 0.0
