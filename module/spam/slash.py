@@ -30,7 +30,7 @@ def extract(format_token):
         token = format_token
     return token
 
-def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit):
+def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, ratelimit):
     global status
     global timelock
     status = True
@@ -48,11 +48,11 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
             time.sleep(8)
             print("[+] RateLimit Fixed")
             timelock = False
-        threading.Thread(target=spammer_thread, args=(tokens, module_status, allping, proxysetting, proxies, proxytype,
-                        allchannel, channelid, contents, randomstring, mentions, ratelimit)).start()
+        threading.Thread(target=spammer_thread, args=(tokens, module_status, proxysetting, proxies, proxytype,
+                        serverid, channelid, ratelimit)).start()
         time.sleep(float(delay))
         
-def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxytype, allchannel, channelid, contents, randomstring, mentions, ratelimit):
+def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, ratelimit):
     global status
     global timelock
 
@@ -68,9 +68,9 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
     b = requests.get(f"https://discord.com/api/v9/channels/{channelid}/application-commands/search?type=1&query={command_name}&limit=7&include_applications=false", headers=headers)
     application = b.json()["application_commands"]["application_id" == applicationid]
     if sub_command_name == "":
-        data = {"type":2,"application_id":"1087695135548129280","guild_id":"1102540101919191130","channel_id":"1109467509779878009","session_id":"NULLTRUE","data":{"version":application["version"],"id":application["id"],"name":command_name}}
+        data = {"type":2,"application_id":applicationid,"guild_id":serverid,"channel_id":channelid,"session_id":"NULLTRUE","data":{"version":application["version"],"id":application["id"],"name":command_name}}
     else:
-        data = {"type":2,"application_id":"1087695135548129280","guild_id":"1102540101919191130","channel_id":"1109467509779878009","session_id":"NULLTRUE","data":{"version":application["version"],"id":application["id"],"name":command_name,"options":[{"type":6,"name":sub_command_name,"value":sub_command_name_value}]}}
+        data = {"type":2,"application_id":applicationid,"guild_id":serverid,"channel_id":channelid,"session_id":"NULLTRUE","data":{"version":application["version"],"id":application["id"],"name":command_name,"options":[{"type":6,"name":sub_command_name,"value":sub_command_name_value}]}}
     req_header = header.request_header(token)
     headers = req_header[0]
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
