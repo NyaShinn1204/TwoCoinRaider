@@ -7,8 +7,6 @@ import base64
 import json
 import tls_client
 import re
-import httpx
-from capmonster_python import HCaptchaTask
 from colorama import Fore
 
 import bypass.header as header
