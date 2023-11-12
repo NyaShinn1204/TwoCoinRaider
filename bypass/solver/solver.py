@@ -38,7 +38,7 @@ def get_balance_capsolver():
         return 0.0
     return resp.get("balance")
 
-def captcha_bypass_capmonster(token, url, key, captcha_rqdata):
+def captcha_bypass_capmonster(token, url, key, captcha_rqdata, captcha_rqtoken):
     if get_balance_capmonster == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
@@ -71,7 +71,7 @@ def captcha_bypass_capmonster(token, url, key, captcha_rqdata):
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.json()['errorDescription'])}")
         return False
     
-def captcha_bypass_2cap(token, url, key, captcha_rqdata):
+def captcha_bypass_2cap(token, url, key, captcha_rqdata, captcha_rqtoken):
     if get_balance_2cap == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
@@ -92,7 +92,7 @@ def captcha_bypass_2cap(token, url, key, captcha_rqdata):
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.text)}")
         return False
     
-def captcha_bypass_capsolver(token, url, key, captcha_rqdata):
+def captcha_bypass_capsolver(token, url, key, captcha_rqdata, captcha_rqtoken):
     if get_balance_capsolver == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
