@@ -17,9 +17,9 @@ colorama.init(autoreset=True)
 enable_captcha = False
 capmonster_key = "1Mi37Ee2Ehsimx7DFohjQrBrER6Ysjfodk"
     
-def start(tokens, serverid, invitelink, memberscreen, delay, module_status):
+def start(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis):
     for token in tokens:
-        threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen, module_status)).start()
+        threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen, module_status, answers, apis)).start()
         time.sleep(float(delay))
 
 def get_session():
@@ -46,7 +46,7 @@ def extract(format_token):
         token = format_token
     return token
 
-def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
+def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answers, apis):
     agent_string = header.random_agent.random_agent()
     browser_data = agent_string.split(" ")[-1].split("/")
     possible_os_list = ["Windows", "Macintosh"]
@@ -108,9 +108,18 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status):
             
             if enable_captcha == True:
                 print("[-] Captcha Bypassing.. "+ extract_token)
-                payload = {
-                    "captcha_key": solver.captcha_bypass_capmonster(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", joinreq.json()['captcha_rqdata']), 'captcha_rqtoken': joinreq.json()['captcha_rqtoken']
-                }
+                if answers == "1":
+                   payload = {
+                        "captcha_key": solver.captcha_bypass_capsolver(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", apis)
+                    }
+                if answers == "2":
+                    payload = {
+                        "captcha_key": solver.captcha_bypass_capmonster(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", apis)
+                    }
+                if answers == "3":
+                    payload = {
+                        "captcha_key": solver.captcha_bypass_2cap(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", apis)
+                    }
                 newresponse = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
                 if newresponse.status_code == 200:
                     if "captcha_key" not in newresponse.json():

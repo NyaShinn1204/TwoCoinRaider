@@ -6,10 +6,6 @@ from colorama import Fore
 
 colorama.init(autoreset=True)
 
-_capmonster_key = ""
-_2cap_key = ""
-_capsolver_key = ""
-
 def extract(format_token):
     if re.compile(r"(.+):").match(format_token):
         return format_token.split(":")[1]
@@ -17,35 +13,35 @@ def extract(format_token):
         token = format_token
     return token
 
-def get_balance_capmonster():
-    resp = httpx.post(f"https://api.capmonster.cloud/getBalance", json={"clientKey": _capmonster_key}).json()
+def get_balance_capmonster(api):
+    resp = httpx.post(f"https://api.capmonster.cloud/getBalance", json={"clientKey": api}).json()
     if resp.get("errorId") > 0:
         print(f"Error while getting captcha balance: {resp.get('errorDescription')}")
         return 0.0
     return resp.get("balance")
 
-def get_balance_2cap():
-    resp = httpx.post(f"https://api.2captcha.com/getBalance", json={"clientKey": _2cap_key}).json()
+def get_balance_2cap(api):
+    resp = httpx.post(f"https://api.2captcha.com/getBalance", json={"clientKey": api}).json()
     if resp.get("errorId") > 0:
         print(f"Error while getting captcha balance: {resp.get('errorDescription')}")
         return 0.0
     return resp.get("balance")
 
-def get_balance_capsolver():
-    resp = httpx.post(f"https://api.capsolver.com/getBalance", json={"clientKey": _capsolver_key}).json()
+def get_balance_capsolver(api):
+    resp = httpx.post(f"https://api.capsolver.com/getBalance", json={"clientKey": api}).json()
     if resp.get("errorId") > 0:
         print(f"Error while getting captcha balance: {resp.get('errorDescription')}")
         return 0.0
     return resp.get("balance")
 
-def captcha_bypass_capmonster(token, url, key, captcha_rqdata, captcha_rqtoken):
+def captcha_bypass_capmonster(token, url, key, api):
     if get_balance_capmonster == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     startedSolving = time.time()
     url = "https://api.capmonster.cloud/createTask"
     data = {
-        "clientKey": _capmonster_key,
+        "clientKey": api,
         "task":
         {
             "type": "HCaptchaTaskProxyless",
@@ -58,7 +54,7 @@ def captcha_bypass_capmonster(token, url, key, captcha_rqdata, captcha_rqtoken):
         task_id = response.json()['taskId']
         url = "https://api.capmonster.cloud/getTaskResult"
         data = {
-            "clientKey": _capmonster_key,
+            "clientKey": api,
             "taskId": task_id
         }
         response = httpx.post(url,json=data)
@@ -71,16 +67,16 @@ def captcha_bypass_capmonster(token, url, key, captcha_rqdata, captcha_rqtoken):
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.json()['errorDescription'])}")
         return False
     
-def captcha_bypass_2cap(token, url, key, captcha_rqdata, captcha_rqtoken):
+def captcha_bypass_2cap(token, url, key, api):
     if get_balance_2cap == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     startedSolving = time.time()
-    url = "https://2captcha.com/in.php?key={}&method=hcaptcha&sitekey={}&pageurl={}".format(_2cap_key,key,url)
+    url = "https://2captcha.com/in.php?key={}&method=hcaptcha&sitekey={}&pageurl={}".format(api,key,url)
     response = httpx.get(url)
     if response.text[0:2] == 'OK':
         captcha_id = response.text[3:]
-        url = "http://2captcha.com/res.php?key={}&action=get&id={}".format(_2cap_key,captcha_id)
+        url = "http://2captcha.com/res.php?key={}&action=get&id={}".format(api,captcha_id)
         response = httpx.get(url)
         while 'CAPCHA_NOT_READY' in response.text:
             time.sleep(5)
@@ -92,13 +88,13 @@ def captcha_bypass_2cap(token, url, key, captcha_rqdata, captcha_rqtoken):
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.text)}")
         return False
     
-def captcha_bypass_capsolver(token, url, key, captcha_rqdata, captcha_rqtoken):
+def captcha_bypass_capsolver(token, url, key, api):
     if get_balance_capsolver == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     startedSolving = time.time()
     json = {
-        "clientKey": _capsolver_key,
+        "clientKey": api,
         "task": {
             "type": "HCaptchaTaskProxyLess",
             "websiteURL": url,
@@ -112,7 +108,7 @@ def captcha_bypass_capsolver(token, url, key, captcha_rqdata, captcha_rqtoken):
     except:
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.json()['errorDescription'])}")
         return 
-    json = {"clientKey": _capsolver_key, "taskId": taskid}
+    json = {"clientKey": api, "taskId": taskid}
     while True:
         time.sleep(1.5)
         response = httpx.post('https://api.capsolver.com/getTaskResult', headers=headers, json=json)

@@ -22,6 +22,8 @@ import module.spam.reply as module_reply
 import module.spam.ticket as module_ticket
 import module.spam.slash as module_slash
 
+import bypass.solver.solver as solver
+
 colorama.init(autoreset=True)
 root = tk.Tk()
 root.geometry("1280x720")
@@ -159,6 +161,8 @@ class Setting:
   joiner_link.set("")
   bypass_ms = BooleanVar()
   bypass_ms.set("False")
+  bypass_cap = BooleanVar()
+  bypass_cap.set("False")
   joiner_serverid = tk.StringVar()
   joiner_serverid.set("")
   leaver_serverid = tk.StringVar()
@@ -455,6 +459,7 @@ def module_thread(num):
     serverid = str(Setting.joiner_serverid.get())
     invitelink = Setting.joiner_link.get()
     memberscreen = Setting.bypass_ms.get()
+    bypasscaptcha = Setting.bypass_cap.get()
     
     delay = Setting.delay01.get()
     
@@ -473,8 +478,15 @@ def module_thread(num):
       if serverid == "":
         print("[-] ServerID is not set")
         return
+    if bypasscaptcha == True:
+      if answers == "":
+        print("[-] Please Select API Service")
+        return
+      else:
+        if apis == "":
+          print("[-] Please Input API Keys")
           
-    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status)).start()
+    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis)).start()
     
   if num == 2_1:
     serverid = Setting.leaver_serverid.get()
@@ -648,32 +660,59 @@ def set_moduleframe(num1, num2):
   module_frame.configure(fg_color=c1)
   clear_frame(frame)
   if num1 == 1:
-    if num2 == 1:
+    if num2 == 1:        
+      def hcaptcha_select():
+        global answers, apis
+        if Setting.bypass_cap.get() == True:
+          answer_list = ['1','2','3']
+          answer = ctk.CTkInputDialog(text = "Select Sovler\n1, CapSolver\n2, CapMonster\n3, 2Cap")
+          answers = answer.get_input()
+          if answers in answer_list:
+            print("[+] Select " + answers)
+            api = ctk.CTkInputDialog(text = "Input API Key")
+            apis = api.get_input()
+            if apis == "":
+              print("[-] Not Set. Please Input")
+            else:
+              print("[+] Insert API Key " + apis)
+              print("[~] Checking Balance...")
+              if answers == "1":
+                if solver.get_balance_capsolver(apis) == 0.0:
+                  print("[-] Not Working Or Balance 0.0$ API Key "+ apis)
+              if answers == "2":
+                if solver.get_balance_capmonster(apis) == 0.0:
+                  print("[-] Not Working Or Balance 0.0$ API Key "+ apis)
+              if answers == "3":
+                if solver.get_balance_2cap(apis) == 0.0:
+                  print("[-] Not Working Or Balance 0.0$ API Key "+ apis)
+          else:
+            print("[-] Not Set. Please Input")
       # Joiner Frame
-      modules_frame = ctk.CTkFrame(module_frame, width=350, height=250, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame = ctk.CTkFrame(module_frame, width=350, height=275, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=20,y=20)
       tk.Label(module_frame, bg=c1, fg="#fff", text="Joiner", font=("Roboto", 14)).place(x=35,y=-1)
       ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass MemberScreen", variable=Setting.bypass_ms).place(x=5,y=11)
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry01).place(x=5,y=40)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_link).place(x=85,y=40)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Invite Link", font=("Roboto", 12)).place(x=240,y=38)
-      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry02).place(x=5,y=69)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_serverid).place(x=85,y=69)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=67)
-      
+      ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass hCaptcha", variable=Setting.bypass_cap, command=hcaptcha_select).place(x=5,y=35) 
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry01).place(x=5,y=74) #40
+      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_link).place(x=85,y=74)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Invite Link", font=("Roboto", 12)).place(x=240,y=72) #38
+      ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry02).place(x=5,y=103)
+      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_serverid).place(x=85,y=103)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=101)
+            
       def slider_event01(value):
-        tk.Label(module_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=111)
+        tk.Label(module_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=145)
       
-      ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay01, command=slider_event01).place(x=5,y=96)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=91)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=91)
+      ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay01, command=slider_event01).place(x=5,y=130)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=125)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=125)
       
-      ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=116)
-      ctk.CTkButton(modules_frame, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=116)
+      ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=150)
+      ctk.CTkButton(modules_frame, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=150)
       
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=146)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=10,y=174)
-      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_joiner_Label, font=("Roboto", 12)).place(x=10,y=199)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=180)
+      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=10,y=208)
+      tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_joiner_Label, font=("Roboto", 12)).place(x=10,y=233)
       
       
       # Leaver Frame
