@@ -20,6 +20,7 @@ import module.spam.spammer as module_spammer
 import module.vcspam as module_vc
 import module.spam.reply as module_reply
 import module.spam.ticket as module_ticket
+import module.spam.slash as module_slash
 
 colorama.init(autoreset=True)
 root = tk.Tk()
@@ -127,6 +128,9 @@ class Setting:
   reply_ratefixer = BooleanVar()
   reply_ratefixer.set("False")
   
+  slash_ratefixer = BooleanVar()
+  slash_ratefixer.set("False") 
+  
   sbspam_rdsounds = BooleanVar()
   sbspam_rdsounds.set("False")
   
@@ -189,6 +193,8 @@ class Setting:
   slash_channelid.set("")
   slash_applicationid = tk.StringVar()
   slash_applicationid.set("")
+  slash_commandname = tk.StringVar()
+  slash_commandname.set("")
   slash_subcommandname = tk.StringVar()
   slash_subcommandname.set("")
   slash_subcommandname_value = tk.StringVar()
@@ -254,8 +260,10 @@ def clear_entry19():
 def clear_entry20():
   Setting.slash_applicationid.set("")
 def clear_entry21():
-  Setting.slash_subcommandname.set("")
+  Setting.slash_commandname.set("")
 def clear_entry22():
+  Setting.slash_subcommandname.set("")
+def clear_entry23():
   Setting.slash_subcommandname_value.set("")
   
 def get_info():
@@ -572,6 +580,29 @@ def module_thread(num):
       return
     
     threading.Thread(target=module_ticket.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid)).start()
+    
+  if num == 7_1:
+    serverid = str(Setting.slash_serverid.get())
+    channelid = str(Setting.slash_channelid.get())
+    applicationid = str(Setting.slash_applicationid.get())
+    commandname = str(Setting.slash_commandname.get())
+    subcommandname = str(Setting.slash_subcommandname.get())
+    subcommandname_value = str(Setting.slash_subcommandname_value.get())
+    ratelimit = Setting.slash_ratefixer.get()
+    
+    delay = Setting.delay05.get()
+    
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return   
+    if applicationid == "":
+      print("[-] ApplicationID is not set")
+      return
+    
+    threading.Thread(target=module_slash.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, applicationid, commandname, subcommandname, subcommandname_value, ratelimit)).start()
 
 def module_status(num1, num2):
   if num1 == 1:
@@ -852,7 +883,7 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkButton(modules_frame03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(4_1)).place(x=5,y=117)
 
       # Slash Spam
-      modules_frame04 = ctk.CTkFrame(module_frame, width=400, height=275, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame04 = ctk.CTkFrame(module_frame, width=400, height=300, border_width=1, border_color=c3, fg_color=c1)
       modules_frame04.grid(row=2, column=0, padx=12, pady=12)
       tk.Label(modules_frame04, bg=c1, fg="#fff", text="Slash Spammer", font=("Roboto", 12)).place(x=10,y=2)
       ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry18).place(x=5,y=28)
@@ -865,25 +896,28 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.slash_applicationid).place(x=85,y=86)
       tk.Label(modules_frame04, bg=c1, fg="#fff", text="Application ID", font=("Roboto", 12)).place(x=240,y=84)
       ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry21).place(x=5,y=115)
-      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.slash_subcommandname).place(x=85,y=115)
-      tk.Label(modules_frame04, bg=c1, fg="#fff", text="SubCommand Name", font=("Roboto", 12)).place(x=240,y=113)
+      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.slash_commandname).place(x=85,y=115)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Command Name", font=("Roboto", 12)).place(x=240,y=113)
       ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry22).place(x=5,y=144)
-      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.slash_subcommandname_value).place(x=85,y=144)
-      tk.Label(modules_frame04, bg=c1, fg="#fff", text="SubCommand Value", font=("Roboto", 12)).place(x=240,y=142)
+      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.slash_subcommandname).place(x=85,y=144)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="SubCommand Name", font=("Roboto", 12)).place(x=240,y=142)
+      ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry23).place(x=5,y=173)
+      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.slash_subcommandname_value).place(x=85,y=173)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="SubCommand Value", font=("Roboto", 12)).place(x=240,y=171)
 
       def slider_event13(value):
-        tk.Label(modules_frame04, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=208,y=166)
+        tk.Label(modules_frame04, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=208,y=200)
       
-      ctk.CTkSlider(modules_frame04, from_=0.1, to=3.0, variable=Setting.delay05, command=slider_event13).place(x=5,y=171)
-      tk.Label(modules_frame04, bg=c1, fg="#fff", text=round(Setting.delay05.get(),1), font=("Roboto", 12)).place(x=208,y=166)
-      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=164)
+      ctk.CTkSlider(modules_frame04, from_=0.1, to=3.0, variable=Setting.delay05, command=slider_event13).place(x=5,y=205)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text=round(Setting.delay05.get(),1), font=("Roboto", 12)).place(x=208,y=200)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=198)
 
-      ctk.CTkButton(modules_frame04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_1)).place(x=5,y=191)
-      ctk.CTkButton(modules_frame04, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_2)).place(x=70,y=191)
-#
-      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=184)
-      tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.suc_shspam_Label, font=("Roboto", 12)).place(x=140,y=209)
-      tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.fai_shspam_Label, font=("Roboto", 12)).place(x=140,y=234)
+      ctk.CTkButton(modules_frame04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_1)).place(x=5,y=225)
+      ctk.CTkButton(modules_frame04, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_2)).place(x=70,y=225)
+
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=218)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.suc_shspam_Label, font=("Roboto", 12)).place(x=140,y=243)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.fai_shspam_Label, font=("Roboto", 12)).place(x=140,y=268)
 
       print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:677] Open Spam Tab")
       
