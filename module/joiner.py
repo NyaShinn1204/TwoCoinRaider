@@ -17,9 +17,9 @@ colorama.init(autoreset=True)
 enable_captcha = False
 capmonster_key = "1Mi37Ee2Ehsimx7DFohjQrBrER6Ysjfodk"
     
-def start(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis):
+def start(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha):
     for token in tokens:
-        threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen, module_status, answers, apis)).start()
+        threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen, module_status, answers, apis, bypasscaptcha)).start()
         time.sleep(float(delay))
 
 def get_session():
@@ -46,7 +46,7 @@ def extract(format_token):
         token = format_token
     return token
 
-def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answers, apis):
+def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answers, apis, bypasscaptcha):
     agent_string = header.random_agent.random_agent()
     browser_data = agent_string.split(" ")[-1].split("/")
     possible_os_list = ["Windows", "Macintosh"]
@@ -106,7 +106,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
         if joinreq.status_code == 400:
             
-            if enable_captcha == True:
+            if bypasscaptcha == True:
                 print("[-] Captcha Bypassing.. "+ extract_token)
                 if answers == "1":
                    payload = {

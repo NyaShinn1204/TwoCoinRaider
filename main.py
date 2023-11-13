@@ -486,7 +486,7 @@ def module_thread(num):
         if apis == "":
           print("[-] Please Input API Keys")
           
-    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis)).start()
+    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha)).start()
     
   if num == 2_1:
     serverid = Setting.leaver_serverid.get()
