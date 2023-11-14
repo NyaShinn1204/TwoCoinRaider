@@ -14,9 +14,6 @@ import bypass.solver.solver as solver
 
 colorama.init(autoreset=True)
     
-enable_captcha = False
-capmonster_key = "1Mi37Ee2Ehsimx7DFohjQrBrER6Ysjfodk"
-    
 def start(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha):
     for token in tokens:
         threading.Thread(target=joiner_thread, args=(token, serverid, invitelink, memberscreen, module_status, answers, apis, bypasscaptcha)).start()
