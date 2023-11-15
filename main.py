@@ -485,6 +485,9 @@ def module_thread(num):
       else:
         if apis == "":
           print("[-] Please Input API Keys")
+    else:
+      answers = None
+      apis = None
           
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha)).start()
     
