@@ -676,6 +676,7 @@ def set_moduleframe(num1, num2):
             apis = api.get_input()
             if apis == "":
               print("[-] Not Set. Please Input")
+              Setting.bypass_cap.set(False)
             else:
               print("[+] Insert API Key " + apis)
               print("[~] Checking Balance...")
