@@ -4,6 +4,7 @@ import random
 
 import bypass.get_cookie as get_cookie
 import bypass.get_session as get_session
+import bypass.get_fingerprint as get_fingerprint
 import bypass.random_agent as random_agent
 
 def request_header(token):
