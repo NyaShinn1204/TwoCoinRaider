@@ -162,7 +162,7 @@ class Setting:
   bypass_ms = BooleanVar()
   bypass_ms.set("False")
   bypass_cap = BooleanVar()
-  bypass_cap.set("False")
+  bypass_cap.set(False)
   joiner_serverid = tk.StringVar()
   joiner_serverid.set("")
   leaver_serverid = tk.StringVar()
@@ -682,14 +682,18 @@ def set_moduleframe(num1, num2):
               if answers == "1":
                 if solver.get_balance_capsolver(apis) == 0.0:
                   print("[-] Not Working Or Balance 0.0$ API Key "+ apis)
+                  Setting.bypass_cap.set(False)
               if answers == "2":
                 if solver.get_balance_capmonster(apis) == 0.0:
                   print("[-] Not Working Or Balance 0.0$ API Key "+ apis)
+                  Setting.bypass_cap.set(False)
               if answers == "3":
                 if solver.get_balance_2cap(apis) == 0.0:
                   print("[-] Not Working Or Balance 0.0$ API Key "+ apis)
+                  Setting.bypass_cap.set(False)
           else:
             print("[-] Not Set. Please Input")
+            Setting.bypass_cap.set(False)
       # Joiner Frame
       modules_frame = ctk.CTkFrame(module_frame, width=350, height=275, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=20,y=20)
