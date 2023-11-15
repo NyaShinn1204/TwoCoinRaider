@@ -19,5 +19,5 @@ def get_fingerprint():
     if response.status_code == 200:
         data = response.json()
         fingerprint = data["fingerprint"]
-        print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [joiner.py:88] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Got Fingerprint {Fore.RESET} | {Fore.GREEN}{fingerprint}{Fore.RESET}")
+        print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [get_fingerprint.py] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Got Fingerprint {Fore.RESET}| {Fore.GREEN}{fingerprint}{Fore.RESET}")
         return fingerprint
