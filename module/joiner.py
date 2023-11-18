@@ -28,61 +28,10 @@ def extract(format_token):
     return token
 
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answers, apis, bypasscaptcha):
-    agent_string = header.random_agent.random_agent()
-    browser_data = agent_string.split(" ")[-1].split("/")
-    possible_os_list = ["Windows", "Macintosh"]
-    for possible_os in possible_os_list:
-        if possible_os in agent_string:
-            agent_os = possible_os
-    if agent_os == "Macintosh":
-        os_version = f'Intel Mac OS X 10_15_{str(random.randint(5, 7))}'
-    else:
-        os_version = "10"
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
-    cookie_string = header.get_cookie.get_cookie()
-    device_info = {
-        "os": agent_os,
-        "browser": browser_data[0],
-        "device": "",
-        "system_locale": "ja-JP",
-        "browser_user_agent": agent_string,
-        "browser_version": browser_data[1],
-        "os_version": os_version,
-        "referrer": "",
-        "referring_domain": "",
-        "referrer_current": "",
-        "referring_domain_current": "",
-        "release_channel": "stable",
-        "client_build_number": 36127,
-        "client_event_source": None
-    }
     session = header.get_session.get_session()
-    headers = {
-        "Authorization": token,
-        "Cookie": cookie_string,
-        "Host": "discord.com",
-        "Pragma": "no-cache",
-        "Authority": "discord.com",
-        "Accept":"*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "Content-Type": "application/json",
-        "Origin": "https://discord.com",
-        "Referer": "https://discord.com/channels/@me",
-        "Sec-ch-ua": '"Not?A_Brand";v="8", "Chromium";v="108"',
-        "Sec-ch-ua-mobile": "?0",
-        "Sec-ch-ua-platform": "Windows",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin",
-        "User-Agent": header.random_agent.random_agent(),
-        "x-fingerprint": header.get_fingerprint.get_fingerprint(),
-        "X-Debug-Options": "bugReporterEnabled",
-        "X-Discord-Locale": "en-US",
-        "X-Discord-Timezone": "America/New_York",
-        "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8")
-    }
+    req_header = header.request_header(token)
+    headers = req_header[0]
     try:
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
         if joinreq.status_code == 400:

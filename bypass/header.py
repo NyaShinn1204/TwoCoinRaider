@@ -53,6 +53,7 @@ def request_header(token):
         "sec-ch-ua-mobile": "?0",
         "TE": "Trailers",
         "User-Agent": agent_string,
+        "x-fingerprint": get_fingerprint.get_fingerprint(),
         "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8"),
         "X-Debug-Options": "bugReporterEnabled"
     }
