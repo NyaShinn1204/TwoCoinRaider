@@ -21,3 +21,6 @@ def get_fingerprint():
         fingerprint = data["fingerprint"]
         print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [get_fingerprint.py] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Got Fingerprint {Fore.RESET}| {Fore.GREEN}{fingerprint}{Fore.RESET}")
         return fingerprint
+    else:
+        print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [get_fingerprint.py] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Failed Got Fingerprint {Fore.RESET}")
+        return
