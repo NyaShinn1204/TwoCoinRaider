@@ -431,7 +431,9 @@ def proxy_load():
   
 def proxy_main():
   summon_select()
-  if Setting.proxytype == "":
+  proxy_type = Setting.proxytype.get()
+  print(proxy_type)
+  if proxy_type == "":
     print("[-] Cancel proxy")
     return
   proxy_filepath()
@@ -453,7 +455,7 @@ def proxy_filepath():
   Setting.totalProxiesLabel.set("Total: "+str(len(proxies)).zfill(3))
   for proxy in proxies:
     print("[+] Load: " + proxy)
-  threading.Thread(target=proxy_checker.check(update_proxy, proxies, Setting.proxytype))
+  threading.Thread(target=proxy_checker.check(update_proxy, proxies, Setting.proxytype.get()))
      
 def update_proxy(status, proxy):
   if status == True:
@@ -507,7 +509,7 @@ def clear_frame(frame):
 def module_thread(num):
   tokens = Setting.tokens
   proxies = Setting.proxies
-  proxytype = Setting.proxytype
+  proxytype = Setting.proxytype.get()
   proxysetting = Setting.proxy_enabled
   delay = Setting.delay91.get()
   print(tokens)
