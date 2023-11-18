@@ -14,7 +14,9 @@ def check_proxy(update_proxy, proxy, types):
         req = requests.get('https://www.discord.com/', headers=headers, proxies={'https': f'{types}://{proxy}', 'http': f'{types}://{proxy}'}, timeout=10)
         if req.ok:
             update_proxy(True, proxy)
+            print("[+] Working: " + proxy)
             return
     except: 
         pass
     update_proxy(False, proxy)
+    print("[-] Not working: " + proxy)

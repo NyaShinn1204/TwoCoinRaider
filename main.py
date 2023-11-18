@@ -32,7 +32,7 @@ root.title("TwoCoinRaider")
 root.iconbitmap(default="data/favicon.ico")
 root.configure(bg="#213A3E")
 
-version = "v1.0.2a"
+version = "v1.0.3pre-α"
  
 class Setting:
   tokens = []
@@ -51,8 +51,9 @@ class Setting:
   validtokenLabel.set("Valid: 000")
   invalidtokenLabel = tk.StringVar()
   invalidtokenLabel.set("Invalid: 000")
-
-  proxytype = "http"
+  
+  proxytype = tk.StringVar()
+  proxytype.set("")
   proxies = []
   vaildproxies = 0
   invaildproxies = 0
@@ -280,10 +281,10 @@ def get_info():
     invite_code = invite_code.split(".gg/")[1]
   except:
     pass
-  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] Connecting API Server...")
+  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Connecting API Server...")
   res = requests.get(f"https://discord.com/api/v9/invites/{invite_code}?with_counts=true&with_expiration=true")
   if res.status_code == 200:
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] Successfull Get Info")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Successfull Get Info")
     info = json.loads(res.text)
     serverid = info["guild"]["id"]
     servername = info["guild"]["name"]
@@ -307,7 +308,7 @@ Member Count
 Boost Count
 {boostcount}
 ----------""")
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:180] End Info")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] End Info")
     Setting.joiner_link.set(invite_code)
     Setting.joiner_serverid.set(serverid)
     Setting.leaver_serverid.set(serverid)
@@ -317,13 +318,18 @@ Boost Count
     Setting.ticket_serverid.set(serverid)
     CTkMessagebox(title="Invite Info", message=f"Server ID: {serverid}\nServer Name: {servername}\nServer Description: {serverdescription}\n\nMember Count: {membercount}\nBoost Count: {boostcount}", width=450)
   if res.status_code == 404:
-    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [main.py:180] Unknown Invite")
+    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [main.py] Unknown Invite")
 
 def get_hwid():
-  uuid = str(subprocess.check_output('wmic csproduct get uuid'))
-  pos1 = uuid.find("\\n")+2
-  uuid = uuid[pos1:-15]
-  return uuid
+  if os.name == 'posix':
+    uuid = "Linux User Nothing HWID"
+    return uuid
+  else:
+    cmd = 'wmic csproduct get uuid'
+    uuid = str(subprocess.check_output(cmd))
+    pos1 = uuid.find("\\n")+2
+    uuid = uuid[pos1:-15]
+    return uuid
 
 def config_check():
   if os.path.exists(r"config.json"):
@@ -335,20 +341,20 @@ def config_check():
     Setting.token_filenameLabel.set(os.path.basename(filepath))
     Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
     threading.Thread(target=token_checker.check(tokens, update_token)).start()
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:800] Config Found")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Config Found")
     return True
   else:
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:800] Config Not Found")
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:162] token path not found. Please point to it manually.")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Config Not Found")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] token path not found. Please point to it manually.")
     token_load()
     return False
 
 def ffmpeg_check():
   ffmpeg_path = os.path.join(os.getcwd(),"ffmpeg.exe")
   if os.path.exists(ffmpeg_path):
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:799] FFmpeg Found")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] FFmpeg Found")
   else :
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:799] FFmpeg Not Found")
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] FFmpeg Not Found")
     ffmpeg_dl()
 
 def ffmpeg_dl():
@@ -381,6 +387,7 @@ def voice_load():
   voicefile_show = filepath.split('/')[len(filepath.split('/'))-1]
   Setting.voicefile_filenameLabel.set(voicefile_show)
 
+# Token Tab
 def token_load():
   fTyp = [("", "*.txt")]
   iFile = os.path.abspath(os.path.dirname(__file__))
@@ -418,7 +425,18 @@ def update_token(status, token):
     Setting.invalidtoken += 1
     Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
 
+# Proxy Tab
 def proxy_load():
+  threading.Thread(target=proxy_main).start()
+  
+def proxy_main():
+  summon_select()
+  if Setting.proxytype == "":
+    print("[-] Cancel proxy")
+    return
+  proxy_filepath()
+
+def proxy_filepath():
   fTyp = [("", "*.txt")]
   iFile = os.path.abspath(os.path.dirname(__file__))
   filepath = filedialog.askopenfilename(
@@ -433,6 +451,8 @@ def proxy_load():
   Setting.invaildproxies = 0
   Setting.proxy_filenameLabel.set(os.path.basename(filepath))
   Setting.totalProxiesLabel.set("Total: "+str(len(proxies)).zfill(3))
+  for proxy in proxies:
+    print("[+] Load: " + proxy)
   threading.Thread(target=proxy_checker.check(update_proxy, proxies, Setting.proxytype))
      
 def update_proxy(status, proxy):
@@ -443,6 +463,42 @@ def update_proxy(status, proxy):
   if status == False:
     Setting.invaildproxies += 1
     Setting.invalidProxiesLabel.set("Invalid: "+str(Setting.invaildproxies).zfill(3))
+
+def summon_select():
+  window01 = tk.Tk()
+  window01.title("Select Proxy Type")
+  window01.geometry("400x270")
+  window01.configure(bg="#262626")
+  main_font = ctk.CTkFont(family="Helvetica", size=12)
+    
+  def socks4():
+    Setting.proxytype.set("socks4")
+    window01.destroy()
+  def socks5():
+    Setting.proxytype.set("socks5")
+    window01.destroy()
+  def http():
+    Setting.proxytype.set("http")
+    window01.destroy()
+  def https():
+    Setting.proxytype.set("https")
+    window01.destroy()
+  def close():
+    Setting.proxytype.set("")
+    window01.destroy()
+  
+  type01 = ctk.CTkButton(master=window01,command=socks4,text="Socks4",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
+  type01.place(x= 15, y= 15)
+  type02 = ctk.CTkButton(master=window01,command=socks5,text="Socks5",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
+  type02.place(x= 15, y= 60)
+  type03 = ctk.CTkButton(master=window01,command=http,text="Http",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
+  type03.place(x= 15, y= 105)
+  type04 = ctk.CTkButton(master=window01,command=https,text="Https",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
+  type04.place(x= 15, y= 150)
+  type05 = ctk.CTkButton(master=window01,command=close,text="Close",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
+  type05.place(x= 15, y= 195)
+  
+  window01.mainloop()
 
 def clear_frame(frame):
   for widget in frame.winfo_children():
@@ -745,7 +801,7 @@ def set_moduleframe(num1, num2):
       tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=115)
       tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_leaver_Label, font=("Roboto", 12)).place(x=10,y=135)
       
-      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:676] Open Join Leave Tab")
+      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Open Join Leave Tab")
     
   if num1 == 2:
     if num2 == 1:
@@ -799,7 +855,7 @@ def set_moduleframe(num1, num2):
       invite_url.place(x=85,y=106)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Defalut Sv ID", font=("Roboto", 12)).place(x=240,y=104)
       
-      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:678] Open Settings Tab")
+      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Open Settings Tab")
     if num2 == 2:
       tk.Label(module_frame, text="TwoCoin Github: ", bg=c1, fg="#4D8387", font=("Roboto", 12)).place(x=10,y=10)
       link01 = tk.Label(module_frame, text="GitHub link", bg=c1, fg="#fff", font=("Roboto", 12))
@@ -810,7 +866,7 @@ def set_moduleframe(num1, num2):
       link02.place(x=140,y=35)
       link02.bind("<Button-1>", lambda e:webbrowser.open_new("https://discord.gg/ntra"))
       
-      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:679] Open Abouts Tab")
+      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Open Abouts Tab")
 
 def set_moduleframe_scroll(num1, num2):
   global spam_message, reply_message
@@ -966,7 +1022,7 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.suc_shspam_Label, font=("Roboto", 12)).place(x=140,y=243)
       tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.fai_shspam_Label, font=("Roboto", 12)).place(x=140,y=268)
 
-      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:677] Open Spam Tab")
+      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Open Spam Tab")
       
 print(f"""          
        &#BB#&       
@@ -982,9 +1038,9 @@ You HWID: [{get_hwid()}]                Version: [{version}]
 -----------------------""")
 ffmpeg_check()
 if config_check():
-  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:21] Loading Tkinter")
+  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Loading Tkinter")
 else:
-  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py:21] Loading Tkinter")
+  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Loading Tkinter")
 
 tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
 
