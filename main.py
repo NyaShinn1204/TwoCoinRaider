@@ -40,169 +40,163 @@ class Setting:
   invalidtoken = 0
   
   # enabled ck.button
-  proxy_enabled = tk.BooleanVar()
-  proxy_enabled.set("False")
+  proxy_enabled = BooleanVar()
+  proxy_enabled.set(False)
   
-  token_filenameLabel = tk.StringVar()
+  token_filenameLabel = StringVar()
   token_filenameLabel.set("")
-  totaltokenLabel = tk.StringVar()
+  totaltokenLabel = StringVar()
   totaltokenLabel.set("Total: 000")
-  validtokenLabel = tk.StringVar()
+  validtokenLabel = StringVar()
   validtokenLabel.set("Valid: 000")
-  invalidtokenLabel = tk.StringVar()
+  invalidtokenLabel = StringVar()
   invalidtokenLabel.set("Invalid: 000")
   
-  proxytype = tk.StringVar()
+  proxytype = StringVar()
   proxytype.set("")
   proxies = []
   vaildproxies = 0
   invaildproxies = 0
 
-  http_value = BooleanVar()
-  http_value.set("False")
-  socks4_value = BooleanVar()
-  socks4_value.set("True")
-  socks5_value = BooleanVar()
-  socks5_value.set("True")
   proxysetting = BooleanVar()
   proxysetting.set("False")
 
-  proxy_filenameLabel = tk.StringVar()
+  proxy_filenameLabel = StringVar()
   proxy_filenameLabel.set("")
-  totalProxiesLabel = tk.StringVar()
+  totalProxiesLabel = StringVar()
   totalProxiesLabel.set("Total: 000")
-  validProxiesLabel = tk.StringVar()
+  validProxiesLabel = StringVar()
   validProxiesLabel.set("Valid: 000")
-  invalidProxiesLabel = tk.StringVar()
+  invalidProxiesLabel = StringVar()
   invalidProxiesLabel.set("Invalid: 000")
   
-  voicefile_filenameLabel = tk.StringVar()
+  voicefile_filenameLabel = StringVar()
   voicefile_filenameLabel.set("")
   
-  suc_joiner_Label = tk.StringVar()
+  suc_joiner_Label = StringVar()
   suc_joiner_Label.set("Success: 000")
-  fai_joiner_Label = tk.StringVar()
+  fai_joiner_Label = StringVar()
   fai_joiner_Label.set("Failed: 000")
   
-  suc_leaver_Label = tk.StringVar()
+  suc_leaver_Label = StringVar()
   suc_leaver_Label.set("Success: 000")
-  fai_leaver_Label = tk.StringVar()
+  fai_leaver_Label = StringVar()
   fai_leaver_Label.set("Failed: 000")
   
   # nm spam
-  suc_nmspam_Label = tk.StringVar()
+  suc_nmspam_Label = StringVar()
   suc_nmspam_Label.set("Success: 000")
-  fai_nmspam_Label = tk.StringVar()
+  fai_nmspam_Label = StringVar()
   fai_nmspam_Label.set("Failed: 000")
   
   # reply spam
-  suc_replyspam_Label = tk.StringVar()
+  suc_replyspam_Label = StringVar()
   suc_replyspam_Label.set("Success: 000")
-  fai_replyspam_Label = tk.StringVar()
+  fai_replyspam_Label = StringVar()
   fai_replyspam_Label.set("Failed: 000")
   
   # ticket spam
-  suc_ticketspam_Label = tk.StringVar()
+  suc_ticketspam_Label = StringVar()
   suc_ticketspam_Label.set("Success: 000")
-  fai_ticketspam_Label = tk.StringVar()
+  fai_ticketspam_Label = StringVar()
   fai_ticketspam_Label.set("Failed: 000")
   
   # slash spam
-  suc_shspam_Label = tk.StringVar()
+  suc_shspam_Label = StringVar()
   suc_shspam_Label.set("Success: 000")
-  fai_shspam_Label = tk.StringVar()
+  fai_shspam_Label = StringVar()
   fai_shspam_Label.set("Failed: 000")
   
   spam_allping = BooleanVar()
-  spam_allping.set("False")
+  spam_allping.set(False)
   spam_allch = BooleanVar()
-  spam_allch.set("False")
+  spam_allch.set(False)
   spam_rdstring = BooleanVar()
-  spam_rdstring.set("False")
+  spam_rdstring.set(False)
   spam_ratefixer = BooleanVar()
-  spam_ratefixer.set("False")
+  spam_ratefixer.set(False)
 
   reply_allping = BooleanVar()
-  reply_allping.set("False")
+  reply_allping.set(False)
   reply_allmg = BooleanVar()
-  reply_allmg.set("False")
+  reply_allmg.set(False)
   reply_rdstring = BooleanVar()
-  reply_rdstring.set("False")
+  reply_rdstring.set(False)
   reply_ratefixer = BooleanVar()
-  reply_ratefixer.set("False")
+  reply_ratefixer.set(False)
   
   slash_ratefixer = BooleanVar()
-  slash_ratefixer.set("False") 
+  slash_ratefixer.set(False) 
   
   sbspam_rdsounds = BooleanVar()
-  sbspam_rdsounds.set("False")
+  sbspam_rdsounds.set(False)
   
-  delay01 = tk.DoubleVar()
+  delay01 = DoubleVar()
   delay01.set(0.1)
   
-  delay02 = tk.DoubleVar()
+  delay02 = DoubleVar()
   delay02.set(0.1)
   
-  delay03 = tk.DoubleVar()
+  delay03 = DoubleVar()
   delay03.set(0.1)
     
-  delay04 = tk.DoubleVar()
+  delay04 = DoubleVar()
   delay04.set(0.1)
   
-  delay05 = tk.DoubleVar()
+  delay05 = DoubleVar()
   delay05.set(0.1)
   
-  delay91 = tk.DoubleVar()
+  delay91 = DoubleVar()
   delay91.set(0.1)
   
-  mention_count_def = tk.DoubleVar()
+  mention_count_def = DoubleVar()
   mention_count_def.set(20)
   
-  joiner_link = tk.StringVar()
+  joiner_link = StringVar()
   joiner_link.set("")
   bypass_ms = BooleanVar()
-  bypass_ms.set("False")
+  bypass_ms.set(False)
   bypass_cap = BooleanVar()
   bypass_cap.set(False)
-  joiner_serverid = tk.StringVar()
+  joiner_serverid = StringVar()
   joiner_serverid.set("")
-  leaver_serverid = tk.StringVar()
+  leaver_serverid = StringVar()
   leaver_serverid.set("")
-  spam_serverid = tk.StringVar()
+  spam_serverid = StringVar()
   spam_serverid.set("")
-  spam_channelid = tk.StringVar()
+  spam_channelid = StringVar()
   spam_channelid.set("")
-  reply_serverid = tk.StringVar()
+  reply_serverid = StringVar()
   reply_serverid.set("")
-  reply_channelid = tk.StringVar()
+  reply_channelid = StringVar()
   reply_channelid.set("")
-  reply_messageid = tk.StringVar()
+  reply_messageid = StringVar()
   reply_messageid.set("")
-  vcspam_serverid = tk.StringVar()
+  vcspam_serverid = StringVar()
   vcspam_serverid.set("")
-  vcspam_channelid = tk.StringVar()
+  vcspam_channelid = StringVar()
   vcspam_channelid.set("")
-  sbspam_serverid = tk.StringVar()
+  sbspam_serverid = StringVar()
   sbspam_serverid.set("")
-  sbspam_channelid = tk.StringVar()
+  sbspam_channelid = StringVar()
   sbspam_channelid.set("")
-  ticket_serverid = tk.StringVar()
+  ticket_serverid = StringVar()
   ticket_serverid.set("")
-  ticket_channelid = tk.StringVar()
+  ticket_channelid = StringVar()
   ticket_channelid.set("")
-  ticket_messageid = tk.StringVar()
+  ticket_messageid = StringVar()
   ticket_messageid.set("")
-  slash_serverid = tk.StringVar()
+  slash_serverid = StringVar()
   slash_serverid.set("")
-  slash_channelid = tk.StringVar()
+  slash_channelid = StringVar()
   slash_channelid.set("")
-  slash_applicationid = tk.StringVar()
+  slash_applicationid = StringVar()
   slash_applicationid.set("")
-  slash_commandname = tk.StringVar()
+  slash_commandname = StringVar()
   slash_commandname.set("")
-  slash_subcommandname = tk.StringVar()
+  slash_subcommandname = StringVar()
   slash_subcommandname.set("")
-  slash_subcommandname_value = tk.StringVar()
+  slash_subcommandname_value = StringVar()
   slash_subcommandname_value.set("")
   
   voicefile = []
@@ -291,23 +285,7 @@ def get_info():
     serverdescription = info["guild"]["description"]
     membercount = str(info["approximate_member_count"])
     boostcount = str(info["guild"]["premium_subscription_count"])
-    print(f"""
-----------
-Server ID 
-{serverid}
-----------
-Server Name
-{servername}
-
-Server Description
-{serverdescription}
-----------
-Member Count
-{membercount}
-
-Boost Count
-{boostcount}
-----------""")
+    print(f"""----------\nServer ID\n{serverid}\n----------\nServer Name\n{servername}\n\nServer Description\n{serverdescription}\n----------\nMember Count\n{membercount}\n\nBoost Count\n{boostcount}\n----------""")
     print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] End Info")
     Setting.joiner_link.set(invite_code)
     Setting.joiner_serverid.set(serverid)
