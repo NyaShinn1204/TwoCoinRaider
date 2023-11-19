@@ -59,7 +59,7 @@ class Setting:
   invaildproxies = 0
 
   proxysetting = BooleanVar()
-  proxysetting.set("False")
+  proxysetting.set(False)
 
   proxy_filenameLabel = StringVar()
   proxy_filenameLabel.set("")
