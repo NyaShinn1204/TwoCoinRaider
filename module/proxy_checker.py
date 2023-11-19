@@ -1,22 +1,35 @@
-import threading
-import requests
+import random
+import socket
+import traceback
+import urllib.request
+from threading import Thread
 
+socket.setdefaulttimeout(30)
+    
 def check(update_proxy, proxies, types):
-    threading.Thread(target=check_thread, args=(update_proxy, proxies, types)).start()
-    
-def check_thread(update_proxy, proxies, types):
+    threads = []
     for proxy in proxies:
-        threading.Thread(target=check_proxy, args=(update_proxy, proxy, types)).start()
-    
-def check_proxy(update_proxy, proxy, types):
-    headers = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"}
+        thread = Thread(target=check_proxy, args=(update_proxy, proxy,types))
+        thread.start()
+        threads.append(thread)
+    for thread in threads:
+        thread.join()
+        
+def check_proxy(update_proxy, pip, types):
     try:
-        req = requests.get('https://www.discord.com/', headers=headers, proxies={'https': f'{types}://{proxy}', 'http': f'{types}://{proxy}'}, timeout=10)
-        if req.ok:
-            update_proxy(True, proxy)
-            print("[+] Working: " + proxy)
-            return
-    except: 
-        pass
-    update_proxy(False, proxy)
-    print("[-] Not working: " + proxy)
+        proxy_handler = urllib.request.ProxyHandler({types: pip})        
+        opener = urllib.request.build_opener(proxy_handler)
+        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+        urllib.request.install_opener(opener)        
+        sock=urllib.request.urlopen('http://www.google.com')
+    except urllib.error.HTTPError as e:
+        update_proxy(False, pip)
+        print("[-] Not working: " +pip)
+        return
+    except Exception as detail:
+        update_proxy(False, pip)
+        print("[-] Not working: " +pip)
+        return
+    print("[+] Working: " + pip)
+    update_proxy(True, pip)
+    
