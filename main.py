@@ -11,6 +11,7 @@ import threading
 import requests
 import json
 import os
+import time
 
 import module.token_checker as token_checker
 import module.proxy_checker as proxy_checker
@@ -55,6 +56,7 @@ class Setting:
   proxytype = tk.StringVar()
   proxytype.set("")
   proxies = []
+  totalproxies = 0
   vaildproxies = 0
   invaildproxies = 0
 
@@ -427,12 +429,13 @@ def proxy_filepath():
   if proxies == []:
       return
   Setting.proxies = []
+  Setting.totalproxies = str(len(proxies))
   Setting.vaildproxies = 0
   Setting.invaildproxies = 0
   Setting.proxy_filenameLabel.set(os.path.basename(filepath))
-  Setting.totalProxiesLabel.set("Total: "+str(len(proxies)).zfill(3))
-  for proxy in proxies:
-    print("[+] Load: " + proxy)
+  Setting.totalProxiesLabel.set("Total: "+Setting.totalproxies.zfill(3))
+  print("[+] Load: " + Setting.totalproxies + "Proxies")
+  time.sleep(1)
   threading.Thread(target=proxy_checker.check(update_proxy, proxies, Setting.proxytype.get()))
      
 def update_proxy(status, proxy):

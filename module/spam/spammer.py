@@ -12,7 +12,7 @@ import module.spam.user_scrape as user_scrape
 import bypass.header as header
 
 status = True
-timelock = True
+timelock = False
 
 def status():
     global status
@@ -111,6 +111,10 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
             module_status(3, 2)
         if x.status_code == 200:
             module_status(3, 1)
+            if proxysetting == True:
+                print(f"[-] 送信に成功しました ChannelID: {channelid} Token: {extract_token}.******** Proxy: {proxy}")
+            else:
+                print(f"[-] 送信に成功しました ChannelID: {channelid} Token: {extract_token}.********")
         else:
             if x.status_code == 429 or 20016:
                 if ratelimit == True:

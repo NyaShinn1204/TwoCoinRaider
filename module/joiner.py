@@ -30,7 +30,7 @@ def extract(format_token):
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answers, apis, bypasscaptcha):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     session = header.get_session.get_session()
-    req_header = header.request_header(token)
+    req_header = header.request_header_joiner(token)
     headers = req_header[0]
     try:
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
