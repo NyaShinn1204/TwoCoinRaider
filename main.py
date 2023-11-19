@@ -370,9 +370,9 @@ def token_load():
   fTyp = [("", "*.txt")]
   iFile = os.path.abspath(os.path.dirname(__file__))
   filepath = filedialog.askopenfilename(
-      filetype=fTyp, initialdir=iFile, title="Select Tokens")
+    filetype=fTyp, initialdir=iFile, title="Select Tokens")
   if filepath == "":
-      return
+    return
   if os.path.exists(r"config.json"):
     tokens = open(filepath, 'r').read().splitlines()
   else:
@@ -386,7 +386,7 @@ def token_load():
     with open("config.json", "w") as configfile:
       configfile.write(tokens_file)
   if tokens == []:
-      return
+    return
   Setting.tokens = []
   Setting.validtoken = 0
   Setting.invalidtoken = 0
