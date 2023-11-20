@@ -421,13 +421,12 @@ def proxy_main():
 def proxy_filepath():
   fTyp = [("", "*.txt")]
   iFile = os.path.abspath(os.path.dirname(__file__))
-  filepath = filedialog.askopenfilename(
-      filetype=fTyp, initialdir=iFile, title="Select Proxies")
+  filepath = filedialog.askopenfilename(filetype=fTyp, initialdir=iFile, title="Select Proxies")
   if filepath == "":
-      return
+    return
   proxies = open(filepath, 'r').read().splitlines()
   if proxies == []:
-      return
+    return
   Setting.proxies = []
   Setting.totalproxies = str(len(proxies))
   Setting.vaildproxies = 0
@@ -1043,3 +1042,6 @@ ctk.CTkButton(master=root, image=ctk.CTkImage(Image.open("data/info.png"),size=(
 set_moduleframe(2, 2)
 
 root.mainloop()
+
+# Todo:
+# Rewrite Gui Code
