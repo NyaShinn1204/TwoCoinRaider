@@ -353,7 +353,7 @@ def config_check():
     return False
 
 def ffmpeg_check():
-  ffmpeg_path = os.path.join(os.getcwd(),"ffmpeg.exe")
+  ffmpeg_path = os.path.join(os.getcwd(),"./data/ffmpeg.exe")
   if os.path.exists(ffmpeg_path):
     printl("debug", "FFmpeg Found")
   else :
@@ -361,7 +361,7 @@ def ffmpeg_check():
     ffmpeg_dl()
 
 def ffmpeg_dl():
-  with open("ffmpeg.exe" ,mode='wb') as f:
+  with open("./data/ffmpeg.exe" ,mode='wb') as f:
     f.write(requests.get("https://github.com/n00mkrad/smol-ffmpeg/releases/download/v1/ffmpeg.exe").content)
     print("Downloaded FFmpeg.")
 
