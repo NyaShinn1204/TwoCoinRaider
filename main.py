@@ -267,6 +267,17 @@ def clear_entry22():
 def clear_entry23():
   Setting.slash_subcommandname_value.set("")
   
+def get_filename():
+  return os.path.basename(__file__)
+
+def printl(num, data):
+  if num == "error":
+    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [{get_filename()}] " + data)
+  if num == "debug":
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [{get_filename()}] " + data)
+    
+  
+
 def get_info():
   invite_code = invite_url.get()
   if invite_code.__contains__('discord.gg/'):
@@ -277,10 +288,10 @@ def get_info():
     invite_code = invite_code.split(".gg/")[1]
   except:
     pass
-  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Connecting API Server...")
+  printl("debug", "Connecting API Server...")
   res = requests.get(f"https://discord.com/api/v9/invites/{invite_code}?with_counts=true&with_expiration=true")
   if res.status_code == 200:
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Successfull Get Info")
+    printl("debug", "Successfull Get Info")
     info = json.loads(res.text)
     serverid = info["guild"]["id"]
     servername = info["guild"]["name"]
@@ -288,7 +299,7 @@ def get_info():
     membercount = str(info["approximate_member_count"])
     boostcount = str(info["guild"]["premium_subscription_count"])
     print(f"""----------\nServer ID\n{serverid}\n----------\nServer Name\n{servername}\n\nServer Description\n{serverdescription}\n----------\nMember Count\n{membercount}\n\nBoost Count\n{boostcount}\n----------""")
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] End Info")
+    printl("debug", "End Info")
     Setting.joiner_link.set(invite_code)
     Setting.joiner_serverid.set(serverid)
     Setting.leaver_serverid.set(serverid)
@@ -298,7 +309,7 @@ def get_info():
     Setting.ticket_serverid.set(serverid)
     CTkMessagebox(title="Invite Info", message=f"Server ID: {serverid}\nServer Name: {servername}\nServer Description: {serverdescription}\n\nMember Count: {membercount}\nBoost Count: {boostcount}", width=450)
   if res.status_code == 404:
-    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [main.py] Unknown Invite")
+    printl("error", "Unknown Invite")
 
 def get_hwid():
   if os.name == 'posix':
@@ -321,20 +332,20 @@ def config_check():
     Setting.token_filenameLabel.set(os.path.basename(filepath))
     Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
     threading.Thread(target=token_checker.check(tokens, update_token)).start()
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Config Found")
+    printl("debug", "Config Found")
     return True
   else:
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Config Not Found")
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] token path not found. Please point to it manually.")
+    printl("debug", "Config Not Found")
+    printl("debug", "token path not found. Please point to it manually.")
     token_load()
     return False
 
 def ffmpeg_check():
   ffmpeg_path = os.path.join(os.getcwd(),"ffmpeg.exe")
   if os.path.exists(ffmpeg_path):
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] FFmpeg Found")
+    printl("debug", "FFmpeg Found")
   else :
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] FFmpeg Not Found")
+    printl("debug", "FFmpeg Not Found")
     ffmpeg_dl()
 
 def ffmpeg_dl():
@@ -783,7 +794,7 @@ def set_moduleframe(num1, num2):
       tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=115)
       tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_leaver_Label, font=("Roboto", 12)).place(x=10,y=135)
       
-      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Open Join Leave Tab")
+      printl("debug", "Open Join Leave Tab")
     
   if num1 == 2:
     if num2 == 1:
@@ -837,18 +848,20 @@ def set_moduleframe(num1, num2):
       invite_url.place(x=85,y=106)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Defalut Sv ID", font=("Roboto", 12)).place(x=240,y=104)
       
-      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Open Settings Tab")
+      printl("debug", "Open Settings Tab")
     if num2 == 2:
       tk.Label(module_frame, text="TwoCoin Github: ", bg=c1, fg="#4D8387", font=("Roboto", 12)).place(x=10,y=10)
       link01 = tk.Label(module_frame, text="GitHub link", bg=c1, fg="#fff", font=("Roboto", 12))
-      link01.place(x=135,y=10)
+      link01.place(x=140,y=10)
       link01.bind("<Button-1>", lambda e:webbrowser.open_new("https://github.com/NyaShinn1204/TwoCoinRaider"))
       tk.Label(module_frame, text="TwoCoin discord: ", bg=c1, fg="#4D8387", font=("Roboto", 12)).place(x=10,y=35)
       link02 = tk.Label(module_frame, text="Discord invite link", bg=c1, fg="#fff", font=("Roboto", 12))
       link02.place(x=140,y=35)
       link02.bind("<Button-1>", lambda e:webbrowser.open_new("https://discord.gg/ntra"))
+      tk.Label(module_frame, text="TwoCoin version: ", bg=c1, fg="#4D8387", font=("Roboto", 12)).place(x=10,y=60)
+      tk.Label(module_frame, text=version, bg=c1, fg="#fff", font=("Roboto", 12)).place(x=140,y=60)
       
-      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Open Abouts Tab")
+      printl("debug", "Open Abouts Tab")
 
 def set_moduleframe_scroll(num1, num2):
   global spam_message, reply_message
@@ -1004,7 +1017,7 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.suc_shspam_Label, font=("Roboto", 12)).place(x=140,y=243)
       tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.fai_shspam_Label, font=("Roboto", 12)).place(x=140,y=268)
 
-      print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Open Spam Tab")
+      printl("debug", "Open Spam Tab")
       
 print(f"""          
        &#BB#&       
@@ -1020,9 +1033,9 @@ You HWID: [{get_hwid()}]                Version: [{version}]
 -----------------------""")
 ffmpeg_check()
 if config_check():
-  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Loading Tkinter")
+  printl("debug", "Loading Tkinter")
 else:
-  print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [main.py] Loading Tkinter")
+  printl("debug", "Loading Tkinter")
 
 tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
 
