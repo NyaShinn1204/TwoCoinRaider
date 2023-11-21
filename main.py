@@ -359,11 +359,22 @@ def ffmpeg_check():
   else :
     printl("debug", "FFmpeg Not Found")
     ffmpeg_dl()
+  dll_path = os.path.join(os.getcwd(),"./data/libopus.dll")
+  if os.path.exists(dll_path):
+    printl("debug", "FFmpeg lib Found")
+  else :
+    printl("debug", "FFmpeg lib Not Found")
+    ffmpeg_lib_dl()
 
 def ffmpeg_dl():
   with open("./data/ffmpeg.exe" ,mode='wb') as f:
-    f.write(requests.get("https://github.com/n00mkrad/smol-ffmpeg/releases/download/v1/ffmpeg.exe").content)
+    f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/ffmpeg.exe").content)
     print("Downloaded FFmpeg.")
+    
+def ffmpeg_lib_dl():
+  with open("./data/libopus.dll" ,mode='wb') as f:
+    f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/libopus.dll").content)
+    print("Downloaded FFmpeg Dll.")
 
 def ffmpeg_load():
   global ffmpegfile
