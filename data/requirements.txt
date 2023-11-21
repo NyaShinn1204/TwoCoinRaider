@@ -1,0 +1,16 @@
+requests
+colorama
+aiohttp
+attrs
+cffi
+sniffio
+packaging
+pillow
+httpx
+tls_client
+httpx-socks
+discord
+discord.py-self
+websocket-client
+CTkMessagebox
+customtkinter

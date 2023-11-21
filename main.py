@@ -1,17 +1,28 @@
-import colorama
-import subprocess
-import tkinter as tk
-import customtkinter as ctk
-from customtkinter import *
-from PIL import Image
-from colorama import Fore
-from CTkMessagebox import CTkMessagebox
-import webbrowser
-import threading
-import requests
-import json
 import os
 import time
+import json
+import threading
+import webbrowser
+import subprocess
+import tkinter
+
+try:
+  import requests
+  import colorama
+  import customtkinter
+  import pillow
+  import CTkMessagebox
+except ImportError:
+  print("足りないモジュールをインストールします")
+  os.system('pip install -r ./data/requirements.txt')
+import requests
+import colorama
+import tkinter as tk
+import customtkinter as ctk
+from PIL import Image
+from colorama import Fore
+from customtkinter import *
+from CTkMessagebox import CTkMessagebox
 
 import module.token_checker as token_checker
 import module.proxy_checker as proxy_checker
