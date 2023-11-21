@@ -313,7 +313,7 @@ def get_info():
 
 def get_hwid():
   if os.name == 'posix':
-    uuid = "Linux User Nothing HWID"
+    uuid = "Linux"
     return uuid
   else:
     cmd = 'wmic csproduct get uuid'
@@ -321,6 +321,8 @@ def get_hwid():
     pos1 = uuid.find("\\n")+2
     uuid = uuid[pos1:-15]
     return uuid
+  if uuid == "":
+    printl("error", "unexpected function error")
 
 def config_check():
   if os.path.exists(r"config.json"):
@@ -358,23 +360,23 @@ def ffmpeg_load():
   fTyp = [("", "*.exe")]
   iFile = os.path.abspath(os.path.dirname(__file__))
   filepath = filedialog.askopenfilename(
-      filetype=fTyp, initialdir=iFile, title="Select FFmpeg.exe")
+    filetype=fTyp, initialdir=iFile, title="Select FFmpeg.exe")
   if filepath == "":
-      return
+    return
   ffmpegfile = filepath
   if ffmpegfile == []:
-      return
+    return
 
 def voice_load():
   fTyp = [("", "*.mp3")]
   iFile = os.path.abspath(os.path.dirname(__file__))
   filepath = filedialog.askopenfilename(
-      filetype=fTyp, initialdir=iFile, title="Select Voice File")
+    filetype=fTyp, initialdir=iFile, title="Select Voice File")
   if filepath == "":
-      return
+    return
   Setting.voicefile = filepath
   if filepath == []:
-      return
+    return
   voicefile_show = filepath.split('/')[len(filepath.split('/'))-1]
   Setting.voicefile_filenameLabel.set(voicefile_show)
 
@@ -463,7 +465,7 @@ def summon_select():
   window01.geometry("400x270")
   window01.configure(bg="#262626")
   main_font = ctk.CTkFont(family="Helvetica", size=12)
-    
+
   def socks4():
     Setting.proxytype.set("socks4")
     window01.destroy()
@@ -479,7 +481,7 @@ def summon_select():
   def close():
     Setting.proxytype.set("")
     window01.destroy()
-  
+
   type01 = ctk.CTkButton(master=window01,command=socks4,text="Socks4",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
   type01.place(x= 15, y= 15)
   type02 = ctk.CTkButton(master=window01,command=socks5,text="Socks5",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
@@ -490,7 +492,7 @@ def summon_select():
   type04.place(x= 15, y= 150)
   type05 = ctk.CTkButton(master=window01,command=close,text="Close",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
   type05.place(x= 15, y= 195)
-  
+
   window01.mainloop()
 
 def clear_frame(frame):
@@ -509,9 +511,9 @@ def module_thread(num):
     invitelink = Setting.joiner_link.get()
     memberscreen = Setting.bypass_ms.get()
     bypasscaptcha = Setting.bypass_cap.get()
-    
+
     delay = Setting.delay01.get()
-    
+
     if invitelink == "":
       print("[-] InviteLink is not set")
       return
@@ -537,23 +539,23 @@ def module_thread(num):
     else:
       answers = None
       apis = None
-          
+
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha)).start()
-    
+
   if num == 2_1:
     serverid = Setting.leaver_serverid.get()
-    
+
     delay = Setting.delay02.get()
-    
+
     if serverid == "":
       print("[-] ServerID is not set")
       return
-    
+
     threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
-  
+
   if num == 2_2:
     threading.Thread(target=module_leaver.stop).start()
-  
+
   if num == 3_1:
     serverid = str(Setting.spam_serverid.get())
     channelid = str(Setting.spam_channelid.get())
@@ -561,12 +563,12 @@ def module_thread(num):
     allping = Setting.spam_allping.get()
     randomstring = Setting.spam_rdstring.get()
     ratelimit = Setting.spam_ratefixer.get()
-    
+
     contents = spam_message.get("0.0","end-1c")
     mentions = Setting.mention_count_def.get()
-    
+
     delay = Setting.delay03.get()
-    
+
     if serverid == "":
       print("[-] ServerID is not set")
       return
@@ -575,30 +577,30 @@ def module_thread(num):
       return    
 
     threading.Thread(target=module_spammer.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
-    
+
   if num == 3_2:
     module_spammer.stop()
-  
+
   if num == 4_1:
     serverid = Setting.vcspam_serverid.get()
     channelid = Setting.vcspam_channelid.get()
     voicefile = Setting.voicefile
-      
+
     if serverid == "":
       print("[-] ServerID is not set")
       return
     if channelid == "":
       print("[-] ChannelID is not set")
       return  
-       
+
     try:
       ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
     except:
       print("Error load ffmpeg")
       ffmpeg = ffmpeg_load()
-        
+
     threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, voicefile)).start()
-        
+
   if num == 5_1:
     serverid = str(Setting.reply_serverid.get())
     channelid = str(Setting.reply_channelid.get())
@@ -607,12 +609,12 @@ def module_thread(num):
     allping = Setting.reply_allping.get()
     randomstring = Setting.reply_rdstring.get()
     ratelimit = Setting.reply_ratefixer.get()
-    
+
     contents = reply_message.get("0.0","end-1c")
     mentions = Setting.mention_count_def.get()
-    
+
     delay = Setting.delay04.get()
-    
+
     if serverid == "":
       print("[-] ServerID is not set")
       return
@@ -624,15 +626,15 @@ def module_thread(num):
       return    
 
     threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
-    
+
   if num == 5_2:
     module_reply.stop()
-    
+
   if num == 6_1:
     serverid = str(Setting.ticket_serverid.get())
     channelid = str(Setting.ticket_channelid.get())
     messageid = str(Setting.ticket_messageid.get())
-    
+
     if serverid == "":
       print("[-] ServerID is not set")
       return
@@ -642,9 +644,9 @@ def module_thread(num):
     if messageid == "":
       print("[-] MessageID is not set")
       return
-    
+
     threading.Thread(target=module_ticket.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid)).start()
-    
+
   if num == 7_1:
     serverid = str(Setting.slash_serverid.get())
     channelid = str(Setting.slash_channelid.get())
@@ -653,9 +655,9 @@ def module_thread(num):
     subcommandname = str(Setting.slash_subcommandname.get())
     subcommandname_value = str(Setting.slash_subcommandname_value.get())
     ratelimit = Setting.slash_ratefixer.get()
-    
+
     delay = Setting.delay05.get()
-    
+
     if serverid == "":
       print("[-] ServerID is not set")
       return
@@ -665,7 +667,7 @@ def module_thread(num):
     if applicationid == "":
       print("[-] ApplicationID is not set")
       return
-    
+
     threading.Thread(target=module_slash.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, applicationid, commandname, subcommandname, subcommandname_value, ratelimit)).start()
 
 def module_status(num1, num2):
@@ -704,7 +706,7 @@ def module_status(num1, num2):
     if num2 == 2:
       SettingVariable.ticketspamresult_failed +=1
       Setting.fai_ticketspam_Label.set("Failed: "+str(SettingVariable.ticketspamresult_failed).zfill(3))      
-        
+
 def set_moduleframe(num1, num2):
   global invite_url
   frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
@@ -756,22 +758,22 @@ def set_moduleframe(num1, num2):
       ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry02).place(x=5,y=103)
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_serverid).place(x=85,y=103)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=101)
-            
+
       def slider_event01(value):
         tk.Label(module_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=225,y=145)
-      
+
       ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay01, command=slider_event01).place(x=5,y=130)
       tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=125)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=125)
-      
+
       ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=150)
       ctk.CTkButton(modules_frame, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=150)
-      
+
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=180)
       tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=10,y=208)
       tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_joiner_Label, font=("Roboto", 12)).place(x=10,y=233)
-      
-      
+
+
       # Leaver Frame
       modules_frame = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=400,y=20)
@@ -779,21 +781,21 @@ def set_moduleframe(num1, num2):
       ctk.CTkButton(modules_frame, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry03).place(x=5,y=13)
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.leaver_serverid).place(x=85,y=13)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=11)
-      
+
       def slider_event02(value):
         tk.Label(module_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=605,y=55)
-      
+
       ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay02, command=slider_event02).place(x=5,y=40)
       tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay02.get(),1), font=("Roboto", 12)).place(x=205,y=35)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=35)
-      
+
       ctk.CTkButton(modules_frame, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_1)).place(x=5,y=60)
       ctk.CTkButton(modules_frame, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_2)).place(x=70,y=60)
-      
+
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=90)
       tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=115)
       tk.Label(modules_frame, bg=c1, fg="#fff", textvariable=Setting.fai_leaver_Label, font=("Roboto", 12)).place(x=10,y=135)
-      
+
       printl("debug", "Open Join Leave Tab")
     
   if num1 == 2:
@@ -805,12 +807,12 @@ def set_moduleframe(num1, num2):
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=13)
       ctk.CTkLabel(modules_frame, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.token_filenameLabel).place(x=85,y=13)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=11)
-      
+
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=50)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totaltokenLabel).place(x=10,y=75)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validtokenLabel).place(x=10,y=95)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
-      
+
       modules_frame = ctk.CTkFrame(module_frame, width=350, height=165, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=400,y=20)
       tk.Label(module_frame, bg=c1, fg="#fff", text="Proxies", font=("Roboto", 14)).place(x=415,y=4)
@@ -819,7 +821,7 @@ def set_moduleframe(num1, num2):
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=40)
       ctk.CTkLabel(modules_frame, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.proxy_filenameLabel).place(x=85,y=40)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=37)
-      
+
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=70)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totalProxiesLabel).place(x=10,y=95)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validProxiesLabel).place(x=10,y=115)
@@ -828,18 +830,18 @@ def set_moduleframe(num1, num2):
       modules_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=20,y=200)
       tk.Label(module_frame, bg=c1, fg="#fff", text="Settings", font=("Roboto", 14)).place(x=35,y=184)
-      
+
       def slider_event91(value):
         tk.Label(modules_frame, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=10)
-        
+
       ctk.CTkSlider(modules_frame, from_=0.1, to=3.0, variable=Setting.delay91, command=slider_event91).place(x=5,y=15)
       tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Defalut Delay", font=("Roboto", 12)).place(x=240,y=10)
-      
+
       def slider_event92(value):
         tk.Label(modules_frame, bg=c1, fg="#fff", text="        ", font=("Roboto", 12)).place(x=205,y=40)
         tk.Label(modules_frame, bg=c1, fg="#fff", text=round(value), font=("Roboto", 12)).place(x=205,y=40)
-        
+
       ctk.CTkSlider(modules_frame, from_=1, to=50, variable=Setting.mention_count_def, command=slider_event92).place(x=5,y=45)
       tk.Label(modules_frame, bg=c1, fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Defalut Mt Ct", font=("Roboto", 12)).place(x=240,y=40)
@@ -847,7 +849,7 @@ def set_moduleframe(num1, num2):
       invite_url = ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20)
       invite_url.place(x=85,y=106)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Defalut Sv ID", font=("Roboto", 12)).place(x=240,y=104)
-      
+
       printl("debug", "Open Settings Tab")
     if num2 == 2:
       tk.Label(module_frame, text="TwoCoin Github: ", bg=c1, fg="#4D8387", font=("Roboto", 12)).place(x=10,y=10)
@@ -860,7 +862,7 @@ def set_moduleframe(num1, num2):
       link02.bind("<Button-1>", lambda e:webbrowser.open_new("https://discord.gg/ntra"))
       tk.Label(module_frame, text="TwoCoin version: ", bg=c1, fg="#4D8387", font=("Roboto", 12)).place(x=10,y=60)
       tk.Label(module_frame, text=version, bg=c1, fg="#fff", font=("Roboto", 12)).place(x=140,y=60)
-      
+
       printl("debug", "Open Abouts Tab")
 
 def set_moduleframe_scroll(num1, num2):
@@ -935,7 +937,7 @@ def set_moduleframe_scroll(num1, num2):
       reply_message = ctk.CTkTextbox(modules_frame02, bg_color=c1, fg_color=c4, text_color="#fff", width=150, height=60)
       reply_message.place(x=120,y=26)
       tk.Label(modules_frame02, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=40)
-  
+
       ctk.CTkButton(modules_frame02, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(5_1)).place(x=5,y=224)
       ctk.CTkButton(modules_frame02, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(5_2)).place(x=70,y=224)
 
@@ -1019,16 +1021,16 @@ def set_moduleframe_scroll(num1, num2):
 
       printl("debug", "Open Spam Tab")
       
-print(f"""          
-       &#BB#&       
-     B?^:::^~?B        _______             _____      _       _____       _     _             
-    P^:::^^^^^^P      |__   __|           / ____|    (_)     |  __ \     (_)   | |          
+print(f"""
+       &#BB#&
+     B?^:::^~?B        _______             _____      _       _____       _     _ 
+    P^:::^^^^^^P      |__   __|           / ____|    (_)     |  __ \     (_)   | | 
     J~~^^~~~~~~J         | |_      _____ | |     ___  _ _ __ | |__) |__ _ _  __| | ___ _ __ 
     B7~!!~~~!~7B         | \ \ /\ / / _ \| |    / _ \| | '_ \|  _  // _` | |/ _` |/ _ \ '__|
-     #5J7777J55          | |\ V  V / (_) | |___| (_) | | | | | | \ \ (_| | | (_| |  __/ |    　
-       &&&&&&&           |_| \_/\_/ \___/ \_____\___/|_|_| |_|_|  \_\__,_|_|\__,_|\___|_|   
-                                            This Software was Paid Only                                                     
-                                       
+     #5J7777J55          | |\ V  V / (_) | |___| (_) | | | | | | \ \ (_| | | (_| |  __/ |
+       &&&&&&&           |_| \_/\_/ \___/ \_____\___/|_|_| |_|_|  \_\__,_|_|\__,_|\___|_|
+                                            This Software was Paid Only
+
 You HWID: [{get_hwid()}]                Version: [{version}]
 -----------------------""")
 ffmpeg_check()
