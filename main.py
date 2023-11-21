@@ -10,7 +10,6 @@ try:
   import requests
   import colorama
   import customtkinter
-  import pillow
   import CTkMessagebox
 except ImportError:
   print("足りないモジュールをインストールします")
