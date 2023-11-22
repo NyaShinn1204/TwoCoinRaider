@@ -323,7 +323,7 @@ def get_info():
 
 def get_hwid():
   if os.name == 'posix':
-    uuid = "Linux"
+    uuid = "Linux unsupported"
     return uuid
   else:
     cmd = 'wmic csproduct get uuid'
@@ -332,7 +332,7 @@ def get_hwid():
     uuid = uuid[pos1:-15]
     return uuid
   if uuid == "":
-    printl("error", "unexpected function error")
+    printl("error", "get_hwid error wrong")
 
 def config_check():
   if os.path.exists(r"config.json"):
@@ -358,24 +358,24 @@ def ffmpeg_check():
     printl("debug", "FFmpeg Found")
   else :
     printl("debug", "FFmpeg Not Found")
-    ffmpeg_dl()
+    download_file("ffmpeg")
   dll_path = os.path.join(os.getcwd(),"./data/libopus.dll")
   if os.path.exists(dll_path):
     printl("debug", "FFmpeg lib Found")
   else :
     printl("debug", "FFmpeg lib Not Found")
-    ffmpeg_lib_dl()
+    download_file("ffmpeg-dll")
 
-def ffmpeg_dl():
-  with open("./data/ffmpeg.exe" ,mode='wb') as f:
-    f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/ffmpeg.exe").content)
-    print("Downloaded FFmpeg.")
-    
-def ffmpeg_lib_dl():
-  with open("./data/libopus.dll" ,mode='wb') as f:
-    f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/libopus.dll").content)
-    print("Downloaded FFmpeg Dll.")
-
+def download_file(type):
+  if type == "ffmpeg":
+    with open("./data/ffmpeg.exe" ,mode='wb') as f:
+      f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/ffmpeg.exe").content)
+      printl("info", "Downloaded FFmpeg.")
+  if type == "ffmpeg-dll":
+    with open("./data/libopus.dll" ,mode='wb') as f:
+      f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/libopus.dll").content)
+      printl("info", "Downloaded FFmpeg Dll.")
+      
 def ffmpeg_load():
   global ffmpegfile
   fTyp = [("", "*.exe")]
@@ -1081,3 +1081,5 @@ root.mainloop()
 
 # Todo:
 # Rewrite Gui Code
+# Rewrite Module Code
+# Reset Ticker Spammer Gui&Code
