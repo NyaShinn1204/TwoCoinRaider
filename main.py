@@ -482,7 +482,7 @@ def update_proxy(status, proxy):
     Setting.invaildproxies += 1
     Setting.invalidProxiesLabel.set("Invalid: "+str(Setting.invaildproxies).zfill(3))
 
-def summon_select():
+def summon_select():  ## Delete?
   window01 = tk.Tk()
   window01.title("Select Proxy Type")
   window01.geometry("400x270")
@@ -505,16 +505,11 @@ def summon_select():
     Setting.proxytype.set("")
     window01.destroy()
 
-  type01 = ctk.CTkButton(master=window01,command=socks4,text="Socks4",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
-  type01.place(x= 15, y= 15)
-  type02 = ctk.CTkButton(master=window01,command=socks5,text="Socks5",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
-  type02.place(x= 15, y= 60)
-  type03 = ctk.CTkButton(master=window01,command=http,text="Http",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
-  type03.place(x= 15, y= 105)
-  type04 = ctk.CTkButton(master=window01,command=https,text="Https",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
-  type04.place(x= 15, y= 150)
-  type05 = ctk.CTkButton(master=window01,command=close,text="Close",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6")
-  type05.place(x= 15, y= 195)
+  ctk.CTkButton(master=window01,command=socks4,text="Socks4",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 15)
+  ctk.CTkButton(master=window01,command=socks5,text="Socks5",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 60)
+  ctk.CTkButton(master=window01,command=http,text="Http",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 105)
+  ctk.CTkButton(master=window01,command=https,text="Https",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 150)
+  ctk.CTkButton(master=window01,command=close,text="Close",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 195)
 
   window01.mainloop()
 
@@ -835,7 +830,8 @@ def set_moduleframe(num1, num2):
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totaltokenLabel).place(x=10,y=75)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validtokenLabel).place(x=10,y=95)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
-
+      
+      # Rewrite Proxys
       modules_frame = ctk.CTkFrame(module_frame, width=350, height=165, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=400,y=20)
       tk.Label(module_frame, bg=c1, fg="#fff", text="Proxies", font=("Roboto", 14)).place(x=415,y=4)
