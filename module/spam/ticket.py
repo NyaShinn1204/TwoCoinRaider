@@ -1,8 +1,10 @@
 import random
-import string
+import threading
+import time
 import requests
 import re
-import time
+from httpx import Client
+from httpx_socks import SyncProxyTransport
 
 import bypass.header as header
 
@@ -17,9 +19,6 @@ def stop():
     global status
     status = False
 
-def randomname(n):
-    return ''.join(random.choice(string.ascii_letters + string.digits) for i in range(n))  
-
 def extract(format_token):
     if re.compile(r"(.+):").match(format_token):
         return format_token.split(":")[1]
@@ -27,113 +26,99 @@ def extract(format_token):
         token = format_token
     return token
 
-def get_app(token, proxy, proxies, serverid, channelid, messageid):
+def get_app(token, serverid, channelid, messageid):
     referre = f"https://discord.com/channels/{serverid}/{channelid}"
     print(referre)
     req_header = header.request_header(token)
     headers = req_header[0]
     print(channelid)
-    if proxy == False:
-        x1 = requests.get(f"https://discord.com/api/v9/channels/{channelid}/messages?limit=1&around="+messageid, headers=headers)
-        if x1.status_code == 200:
-            print("[+] Success Get application " + token)
-            x1json = x1.json()[0]
-            appliid = x1json['author']['id']
-            x1json2 = x1json['components'][0]['components'][0]
-            customid = x1json2['custom_id']
-            return appliid, customid
-        else:
-            print(x1.status_code)
+    x1 = requests.get(f"https://discord.com/api/v9/channels/{channelid}/messages?limit=1&around="+messageid, headers=headers)
+    if x1.status_code == 200:
+        print("[+] Success Get application " + token)
+        x1json = x1.json()[0]
+        appliid = x1json['author']['id']
+        x1json2 = x1json['components'][0]['components'][0]
+        customid = x1json2['custom_id']
+        return appliid, customid
     else:
-        proxy2 = random.choice(proxies)
-        proxies2 = {
-            'http' : f'{proxy}://{proxy2}',
-            'https' : f'{proxy}://{proxy2}',
-        }
-        x1 = requests.get(f"https://discord.com/api/v9/channels/{channelid}/messages?limit=1&around="+messageid, headers=headers, proxies=proxies2)
-        if x1.status_code == 200:
-            print("[+] Success Get application " + token)
-            x1json = x1.json()[0]
-            print(x1json)
-            appliid = x1json['author']['id']
-            x1json2 = x1json['components'][0]['components'][0]
-            customid = x1json2['custom_id']
-            return appliid, customid
-        else:
-            print(x1.status_code)
+        print(x1.status_code)
 
-def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid):
+def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, ratelimit):
     global status
+    global getdata
+    global appliid
+    global customid
     global timelock
     status = True
+    
+    token = random.choice(tokens)
+    
+    getdata = get_app(token, serverid, channelid, messageid)
+    appliid = getdata[0]
+    customid = getdata[1]
         
     print(token)
     print(serverid)
     print(channelid)
     print(messageid)
 
-    for token in tokens:
-        ticket_thread(delay, token, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid)
-        
-def ticket_thread(delay, token, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid):
-    time.sleep(float(delay))
+    while status is True:
+        if status == False:
+            break
+        if timelock == True:
+            print("[-] RateLimit Fixing...")
+            time.sleep(8)
+            print("[+] RateLimit Fixed")
+            timelock = False
+        threading.Thread(target=ticket_thread, args=(tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, ratelimit)).start()
+        time.sleep(float(delay))
+   
+def ticket_thread(tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, ratelimit):
+    global status
+    global getdata
+    global appliid
+    global customid
+    global timelock
+
+    if timelock == True:
+        return
+    if status is False:
+        return
+    token = random.choice(tokens)
+    data = {
+        "guild_id": serverid,
+        "channel_id": channelid,
+        "message_flags": 0,
+        "message_id": messageid,
+        "type": 3,
+        "application_id": appliid,
+        "data": {
+            "component_type": 2,
+            "custom_id": customid
+        }
+    }
     req_header = header.request_header(token)
     headers = req_header[0]
-    if proxysetting == False:
-        getdata = get_app(token, proxy, proxies, serverid, channelid, messageid)
-        appliid = getdata[0]
-        customid = getdata[1]
-        print("[+] Application ID: " + appliid)
-        print("[+] Custom ID: " + customid)
-        data = {
-            "guild_id": serverid,
-            "channel_id": channelid,
-            "message_flags": 0,
-            "message_id": messageid,
-            "type": 3,
-            "application_id": appliid,
-            "data": {
-                "component_type": 2,
-                "custom_id": customid
-                }
-        }
-        x1 = requests.post("https://discord.com/api/v9/interactions", headers=headers, json=data)
-        if x1.status_code == 204:
-            module_status(5, 1)
-            print("[+] Success Ticket Create" + token)
-            print("[*] Cooldown... ")
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
+    try:
+        if status is False:
+            return
+        requests = Client()
+        if proxysetting == True:
+            proxy = random.choice(proxies)
+            request = Client(transport=SyncProxyTransport.from_url(f'{proxytype}://{proxy}'))
+        x = requests.post("https://discord.com/api/v9/interactions", headers=headers, json=data)
+        if x.status_code == 200:
+            module_status(3, 1)
+            if proxysetting == True:
+                print(f"[-] 作成に成功しました Token: {extract_token}.******** Proxy: {proxy}")
+            else:
+                print(f"[-] 作成に成功しました Token: {extract_token}.********")
         else:
-            module_status(5, 2)
-            print("[-] Failed Ticket Create" + token)
-    else:
-        proxy = random.choice(proxies)
-        proxy2 = random.choice(proxies)
-        proxies2 = {
-            'http' : f'{proxy}://{proxy2}',
-            'https' : f'{proxy}://{proxy2}',
-        }
-        getdata = get_app(token, proxy, proxies, serverid, channelid, messageid)
-        appliid = getdata[0]
-        customid = getdata[1]
-        print("[+] Application ID: " + appliid)
-        print("[+] Custom ID: " + customid)
-        data = {
-            "guild_id": serverid,
-            "channel_id": channelid,
-            "message_flags": 0,
-            "message_id": messageid,
-            "type": 3,
-            "application_id": appliid,
-            "data": {
-                "component_type": 2,
-                "custom_id": customid
-                }
-        }
-        x1 = requests.post("https://discord.com/api/v9/interactions", headers=headers, json=data, proxies=proxies2)
-        if x1.status_code == 204:
-            module_status(5, 1)
-            print("[+] Success Ticket Create" + token)
-            print("[*] Cooldown... ")
-        else:
-            module_status(5, 2)
-            print("[-] Failed Ticket Create" + token)
+            if x.status_code == 429 or 20016:
+                if ratelimit == True:
+                    timelock = True
+                return
+            module_status(3, 2)
+    except:
+        pass

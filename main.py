@@ -137,6 +137,9 @@ class Setting:
   reply_ratefixer = tk.BooleanVar()
   reply_ratefixer.set(False)
   
+  ticket_ratefixer = tk.BooleanVar()
+  ticket_ratefixer.set(False) 
+  
   slash_ratefixer = tk.BooleanVar()
   slash_ratefixer.set(False) 
   
@@ -565,8 +568,8 @@ def module_thread(num):
     threading.Thread(target=module_spammer.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
 
   if num == 3_2:
-    module_spammer.stop()
-
+    threading.Thread(target=module_spammer.stop).start()
+   
   if num == 4_1:
     serverid = Setting.vcspam_serverid.get()
     channelid = Setting.vcspam_channelid.get()
@@ -614,12 +617,13 @@ def module_thread(num):
     threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
 
   if num == 5_2:
-    module_reply.stop()
+    threading.Thread(target=module_reply.stop).start()
 
   if num == 6_1:
     serverid = str(Setting.ticket_serverid.get())
     channelid = str(Setting.ticket_channelid.get())
     messageid = str(Setting.ticket_messageid.get())
+    ratelimit = Setting.ticket_ratefixer.get()
 
     if serverid == "":
       print("[-] ServerID is not set")
@@ -632,6 +636,9 @@ def module_thread(num):
       return
 
     threading.Thread(target=module_ticket.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid)).start()
+
+  if num == 6_2:
+    threading.Thread(target=module_ticket.stop).start()
 
   if num == 7_1:
     serverid = str(Setting.slash_serverid.get())
@@ -939,21 +946,22 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame04 = ctk.CTkFrame(module_frame, width=400, height=200, border_width=1, border_color=c3, fg_color=c1)
       modules_frame04.grid(row=1, column=0, padx=12, pady=12)
       tk.Label(modules_frame04, bg=c1, fg="#fff", text="Ticket Spammer", font=("Roboto", 12)).place(x=10,y=2)
-      #ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry15).place(x=5,y=28)
-      #ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_serverid).place(x=85,y=28)
-      #tk.Label(modules_frame04, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=26)
-      #ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry16).place(x=5,y=57)
-      #ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_channelid).place(x=85,y=57)
-      #tk.Label(modules_frame04, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
-      #ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry17).place(x=5,y=86)
-      #ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_messageid).place(x=85,y=86)
-      #tk.Label(modules_frame04, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=84)
+      ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry15).place(x=5,y=28)
+      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_serverid).place(x=85,y=28)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=26)
+      ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry16).place(x=5,y=57)
+      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_channelid).place(x=85,y=57)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
+      ctk.CTkButton(modules_frame04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry17).place(x=5,y=86)
+      ctk.CTkEntry(modules_frame04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_messageid).place(x=85,y=86)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=84)
 
-      #ctk.CTkButton(modules_frame04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_1)).place(x=5,y=117)
-      #
-      #tk.Label(modules_frame04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=85,y=110)
-      #tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=90,y=135)
-      #tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=90,y=160)
+      ctk.CTkButton(modules_frame04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_1)).place(x=5,y=117)
+      ctk.CTkButton(modules_frame04, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_2)).place(x=70,y=117)
+
+      tk.Label(modules_frame04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=110)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=135)
+      tk.Label(modules_frame04, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=160)
 
       # VC Spam
       modules_frame03 = ctk.CTkFrame(module_frame, width=400, height=200, border_width=1, border_color=c3, fg_color=c1)
