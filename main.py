@@ -64,7 +64,7 @@ class Setting:
   invalidtokenLabel.set("Invalid: 000")
   
   proxytype = tk.StringVar()
-  proxytype.set("")
+  proxytype.set("http")
   proxies = []
   totalproxies = 0
   vaildproxies = 0
@@ -446,7 +446,6 @@ def proxy_load():
   threading.Thread(target=proxy_main).start()
   
 def proxy_main():
-  summon_select()
   proxy_type = Setting.proxytype.get()
   print(proxy_type)
   if proxy_type == "":
@@ -481,37 +480,6 @@ def update_proxy(status, proxy):
   if status == False:
     Setting.invaildproxies += 1
     Setting.invalidProxiesLabel.set("Invalid: "+str(Setting.invaildproxies).zfill(3))
-
-def summon_select():  ## Delete?
-  window01 = tk.Tk()
-  window01.title("Select Proxy Type")
-  window01.geometry("400x270")
-  window01.configure(bg="#262626")
-  main_font = ctk.CTkFont(family="Helvetica", size=12)
-
-  def socks4():
-    Setting.proxytype.set("socks4")
-    window01.destroy()
-  def socks5():
-    Setting.proxytype.set("socks5")
-    window01.destroy()
-  def http():
-    Setting.proxytype.set("http")
-    window01.destroy()
-  def https():
-    Setting.proxytype.set("https")
-    window01.destroy()
-  def close():
-    Setting.proxytype.set("")
-    window01.destroy()
-
-  ctk.CTkButton(master=window01,command=socks4,text="Socks4",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 15)
-  ctk.CTkButton(master=window01,command=socks5,text="Socks5",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 60)
-  ctk.CTkButton(master=window01,command=http,text="Http",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 105)
-  ctk.CTkButton(master=window01,command=https,text="Https",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 150)
-  ctk.CTkButton(master=window01,command=close,text="Close",font=main_font,text_color="white",hover=True,hover_color="#3f98d7",height=30,width=100,border_width=2,corner_radius=20,border_color="#2d6f9e",bg_color="#262626",fg_color= "#3b8cc6").place(x= 15, y= 195)
-
-  window01.mainloop()
 
 def clear_frame(frame):
   for widget in frame.winfo_children():
@@ -832,19 +800,23 @@ def set_moduleframe(num1, num2):
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
       
       # Rewrite Proxys
-      modules_frame = ctk.CTkFrame(module_frame, width=350, height=165, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame = ctk.CTkFrame(module_frame, width=350, height=195, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=400,y=20)
       tk.Label(module_frame, bg=c1, fg="#fff", text="Proxies", font=("Roboto", 14)).place(x=415,y=4)
       ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.proxy_enabled ,text="Enabled").place(x=5,y=11)
-      ctk.CTkButton(modules_frame, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: proxy_load()).place(x=5,y=40)
-      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=40)
-      ctk.CTkLabel(modules_frame, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.proxy_filenameLabel).place(x=85,y=40)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=37)
+      def set_socket(socks):
+        Setting.proxytype.set(socks)
+      ctk.CTkOptionMenu(modules_frame, values=["http", "https", "socks4", "socks5"], fg_color=c2, button_color=c5, button_hover_color=c4, command=set_socket).place(x=5,y=37)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Socket Type", font=("Roboto", 12)).place(x=150,y=35)
+      ctk.CTkButton(modules_frame, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: proxy_load()).place(x=5,y=70)
+      ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=70)
+      ctk.CTkLabel(modules_frame, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.proxy_filenameLabel).place(x=85,y=70)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=67)
 
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=70)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totalProxiesLabel).place(x=10,y=95)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validProxiesLabel).place(x=10,y=115)
-      tk.Label(modules_frame, bg=c1, fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidProxiesLabel).place(x=10,y=135)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=100)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totalProxiesLabel).place(x=10,y=125)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validProxiesLabel).place(x=10,y=145)
+      tk.Label(modules_frame, bg=c1, fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidProxiesLabel).place(x=10,y=165)
 
       modules_frame = ctk.CTkFrame(module_frame, width=350, height=145, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=20,y=200)
@@ -1053,10 +1025,8 @@ print(f"""
 You HWID: [{get_hwid()}]                Version: [{version}]
 -----------------------""")
 ffmpeg_check()
-if config_check():
-  printl("debug", "Loading Tkinter")
-else:
-  printl("debug", "Loading Tkinter")
+config_check()
+printl("debug", "Loading Tkinter")
 
 tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
 
