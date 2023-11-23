@@ -799,14 +799,13 @@ def set_moduleframe(num1, num2):
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validtokenLabel).place(x=10,y=95)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=115)
       
-      # Rewrite Proxys
       modules_frame = ctk.CTkFrame(module_frame, width=350, height=195, border_width=1, border_color=c3, fg_color=c1)
       modules_frame.place(x=400,y=20)
       tk.Label(module_frame, bg=c1, fg="#fff", text="Proxies", font=("Roboto", 14)).place(x=415,y=4)
       ctk.CTkCheckBox(modules_frame, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.proxy_enabled ,text="Enabled").place(x=5,y=11)
       def set_socket(socks):
         Setting.proxytype.set(socks)
-      ctk.CTkOptionMenu(modules_frame, values=["http", "https", "socks4", "socks5"], fg_color=c2, button_color=c5, button_hover_color=c4, command=set_socket).place(x=5,y=37)
+      ctk.CTkOptionMenu(modules_frame, values=["http", "https", "socks4", "socks5"], fg_color=c2, button_color=c5, button_hover_color=c4, command=set_socket, variable=Setting.proxytype).place(x=5,y=37)
       tk.Label(modules_frame, bg=c1, fg="#fff", text="Socket Type", font=("Roboto", 12)).place(x=150,y=35)
       ctk.CTkButton(modules_frame, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: proxy_load()).place(x=5,y=70)
       ctk.CTkEntry(modules_frame, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=70)
