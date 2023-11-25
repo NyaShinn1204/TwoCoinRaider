@@ -1017,6 +1017,27 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame05, bg=c1, fg="#fff", textvariable=Setting.suc_shspam_Label, font=("Roboto", 12)).place(x=140,y=243)
       tk.Label(modules_frame05, bg=c1, fg="#fff", textvariable=Setting.fai_shspam_Label, font=("Roboto", 12)).place(x=140,y=268)
 
+      # Reaction Spam & Soon Module
+      modules_frame06 = ctk.CTkFrame(module_frame, width=400, height=300, fg_color=c1)
+      modules_frame06.grid(row=2, column=1, padx=12, pady=12)
+      modules_frame07 = ctk.CTkFrame(modules_frame06, width=400, height=145, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame07.grid(row=0, pady=5)
+      # Reaction
+      tk.Label(modules_frame07, bg=c1, fg="#fff", text="Reaction Spammer", font=("Roboto", 12)).place(x=10,y=2)
+      ctk.CTkButton(modules_frame07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry18).place(x=5,y=28)
+      ctk.CTkEntry(modules_frame07, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.slash_serverid).place(x=85,y=28)
+      tk.Label(modules_frame07, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=26)
+      ctk.CTkButton(modules_frame07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry19).place(x=5,y=57)
+      ctk.CTkEntry(modules_frame07, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.slash_channelid).place(x=85,y=57)
+      tk.Label(modules_frame07, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
+      ctk.CTkButton(modules_frame07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry19).place(x=5,y=86)
+      ctk.CTkEntry(modules_frame07, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.slash_channelid).place(x=85,y=86)
+      tk.Label(modules_frame07, bg=c1, fg="#fff", text="Emoji", font=("Roboto", 12)).place(x=240,y=84)
+      modules_frame08 = ctk.CTkFrame(modules_frame06, width=400, height=145, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame08.grid(row=1, pady=5)
+      # Soon
+      tk.Label(modules_frame08, bg=c1, fg="#fff", text="Soon Module", font=("Roboto", 12)).place(x=10,y=2)
+
       printl("debug", "Open Spam Tab")
       
 print(f"""
