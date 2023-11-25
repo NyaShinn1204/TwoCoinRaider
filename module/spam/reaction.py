@@ -19,12 +19,12 @@ def extract(format_token):
         token = format_token
     return token
 
-def start(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, messageid, emoji):
+def start(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji):
     for token in tokens:
-        threading.Thread(target=req_reaction, args=(token, proxysetting, proxies, proxytype, serverid, channelid, messageid, emoji)).start()
+        threading.Thread(target=req_reaction, args=(token, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
         time.sleep(float(delay))
     
-def req_reaction(token, proxysetting, proxies, proxytype, serverid, channelid, messageid, emoji):
+def req_reaction(token, proxysetting, proxies, proxytype, channelid, messageid, emoji):
     req_header = header.request_header(token)
     headers = req_header[0]
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
