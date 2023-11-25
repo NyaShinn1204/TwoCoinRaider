@@ -18,7 +18,6 @@ def request_header(token):
         os_version = f'Intel Mac OS X 10_15_{str(random.randint(5, 7))}'
     else:
         os_version = "10"
-    cookie_string = get_cookie.get_cookie()
     device_info = {
         "os": agent_os,
         "browser": browser_data[0],
@@ -42,7 +41,6 @@ def request_header(token):
         "Authorization": token,
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Cookie": cookie_string,
         "Host": "discord.com",
         "Origin": "https://discord.com",
         "Pragma": "no-cache",
@@ -61,7 +59,6 @@ def request_header(token):
         'Accept': '*/*',
         'Accept-Encoding': 'gzip, deflate, br',
         'Accept-Language': 'en-US',
-        'Cookie': cookie_string,
         'DNT': '1',
         'origin': 'https://discord.com',
         'TE': 'Trailers',
@@ -82,7 +79,6 @@ def request_header_joiner(token):
         os_version = f'Intel Mac OS X 10_15_{str(random.randint(5, 7))}'
     else:
         os_version = "10"
-    cookie_string = get_cookie.get_cookie()
     device_info = {
         "os": agent_os,
         "browser": browser_data[0],
@@ -106,7 +102,6 @@ def request_header_joiner(token):
         "Authorization": token,
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Cookie": cookie_string,
         "Host": "discord.com",
         "Origin": "https://discord.com",
         "Pragma": "no-cache",
@@ -117,7 +112,6 @@ def request_header_joiner(token):
         "sec-ch-ua-mobile": "?0",
         "TE": "Trailers",
         "User-Agent": agent_string,
-        "x-fingerprint": get_fingerprint.get_fingerprint(),
         "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8"),
         "X-Debug-Options": "bugReporterEnabled"
     }
@@ -126,7 +120,6 @@ def request_header_joiner(token):
         'Accept': '*/*',
         'Accept-Encoding': 'gzip, deflate, br',
         'Accept-Language': 'en-US',
-        'Cookie': cookie_string,
         'DNT': '1',
         'origin': 'https://discord.com',
         'TE': 'Trailers',
