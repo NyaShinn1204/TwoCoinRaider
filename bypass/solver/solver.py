@@ -14,6 +14,22 @@ def extract(format_token):
         token = format_token
     return token
 
+def get_balance_capsolver(api):
+    resp = requests.post(f"https://api.capsolver.com/getBalance", json={"clientKey": api})
+    if resp.status_code == 200:
+        balance = resp.json()["balance"]
+        if balance == 0.0:
+            print(f"[+] Working Key: {api}  But Balance 0.0$")
+        else:
+            print(f"[+] Working Key: {api}  Balance: {balance}")
+        return resp.json()["balance"]
+    elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
+        print(f"[-] Invalid Key: {api}")
+        return 0.0
+    else:
+        print(f"[-] Invalid Key Or Exception Error   Key: {api} Status Code: {resp.status_code}")
+        return 0.0
+
 def get_balance_capmonster(api):
     resp = requests.post(f"https://api.capmonster.cloud/getBalance", json={"clientKey": api})
     if resp.status_code == 200:
@@ -46,21 +62,36 @@ def get_balance_2cap(api):
         print(f"[-] Invalid Key Or Exception Error   Key: {api} Status Code: {resp.status_code}")
         return 0.0
 
-def get_balance_capsolver(api):
-    resp = requests.post(f"https://api.capsolver.com/getBalance", json={"clientKey": api})
-    if resp.status_code == 200:
-        balance = resp.json()["balance"]
-        if balance == 0.0:
-            print(f"[+] Working Key: {api}  But Balance 0.0$")
+def captcha_bypass_capsolver(token, url, key, api):
+    if get_balance_capsolver == 0.0:
+        return
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
+    startedSolving = time.time()
+    json = {
+        "clientKey": api,
+        "task": {
+            "type": "HCaptchaTaskProxyLess",
+            "websiteURL": url,
+            "websiteKey": key,
+        }
+    }
+    headers = {'Content-Type': 'application/json'}
+    response = httpx.post('https://api.capsolver.com/createTask', headers=headers, json=json)
+    try:
+        taskid = response.json()['taskId']
+    except:
+        print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.json()['errorDescription'])}")
+        return 
+    json = {"clientKey": api, "taskId": taskid}
+    while True:
+        time.sleep(1.5)
+        response = httpx.post('https://api.capsolver.com/getTaskResult', headers=headers, json=json)
+        if response.json()['status'] == 'ready':
+            captchakey = response.json()['solution']['gRecaptchaResponse']
+            print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [solver.py] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Solved{Fore.RESET} | {Fore.YELLOW}{response[-32:]} {Fore.RESET}In {Fore.YELLOW}{round(time.time()-startedSolving)}s{Fore.RESET} | " + extract_token)
+            return captchakey
         else:
-            print(f"[+] Working Key: {api}  Balance: {balance}")
-        return resp.json()["balance"]
-    elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
-        print(f"[-] Invalid Key: {api}")
-        return 0.0
-    else:
-        print(f"[-] Invalid Key Or Exception Error   Key: {api} Status Code: {resp.status_code}")
-        return 0.0
+            continue
 
 def captcha_bypass_capmonster(token, url, key, api):
     if get_balance_capmonster == 0.0:
@@ -115,34 +146,3 @@ def captcha_bypass_2cap(token, url, key, api):
     else:
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.text)}")
         return False
-    
-def captcha_bypass_capsolver(token, url, key, api):
-    if get_balance_capsolver == 0.0:
-        return
-    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
-    startedSolving = time.time()
-    json = {
-        "clientKey": api,
-        "task": {
-            "type": "HCaptchaTaskProxyLess",
-            "websiteURL": url,
-            "websiteKey": key,
-        }
-    }
-    headers = {'Content-Type': 'application/json'}
-    response = httpx.post('https://api.capsolver.com/createTask', headers=headers, json=json)
-    try:
-        taskid = response.json()['taskId']
-    except:
-        print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.json()['errorDescription'])}")
-        return 
-    json = {"clientKey": api, "taskId": taskid}
-    while True:
-        time.sleep(1.5)
-        response = httpx.post('https://api.capsolver.com/getTaskResult', headers=headers, json=json)
-        if response.json()['status'] == 'ready':
-            captchakey = response.json()['solution']['gRecaptchaResponse']
-            print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [solver.py] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Solved{Fore.RESET} | {Fore.YELLOW}{response[-32:]} {Fore.RESET}In {Fore.YELLOW}{round(time.time()-startedSolving)}s{Fore.RESET} | " + extract_token)
-            return captchakey
-        else:
-            continue
