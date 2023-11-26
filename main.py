@@ -762,15 +762,12 @@ def set_moduleframe(num1, num2):
               print("[~] Checking Balance...")
               if answers == "1":
                 if solver.get_balance_capsolver(apis) == 0.0:
-                  print("[-] Not Working Or Balance 0.0$ API Key "+ apis)
                   Setting.bypass_cap.set(False)
               if answers == "2":
                 if solver.get_balance_capmonster(apis) == 0.0:
-                  print("[-] Not Working Or Balance 0.0$ API Key "+ apis)
                   Setting.bypass_cap.set(False)
               if answers == "3":
                 if solver.get_balance_2cap(apis) == 0.0:
-                  print("[-] Not Working Or Balance 0.0$ API Key "+ apis)
                   Setting.bypass_cap.set(False)
           else:
             print("[-] Not Set. Please Input")

@@ -1,6 +1,7 @@
 import re
 import time
 import httpx
+import requests
 import colorama
 from colorama import Fore
 
@@ -14,25 +15,43 @@ def extract(format_token):
     return token
 
 def get_balance_capmonster(api):
-    resp = httpx.post(f"https://api.capmonster.cloud/getBalance", json={"clientKey": api}).json()
-    if resp.get("errorId") > 0:
-        print(f"Error while getting captcha balance: {resp.get('errorDescription')}")
+    resp = requests.post(f"https://api.capmonster.cloud/getBalance", json={"clientKey": api})
+    if resp.status_code == 200:
+        balance = resp.json()["balance"]
+        if balance == 0.0:
+            print(f"[+] Working Key: {api}  But Balance 0.0$")
+        else:
+            print(f"[+] Working Key: {api}  Balance: {balance}")
+        return resp.json()["balance"]
+    elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
+        print(f"[-] Invalid Key: {api}")
         return 0.0
-    return resp.get("balance")
 
 def get_balance_2cap(api):
-    resp = httpx.post(f"https://api.2captcha.com/getBalance", json={"clientKey": api}).json()
-    if resp.get("errorId") > 0:
-        print(f"Error while getting captcha balance: {resp.get('errorDescription')}")
+    resp = requests.post(f"https://api.2captcha.com/getBalance", json={"clientKey": api}).json()
+    if resp.status_code == 200:
+        balance = resp.json()["balance"]
+        if balance == 0.0:
+            print(f"[+] Working Key: {api}  But Balance 0.0$")
+        else:
+            print(f"[+] Working Key: {api}  Balance: {balance}")
+        return resp.json()["balance"]
+    elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
+        print(f"[-] Invalid Key: {api}")
         return 0.0
-    return resp.get("balance")
 
 def get_balance_capsolver(api):
-    resp = httpx.post(f"https://api.capsolver.com/getBalance", json={"clientKey": api}).json()
-    if resp.get("errorId") > 0:
-        print(f"Error while getting captcha balance: {resp.get('errorDescription')}")
+    resp = requests.post(f"https://api.capsolver.com/getBalance", json={"clientKey": api}).json()
+    if resp.status_code == 200:
+        balance = resp.json()["balance"]
+        if balance == 0.0:
+            print(f"[+] Working Key: {api}  But Balance 0.0$")
+        else:
+            print(f"[+] Working Key: {api}  Balance: {balance}")
+        return resp.json()["balance"]
+    elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
+        print(f"[-] Invalid Key: {api}")
         return 0.0
-    return resp.get("balance")
 
 def captcha_bypass_capmonster(token, url, key, api):
     if get_balance_capmonster == 0.0:
