@@ -758,8 +758,7 @@ def set_moduleframe(num1, num2):
               print("[-] Not Set. Please Input")
               Setting.bypass_cap.set(False)
             else:
-              print("[+] Insert API Key: " + apis)
-              print("[~] Checking Balance...")
+              print("[~] Checking API Key: " + apis)
               if answers == "1":
                 if solver.get_balance_capsolver(apis) == 0.0:
                   Setting.bypass_cap.set(False)
