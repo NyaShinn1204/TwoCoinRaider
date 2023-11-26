@@ -27,7 +27,7 @@ def get_balance_capmonster(api):
         print(f"[-] Invalid Key: {api}")
         return 0.0
     else:
-        print(f"[-] Invalid Key Or Exception Error   Key: {api}")
+        print(f"[-] Invalid Key Or Exception Error   Key: {api} Status Code: {resp.status_code}")
         return 0.0
 
 def get_balance_2cap(api):
@@ -43,7 +43,7 @@ def get_balance_2cap(api):
         print(f"[-] Invalid Key: {api}")
         return 0.0
     else:
-        print(f"[-] Invalid Key Or Exception Error   Key: {api}")
+        print(f"[-] Invalid Key Or Exception Error   Key: {api} Status Code: {resp.status_code}")
         return 0.0
 
 def get_balance_capsolver(api):
@@ -59,7 +59,7 @@ def get_balance_capsolver(api):
         print(f"[-] Invalid Key: {api}")
         return 0.0
     else:
-        print(f"[-] Invalid Key Or Exception Error   Key: {api}")
+        print(f"[-] Invalid Key Or Exception Error   Key: {api} Status Code: {resp.status_code}")
         return 0.0
 
 def captcha_bypass_capmonster(token, url, key, api):
