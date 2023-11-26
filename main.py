@@ -1068,7 +1068,7 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame07, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=55)
       ctk.CTkButton(modules_frame07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry26).place(x=5,y=86)
       ctk.CTkEntry(modules_frame07, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reaction_emoji).place(x=85,y=86)
-      tk.Label(modules_frame07, bg=c1, fg="#fff", text="Emoji", font=("Roboto", 12)).place(x=240,y=84)
+      tk.Label(modules_frame07, bg=c1, fg="#fff", text="Emoji  e.x. :skull:", font=("Roboto", 12)).place(x=240,y=84)
       
       ctk.CTkButton(modules_frame07, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(8_1)).place(x=5,y=117)
 
