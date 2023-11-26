@@ -26,9 +26,28 @@ def get_balance_capmonster(api):
     elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
         print(f"[-] Invalid Key: {api}")
         return 0.0
+    else:
+        print(f"[-] Invalid Key Or Exception Error   Key: {api}")
+        return 0.0
 
 def get_balance_2cap(api):
-    resp = requests.post(f"https://api.2captcha.com/getBalance", json={"clientKey": api}).json()
+    resp = requests.post(f"https://api.2captcha.com/getBalance", json={"clientKey": api})
+    if resp.status_code == 200:
+        balance = resp["balance"]
+        if balance == 0.0:
+            print(f"[+] Working Key: {api}  But Balance 0.0$")
+        else:
+            print(f"[+] Working Key: {api}  Balance: {balance}")
+        return resp.json()["balance"]
+    elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
+        print(f"[-] Invalid Key: {api}")
+        return 0.0
+    else:
+        print(f"[-] Invalid Key Or Exception Error   Key: {api}")
+        return 0.0
+
+def get_balance_capsolver(api):
+    resp = requests.post(f"https://api.capsolver.com/getBalance", json={"clientKey": api})
     if resp.status_code == 200:
         balance = resp.json()["balance"]
         if balance == 0.0:
@@ -39,18 +58,8 @@ def get_balance_2cap(api):
     elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
         print(f"[-] Invalid Key: {api}")
         return 0.0
-
-def get_balance_capsolver(api):
-    resp = requests.post(f"https://api.capsolver.com/getBalance", json={"clientKey": api}).json()
-    if resp.status_code == 200:
-        balance = resp.json()["balance"]
-        if balance == 0.0:
-            print(f"[+] Working Key: {api}  But Balance 0.0$")
-        else:
-            print(f"[+] Working Key: {api}  Balance: {balance}")
-        return resp.json()["balance"]
-    elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
-        print(f"[-] Invalid Key: {api}")
+    else:
+        print(f"[-] Invalid Key Or Exception Error   Key: {api}")
         return 0.0
 
 def captcha_bypass_capmonster(token, url, key, api):
