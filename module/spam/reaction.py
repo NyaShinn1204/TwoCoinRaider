@@ -37,9 +37,9 @@ def req_reaction(token, proxysetting, proxies, proxytype, channelid, messageid, 
         x = request.put(f"https://discord.com/api/v9/channels/{channelid}/messages/{messageid}/reactions/{emoji2}/%40me", headers=headers)
         if x.status_code == 204:
             if proxysetting == True:
-                print(f"[-] 送信に成功しました ChannelID: {channelid} Token: {extract_token}.******** Proxy: {proxy}")
+                print(f"[-] 付与に成功しました ChannelID: {channelid} Token: {extract_token}.******** Proxy: {proxy}")
             else:
-                print(f"[-] 送信に成功しました ChannelID: {channelid} Token: {extract_token}.********")
+                print(f"[-] 付与に成功しました ChannelID: {channelid} Token: {extract_token}.********")
         else:
             if x.status_code == 429 or 20016:
                 print("[-] RateLimit!! "+json.loads(x.text)["retry_after"])
