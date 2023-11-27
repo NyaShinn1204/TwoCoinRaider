@@ -38,18 +38,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
 
             if bypasscaptcha == True:
                 print("[-] Captcha Bypassing.. "+ extract_token)
-                if answers == "1":
-                   payload = {
-                        "captcha_key": solver.captcha_bypass_capsolver(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", apis)
-                    }
-                if answers == "2":
-                    payload = {
-                        "captcha_key": solver.captcha_bypass_capmonster(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", apis)
-                    }
-                if answers == "3":
-                    payload = {
-                        "captcha_key": solver.captcha_bypass_2cap(token, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", apis)
-                    }
+                solver.bypass_captcha(answers, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", apis)
                 newresponse = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
                 if newresponse.status_code == 200:
                     if "captcha_key" not in newresponse.json():
