@@ -50,11 +50,10 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                         print("[+] Success Join: " + extract_token)
                         module_status(1, 1)
                     if memberscreen == True:
-                        b = newresponse.json()
-                        server_id = b["guild"]["id"]
+                        serverid = newresponse.json()["guild"]["id"]
                         if 'show_verification_form' in b:
-                            bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{server_id}/member-verification?with_guild=false", headers=headers).json()
-                            accept_rules = session.get(f"https://discord.com/api/v9/guilds/{server_id}/requests/@me", headers=headers, json=bypass_rules)
+                            bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false", headers=headers).json()
+                            accept_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/requests/@me", headers=headers, json=bypass_rules)
                             if accept_rules.status_code == 201 or accept_rules.status_code == 204:
                                 print("[+] Success Memberbypass: " + extract_token)
                                 return

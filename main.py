@@ -537,7 +537,7 @@ def module_thread(num):
     if memberscreen == True:
       if serverid == "":
         print("[-] ServerID is not set")
-        return
+        print("[-] 代わりにInvite CodeからServerIDを取得します")
     if bypasscaptcha == True:
       if answers == "":
         print("[-] Please Select API Service")
