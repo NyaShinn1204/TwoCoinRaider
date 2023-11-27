@@ -1,6 +1,7 @@
 import random
 import threading
 import time
+import json
 import requests
 import re
 from httpx import Client
@@ -9,7 +10,7 @@ from httpx_socks import SyncProxyTransport
 import bypass.header as header
 
 status = True
-timelock = True
+timelock = False
 
 def status():
     global status
@@ -116,6 +117,7 @@ def ticket_thread(tokens, module_status, proxysetting, proxies, proxytype, serve
                 print(f"[-] 作成に成功しました Token: {extract_token}.********")
         else:
             if x.status_code == 429 or 20016:
+                print("[-] RateLimit!! Please Wait!! "+json.loads(x.text)["retry_after"])
                 if ratelimit == True:
                     timelock = True
                 return
