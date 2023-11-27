@@ -147,3 +147,11 @@ def captcha_bypass_2cap(token, url, key, api):
     else:
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.text)}")
         return False
+    
+def bypass_captcha(type, token, url, key, api):
+    if type == 1:
+        captcha_bypass_capsolver(token, url, key, api)
+    if type == 2:
+        captcha_bypass_capmonster(token, url, key, api)
+    if type == 3:
+        captcha_bypass_2cap(token, url, key, api)
