@@ -27,6 +27,18 @@ def extract(format_token):
         token = format_token
     return token
 
+def member_screen_bypass(tokn, requests, serverid):
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
+    session = header.get_session.get_session()
+    if 'show_verification_form' in requests:
+        bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false", headers=headers).json()
+        accept_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/requests/@me", headers=headers, json=bypass_rules)
+        if accept_rules.status_code == 201 or accept_rules.status_code == 204:
+            print("[+] Success Memberbypass: " + extract_token)
+            return
+        else:
+            print("[-] Failed Memberbypass: " + extract_token)
+
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answers, apis, bypasscaptcha):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     session = header.get_session.get_session()
@@ -50,15 +62,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                         print("[+] Success Join: " + extract_token)
                         module_status(1, 1)
                     if memberscreen == True:
-                        serverid = newresponse.json()["guild"]["id"]
-                        if 'show_verification_form' in b:
-                            bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false", headers=headers).json()
-                            accept_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/requests/@me", headers=headers, json=bypass_rules)
-                            if accept_rules.status_code == 201 or accept_rules.status_code == 204:
-                                print("[+] Success Memberbypass: " + extract_token)
-                                return
-                            else:
-                                print("[-] Failed Memberbypass: " + extract_token)
+                        member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
 
             else:
                 if "captcha_key" in joinreq.json():
@@ -74,16 +78,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                 print("[+] Success Join: " + extract_token)
                 module_status(1, 1)
             if memberscreen == True:
-                b = joinreq.json()
-                server_id = b["guild"]["id"]
-                if 'show_verification_form' in b:
-                    bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{server_id}/member-verification?with_guild=false", headers=headers).json()
-                    accept_rules = session.get(f"https://discord.com/api/v9/guilds/{server_id}/requests/@me", headers=headers, json=bypass_rules)
-                    if accept_rules.status_code == 201 or accept_rules.status_code == 204:
-                        print("[+] Success Memberbypass: " + extract_token)
-                        return
-                    else:
-                        print("[-] Failed Memberbypass: " + extract_token)
+                member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
     except Exception as err:
         print(f"[-] ERROR: {err} ")
         return
