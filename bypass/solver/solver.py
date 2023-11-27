@@ -142,6 +142,7 @@ def captcha_bypass_2cap(token, url, key, api):
             response = httpx.get(url)
             print(response.text)
         print(response.text)
+        print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [solver.py] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Solved{Fore.RESET} | {Fore.YELLOW}{response[-32:]} {Fore.RESET}In {Fore.YELLOW}{round(time.time()-startedSolving)}s{Fore.RESET} | " + extract_token)
         return response.text.replace('OK|','') , str(time.time() - startedSolving)
     else:
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.text)}")

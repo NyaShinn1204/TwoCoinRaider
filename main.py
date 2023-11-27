@@ -44,7 +44,7 @@ root.title("TwoCoinRaider")
 root.iconbitmap(default="data/favicon.ico")
 root.configure(bg="#213A3E")
 
-version = "v1.0.3pre-α"
+version = "v1.0.3α"
  
 class Setting:
   tokens = []
