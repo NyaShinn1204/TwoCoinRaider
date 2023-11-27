@@ -899,9 +899,16 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=135)
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", textvariable=Setting.fai_leaver_Label, font=("Roboto", 12)).place(x=10,y=155)
 
+      # VC Joiner Frame
       modules_frame01_03 = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color=c3, fg_color=c1)
       modules_frame01_03.grid(row=1, column=0, padx=12, pady=12)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="VC Joiner", font=("Roboto", 14)).place(x=10,y=2)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Release Soon!", font=("Roboto", 12)).place(x=10,y=25)
+
+      # VC Leaver Frame
+      modules_frame01_03 = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame01_03.grid(row=1, column=1, padx=12, pady=12)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="VC Leaver", font=("Roboto", 14)).place(x=10,y=2)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Release Soon!", font=("Roboto", 12)).place(x=10,y=25)
 
       printl("debug", "Open Join Leave Tab")
