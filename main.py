@@ -37,14 +37,15 @@ import module.spam.reaction as module_reaction
 import bypass.solver.solver as solver
 
 colorama.init(autoreset=True)
+
+version = "v1.0.3α"
+
 root = tk.Tk()
 root.geometry("1280x720")
 root.resizable(0, 0)
-root.title("TwoCoinRaider")
+root.title("TwoCoinRaider | "+version)
 root.iconbitmap(default="data/favicon.ico")
 root.configure(bg="#213A3E")
-
-version = "v1.0.3α"
  
 class Setting:
   tokens = []
