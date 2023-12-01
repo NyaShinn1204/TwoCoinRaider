@@ -135,6 +135,8 @@ class Setting:
   spam_rdstring.set(False)
   spam_ratefixer = tk.BooleanVar()
   spam_ratefixer.set(False)
+  spam_randomconvert = tk.BooleanVar()
+  spam_randomconvert.set(False)
 
   reply_allping = tk.BooleanVar()
   reply_allping.set(False)
@@ -573,6 +575,7 @@ def module_thread(num):
     allping = Setting.spam_allping.get()
     randomstring = Setting.spam_rdstring.get()
     ratelimit = Setting.spam_ratefixer.get()
+    randomconvert = Setting.spam_randomconvert.get()
 
     contents = spam_message.get("0.0","end-1c")
     mentions = Setting.mention_count_def.get()
@@ -586,7 +589,7 @@ def module_thread(num):
       print("[-] ChannelID is not set")
       return    
 
-    threading.Thread(target=module_spammer.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit)).start()
+    threading.Thread(target=module_spammer.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit, randomconvert)).start()
 
   if num == 3_2:
     threading.Thread(target=module_spammer.stop).start()
@@ -923,6 +926,7 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkCheckBox(modules_frame02_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allch ,text="All Ch").place(x=5,y=48)
       ctk.CTkCheckBox(modules_frame02_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_rdstring ,text="Random String").place(x=5,y=70)
       ctk.CTkCheckBox(modules_frame02_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_ratefixer ,text="RateLimitFixer").place(x=5,y=92)
+      ctk.CTkCheckBox(modules_frame02_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_randomconvert ,text="RandomConvert").place(x=150,y=92)
       ctk.CTkButton(modules_frame02_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry04).place(x=5,y=121)
       ctk.CTkEntry(modules_frame02_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.spam_serverid).place(x=85,y=121)
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=119)

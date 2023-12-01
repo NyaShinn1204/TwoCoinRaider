@@ -10,6 +10,7 @@ from httpx_socks import SyncProxyTransport
 import module.spam.channel_scrape as ch_scrape
 import module.spam.user_scrape as user_scrape
 import bypass.header as header
+import bypass.random_convert as random_convert
 
 status = True
 timelock = False
@@ -32,7 +33,7 @@ def extract(format_token):
         token = format_token
     return token
 
-def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit):
+def start(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit, randomconvert):
     global status
     global channels
     global users
@@ -63,10 +64,10 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
             print("[+] RateLimit Fixed")
             timelock = False
         threading.Thread(target=spammer_thread, args=(tokens, module_status, allping, proxysetting, proxies, proxytype,
-                        allchannel, channelid, contents, randomstring, mentions, ratelimit)).start()
+                        allchannel, channelid, contents, randomstring, mentions, ratelimit, randomconvert)).start()
         time.sleep(float(delay))
         
-def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxytype, allchannel, channelid, contents, randomstring, mentions, ratelimit):
+def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxytype, allchannel, channelid, contents, randomstring, mentions, ratelimit, randomconvert):
     global channels
     global users
     global status
@@ -95,6 +96,8 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
     try:
         if status is False:
             return
+        if randomconvert == True:
+            content = random_convert.ranndom_convert(content)
         request = Client()
         if proxysetting == True:
             proxy = random.choice(proxies)
