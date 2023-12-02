@@ -518,6 +518,7 @@ def clear_frame(frame):
   frame.pack_forget()
 
 def module_thread(num):
+  global answers, apis
   tokens = Setting.tokens
   proxies = Setting.proxies
   proxytype = Setting.proxytype.get()

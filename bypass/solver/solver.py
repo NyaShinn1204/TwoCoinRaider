@@ -49,7 +49,7 @@ def get_balance_capmonster(api):
 def get_balance_2cap(api):
     resp = requests.post(f"https://api.2captcha.com/getBalance", json={"clientKey": api})
     if resp.status_code == 200:
-        balance = resp["balance"]
+        balance = resp.json()["balance"]
         if balance == 0.0:
             print(f"[+] Working Key: {api}  But Balance 0.0$")
         else:

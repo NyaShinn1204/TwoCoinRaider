@@ -41,16 +41,15 @@ def member_screen_bypass(token, requests, serverid):
         else:
             print("[-] Failed Memberbypass: " + extract_token)
 
-def delete_join_msg(token, headers, join_channel_id):
+def delete_join_msg(token, join_channel_id):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
-    session = header.get_session.get_session()
     req_header = header.request_header_joiner(token)
     headers = req_header[0]
-    messages = session.get(f"https://discord.com/api/v9/channels/{join_channel_id}/messages?limit=100",headers=headers).json()
+    messages = requests.get(f"https://discord.com/api/v9/channels/{join_channel_id}/messages?limit=100",headers=headers).json()
     for message in messages:
         bot_token_id = base64.b64decode(headers["authorization"].split(".")[0]+"==").decode()
         if message["content"]=="" and bot_token_id == message["author"]["id"]:
-            deleted_join = session.delete(f"https://discord.com/api/v9/channels/{join_channel_id}/messages/{message['id']}")
+            deleted_join = requests.delete(f"https://discord.com/api/v9/channels/{join_channel_id}/messages/{message['id']}")
             if deleted_join.status_code==204:
                 print("[+] Success Delete Join Message: " + extract_token)
             else:
@@ -70,8 +69,10 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
 
             if bypasscaptcha == True:
                 print("[-] Captcha Bypassing.. "+ extract_token)
+                sitekey = joinreq.json()['captcha_sitekey']
+                url = "https://discord.com"
                 payload = {
-                    solver.bypass_captcha(answers, "https://discord.com", f"{joinreq.json()['captcha_sitekey']}", apis)
+                    "captcha_key": solver.bypass_captcha(answers, token, url, sitekey, apis),
                 }
                 newresponse = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
                 if newresponse.status_code == 200:
@@ -82,7 +83,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                         print("[+] Success Join: " + extract_token)
                         if delete_joinms == True:
                             print("[~] Deleting Join Message...")
-                            delete_joinms(token, headers, join_channelid)
+                            delete_join_msg(token, join_channelid)
                         module_status(1, 1)
                     if memberscreen == True:
                         member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
