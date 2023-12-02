@@ -47,13 +47,14 @@ def delete_join_msg(token, join_channel_id):
     headers = req_header[0]
     messages = requests.get(f"https://discord.com/api/v9/channels/{join_channel_id}/messages?limit=100",headers=headers).json()
     for message in messages:
-        bot_token_id = base64.b64decode(headers["authorization"].split(".")[0]+"==").decode()
+        bot_token_id = base64.b64decode(token.split(".")[0]+"==").decode()
         if message["content"]=="" and bot_token_id == message["author"]["id"]:
-            deleted_join = requests.delete(f"https://discord.com/api/v9/channels/{join_channel_id}/messages/{message['id']}")
+            deleted_join = requests.delete(f"https://discord.com/api/v9/channels/{join_channel_id}/messages/{message['id']}",headers=headers)
             if deleted_join.status_code==204:
                 print("[+] Success Delete Join Message: " + extract_token)
             else:
-                print("[-] Success Delete Join Message: " + extract_token)
+                print("[-] Failed Delete Join Message: " + extract_token)
+                print(deleted_join.text)
             break
     
     print("[-] Join Channelが見つかりません: " + extract_token)
