@@ -21,7 +21,7 @@ def get_balance_capsolver(api):
         if balance == 0.0:
             print(f"[+] Working Key: {api}  But Balance 0.0$")
         else:
-            print(f"[+] Working Key: {api}  Balance: {balance}")
+            print(f"[+] Working Key: {api}  Balance: {balance}$")
         return resp.json()["balance"]
     elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
         print(f"[-] Invalid Key: {api}")
@@ -37,7 +37,7 @@ def get_balance_capmonster(api):
         if balance == 0.0:
             print(f"[+] Working Key: {api}  But Balance 0.0$")
         else:
-            print(f"[+] Working Key: {api}  Balance: {balance}")
+            print(f"[+] Working Key: {api}  Balance: {balance}$")
         return resp.json()["balance"]
     elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
         print(f"[-] Invalid Key: {api}")
@@ -53,7 +53,7 @@ def get_balance_2cap(api):
         if balance == 0.0:
             print(f"[+] Working Key: {api}  But Balance 0.0$")
         else:
-            print(f"[+] Working Key: {api}  Balance: {balance}")
+            print(f"[+] Working Key: {api}  Balance: {balance}$")
         return resp.json()["balance"]
     elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
         print(f"[-] Invalid Key: {api}")
