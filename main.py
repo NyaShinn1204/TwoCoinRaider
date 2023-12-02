@@ -183,8 +183,12 @@ class Setting:
   bypass_ms.set(False)
   bypass_cap = tk.BooleanVar()
   bypass_cap.set(False)
+  delete_join_ms = tk.BooleanVar()
+  delete_join_ms.set("False")
   joiner_serverid = tk.StringVar()
   joiner_serverid.set("")
+  joiner_channelid = tk.StringVar()
+  joiner_channelid.set("")
   leaver_serverid = tk.StringVar()
   leaver_serverid.set("")
   spam_serverid = tk.StringVar()
@@ -253,10 +257,12 @@ class SettingVariable:
   slashspamresult_failed = 0
 
 # value def
-def clear_entry01():
+def clear_entry01_01():
   Setting.joiner_link.set("")
-def clear_entry02():
+def clear_entry01_02():
   Setting.joiner_serverid.set("")
+def clear_entry01_03():
+  Setting.joiner_channelid.set("")
 def clear_entry03():
   Setting.leaver_serverid.set("")
 def clear_entry04():
@@ -520,8 +526,10 @@ def module_thread(num):
   print(tokens)
   if num == 1_1:
     serverid = str(Setting.joiner_serverid.get())
+    join_channelid = str(Setting.joiner_channelid.get())
     invitelink = Setting.joiner_link.get()
     memberscreen = Setting.bypass_ms.get()
+    delete_joinms = Setting.delete_join_ms.get()
     bypasscaptcha = Setting.bypass_cap.get()
 
     delay = Setting.delay01.get()
@@ -551,8 +559,12 @@ def module_thread(num):
     else:
       answers = None
       apis = None
+    if delete_joinms == "":
+      if join_channelid == "":
+        print("[-] Join ChannelID is not set")
+        return
 
-    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha)).start()
+    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha, delete_joinms, join_channelid)).start()
 
   if num == 2_1:
     serverid = Setting.leaver_serverid.get()
@@ -855,31 +867,35 @@ def set_moduleframe_scroll(num1, num2):
             Setting.bypass_cap.set(False)
 
       # Joiner Frame
-      modules_frame01_01 = ctk.CTkFrame(module_frame, width=350, height=280, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame01_01 = ctk.CTkFrame(module_frame, width=350, height=300, border_width=1, border_color=c3, fg_color=c1)
       modules_frame01_01.grid(row=0, column=0, padx=12, pady=12)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Joiner", font=("Roboto", 14)).place(x=10,y=2)
       ctk.CTkCheckBox(modules_frame01_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass MemberScreen", variable=Setting.bypass_ms).place(x=5,y=31)
       ctk.CTkCheckBox(modules_frame01_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass hCaptcha", variable=Setting.bypass_cap, command=hcaptcha_select).place(x=5,y=55) 
-      ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry01).place(x=5,y=84) #40
+      ctk.CTkCheckBox(modules_frame01_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Delete Join Message", variable=Setting.delete_join_ms).place(x=150,y=55) 
+      ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry01_01).place(x=5,y=84) #40
       ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_link).place(x=85,y=84)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Invite Link", font=("Roboto", 12)).place(x=240,y=82) #38
-      ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry02).place(x=5,y=113)
+      ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry01_02).place(x=5,y=113)
       ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_serverid).place(x=85,y=113)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=111)
-
+      ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry01_03).place(x=5,y=142)
+      ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_channelid).place(x=85,y=142)
+      tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="JoinChannel ID", font=("Roboto", 12)).place(x=240,y=140)
+      
       def slider_event01(value):
-        tk.Label(modules_frame01_01, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=135)
+        tk.Label(modules_frame01_01, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=164)
 
-      ctk.CTkSlider(modules_frame01_01, from_=0.1, to=3.0, variable=Setting.delay01, command=slider_event01).place(x=5,y=140)
-      tk.Label(modules_frame01_01, bg=c1, fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=135)
-      tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=135)
+      ctk.CTkSlider(modules_frame01_01, from_=0.1, to=3.0, variable=Setting.delay01, command=slider_event01).place(x=5,y=169)
+      tk.Label(modules_frame01_01, bg=c1, fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=164)
+      tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=164)
 
-      ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=160)
-      ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=160)
+      ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=190)
+      ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=190)
 
-      tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=190)
-      tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=10,y=218)
-      tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.fai_joiner_Label, font=("Roboto", 12)).place(x=10,y=243)
+      tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=220)
+      tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=10,y=248)
+      tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.fai_joiner_Label, font=("Roboto", 12)).place(x=10,y=273)
 
       # Leaver Frame
       modules_frame01_02 = ctk.CTkFrame(module_frame, width=350, height=200, border_width=1, border_color=c3, fg_color=c1)
