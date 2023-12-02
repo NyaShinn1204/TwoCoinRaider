@@ -56,9 +56,7 @@ def delete_join_msg(token, join_channel_id):
                 print("[-] Failed Delete Join Message: " + extract_token)
                 print(deleted_join.text)
             break
-    
-    print("[-] Join Channelが見つかりません: " + extract_token)
-
+        
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answers, apis, bypasscaptcha, delete_joinms, join_channelid):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     session = header.get_session.get_session()
