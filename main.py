@@ -115,6 +115,12 @@ class Setting:
   fai_ticketspam_Label = tk.StringVar()
   fai_ticketspam_Label.set("Failed: 000")
   
+  # vc spam
+  suc_vcspam_Label = tk.StringVar()
+  suc_vcspam_Label.set("Success: 000")
+  fai_vcspam_Label = tk.StringVar()
+  fai_vcspam_Label.set("Failed: 000")
+  
   # slash spam
   suc_shspam_Label = tk.StringVar()
   suc_shspam_Label.set("Success: 000")
@@ -255,6 +261,8 @@ class SettingVariable:
   ticketspamresult_failed = 0
   slashspamresult_success = 0
   slashspamresult_failed = 0
+  vcspamresult_success = 0
+  vcspamresult_failed = 0
 
 # value def
 def clear_entry01_01():
@@ -625,7 +633,7 @@ def module_thread(num):
       print("Error load ffmpeg")
       ffmpeg = ffmpeg_load()
 
-    threading.Thread(target=module_vc.start, args=(delay, tokens, serverid, channelid, ffmpeg, voicefile)).start()
+    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
 
   if num == 5_1:
     serverid = str(Setting.reply_serverid.get())
@@ -753,6 +761,13 @@ def module_status(num1, num2):
     if num2 == 2:
       SettingVariable.ticketspamresult_failed +=1
       Setting.fai_ticketspam_Label.set("Failed: "+str(SettingVariable.ticketspamresult_failed).zfill(3))      
+  if num1 == 6:
+    if num2 == 1:
+      SettingVariable.vcspamresult_success +=1
+      Setting.suc_vcspam_Label.set("Success: "+str(SettingVariable.vcspamresult_success).zfill(3))
+    if num2 == 2:
+      SettingVariable.vcspamresult_failed +=1
+      Setting.fai_vcspam_Label.set("Failed: "+str(SettingVariable.vcspamresult_failed).zfill(3))      
 
 def set_moduleframe(num1, num2):
   global invite_url
@@ -1045,6 +1060,10 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=84)
 
       ctk.CTkButton(modules_frame02_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(4_1)).place(x=5,y=117)
+
+      tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=110)
+      tk.Label(modules_frame02_03, bg=c1, fg="#fff", textvariable=Setting.suc_vcspam_Label, font=("Roboto", 12)).place(x=140,y=135)
+      tk.Label(modules_frame02_03, bg=c1, fg="#fff", textvariable=Setting.fai_vcspam_Label, font=("Roboto", 12)).place(x=140,y=160)
 
       # Slash Spam
       modules_frame02_05 = ctk.CTkFrame(module_frame, width=400, height=300, border_width=1, border_color=c3, fg_color=c1)
