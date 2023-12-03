@@ -87,16 +87,30 @@ class Setting:
   voicefile_filenameLabel = tk.StringVar()
   voicefile_filenameLabel.set("")
   
+  # joiner
   suc_joiner_Label = tk.StringVar()
   suc_joiner_Label.set("Success: 000")
   fai_joiner_Label = tk.StringVar()
   fai_joiner_Label.set("Failed: 000")
   
+  # leaver
   suc_leaver_Label = tk.StringVar()
   suc_leaver_Label.set("Success: 000")
   fai_leaver_Label = tk.StringVar()
   fai_leaver_Label.set("Failed: 000")
   
+  # vc joiner
+  suc_vcjoiner_Label = tk.StringVar()
+  suc_vcjoiner_Label.set("Success: 000")
+  fai_vcjoiner_Label = tk.StringVar()
+  fai_vcjoiner_Label.set("Failed: 000")
+
+  # vc leaver
+  suc_vcleaver_Label = tk.StringVar()
+  suc_vcleaver_Label.set("Success: 000")
+  fai_vcleaver_Label = tk.StringVar()
+  fai_vcleaver_Label.set("Failed: 000")  
+
   # nm spam
   suc_nmspam_Label = tk.StringVar()
   suc_nmspam_Label.set("Success: 000")
@@ -962,6 +976,12 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_channelid).place(x=85,y=57)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
 
+      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_1)).place(x=5,y=88)
+
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=81)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", textvariable=Setting.suc_vcjoiner_Label, font=("Roboto", 12)).place(x=140,y=106)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", textvariable=Setting.fai_vcjoiner_Label, font=("Roboto", 12)).place(x=140,y=131)
+
       # VC Leaver Frame
       modules_frame01_03 = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color=c3, fg_color=c1)
       modules_frame01_03.grid(row=1, column=1, padx=12, pady=12)
@@ -972,6 +992,12 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkButton(modules_frame01_03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry04_02).place(x=5,y=57)
       ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_channelid).place(x=85,y=57)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
+       
+      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_1)).place(x=5,y=88)
+
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=81)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", textvariable=Setting.suc_vcleaver_Label, font=("Roboto", 12)).place(x=140,y=106)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", textvariable=Setting.fai_vcleaver_Label, font=("Roboto", 12)).place(x=140,y=131)
             
       printl("debug", "Open Join Leave Tab")
 
