@@ -361,7 +361,12 @@ def printl(num, data):
   if num == "info":
     print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [{get_filename()}] " + data)
     
-  
+def extractfi(input_str):
+  if len(input_str) >= 5:
+    replaced_str = input_str[:-5] + '*' * 5
+    return replaced_str
+  else:
+    return input_str
 
 def get_info():
   invite_code = invite_url.get()
@@ -947,7 +952,7 @@ def set_moduleframe_scroll(num1, num2):
               print("[-] Not Set. Please Input")
               Setting.bypass_cap.set(False)
             else:
-              print("[~] Checking API Key: " + apis)
+              print("[~] Checking API Key: " + extractfi(apis))
               if answers == "1":
                 if solver.get_balance_capsolver(apis) == 0.0:
                   Setting.bypass_cap.set(False)
