@@ -22,7 +22,7 @@ def extract(format_token):
 def member_screen_bypass(token, requests, serverid):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     session = header.get_session.get_session()
-    req_header = header.request_header_joiner(token)
+    req_header = header.request_header(token)
     headers = req_header[0]
     if 'show_verification_form' in requests:
         bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false", headers=headers).json()
@@ -35,7 +35,7 @@ def member_screen_bypass(token, requests, serverid):
 
 def delete_join_msg(token, join_channel_id):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
-    req_header = header.request_header_joiner(token)
+    req_header = header.request_header(token)
     headers = req_header[0]
     messages = requests.get(f"https://discord.com/api/v9/channels/{join_channel_id}/messages?limit=100",headers=headers).json()
     for message in messages:
@@ -52,7 +52,7 @@ def delete_join_msg(token, join_channel_id):
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answers, apis, bypasscaptcha, delete_joinms, join_channelid):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     session = header.get_session.get_session()
-    req_header = header.request_header_joiner(token)
+    req_header = header.request_header(token)
     headers = req_header[0]
     try:
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
