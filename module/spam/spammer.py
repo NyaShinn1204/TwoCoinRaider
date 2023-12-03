@@ -97,7 +97,7 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
         if status is False:
             return
         if randomconvert == True:
-            content = random_convert.ranndom_convert(content)
+            data = {"content": random_convert.ranndom_convert(content)}
         request = Client()
         if proxysetting == True:
             proxy = random.choice(proxies)
