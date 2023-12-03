@@ -882,7 +882,7 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=111)
       ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry01_03).place(x=5,y=142)
       ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_channelid).place(x=85,y=142)
-      tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="JoinChannel ID", font=("Roboto", 12)).place(x=240,y=140)
+      tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=140)
       
       def slider_event01(value):
         tk.Label(modules_frame01_01, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=164)

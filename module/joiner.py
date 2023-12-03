@@ -1,19 +1,11 @@
-import colorama
 import time
 import threading
-import traceback
 import requests
-import random
 import base64
-import json
-import tls_client
 import re
-from colorama import Fore
 
 import bypass.header as header
 import bypass.solver.solver as solver
-
-colorama.init(autoreset=True)
     
 def start(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha, delete_joinms, join_channelid):
     for token in tokens:
