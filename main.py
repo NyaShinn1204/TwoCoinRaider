@@ -277,6 +277,10 @@ class SettingVariable:
   leaverresult_failed = 0
   nmspamresult_success = 0
   nmspamresult_failed = 0
+  vcjoinerresult_success = 0
+  vcjoinerresult_failed = 0
+  vcleaverresult_success = 0
+  vcleaverresult_failed = 0
   replyspamresult_success = 0
   replyspamresult_failed = 0
   ticketspamresult_success = 0
@@ -619,6 +623,32 @@ def module_thread(num):
   if num == 1_2_2:
     threading.Thread(target=module_leaver.stop).start()
 
+  if num == 1_3_1:
+    serverid = Setting.vcjoin_serverid.get()
+    channelid = Setting.vcjoin_channelid.get()
+    
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ServerID is not set")
+      return
+    
+    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, "join")).start()
+    
+  if num == 1_4_1:
+    serverid = Setting.vcjoin_serverid.get()
+    channelid = Setting.vcjoin_channelid.get()
+    
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ServerID is not set")
+      return
+    
+    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, "leave")).start()
+    
   if num == 2_3_1:
     serverid = str(Setting.spam_serverid.get())
     channelid = str(Setting.spam_channelid.get())
@@ -758,50 +788,66 @@ def module_thread(num):
 
     threading.Thread(target=module_reaction.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
 
-def module_status(num1, num2):
+def module_status(num1, num2, num3):
   if num1 == 1:
     if num2 == 1:
-      SettingVariable.joinerresult_success +=1
-      Setting.suc_joiner_Label.set("Success: "+str(SettingVariable.joinerresult_success).zfill(3))
-    if num2 == 1:
-      SettingVariable.joinerresult_failed +=1
-      Setting.fai_joiner_Label.set("Failed: "+str(SettingVariable.joinerresult_failed).zfill(3))
+      if num3 == 1:
+        SettingVariable.joinerresult_success +=1
+        Setting.suc_joiner_Label.set("Success: "+str(SettingVariable.joinerresult_success).zfill(3))
+      if num3 == 1:
+        SettingVariable.joinerresult_failed +=1
+        Setting.fai_joiner_Label.set("Failed: "+str(SettingVariable.joinerresult_failed).zfill(3))
+    if num2 == 2:
+      if num3 == 1:
+        SettingVariable.leaverresult_success +=1
+        Setting.suc_leaver_Label.set("Success: "+str(SettingVariable.leaverresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.leaverresult_failed +=1
+        Setting.fai_leaver_Label.set("Failed: "+str(SettingVariable.leaverresult_failed).zfill(3))
+    if num2 == 3:
+      if num3 == 1:
+        SettingVariable.vcjoinerresult_success +=1
+        Setting.suc_vcjoiner_Label.set("Success: "+str(SettingVariable.vcjoinerresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.vcjoinerresult_failed +=1
+        Setting.fai_vcjoiner_Label.set("Failed: "+str(SettingVariable.vcjoinerresult_failed).zfill(3))
+    if num2 == 4:
+      if num3 == 1:
+        SettingVariable.vcleaverresult_success +=1
+        Setting.suc_vcleaver_Label.set("Success: "+str(SettingVariable.vcleaverresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.vcleaverresult_failed +=1
+        Setting.fai_vcleaver_Label.set("Failed: "+str(SettingVariable.vcleaverresult_failed).zfill(3))
   if num1 == 2:
-    if num2 == 1:
-      SettingVariable.leaverresult_success +=1
-      Setting.suc_leaver_Label.set("Success: "+str(SettingVariable.leaverresult_success).zfill(3))
-    if num2 == 2:
-      SettingVariable.leaverresult_failed +=1
-      Setting.fai_leaver_Label.set("Failed: "+str(SettingVariable.leaverresult_failed).zfill(3))
-  if num1 == 3:
-    if num2 == 1:
-      SettingVariable.nmspamresult_success +=1
-      Setting.suc_nmspam_Label.set("Success: "+str(SettingVariable.nmspamresult_success).zfill(3))
-    if num2 == 2:
-      SettingVariable.nmspamresult_failed +=1
-      Setting.fai_nmspam_Label.set("Failed: "+str(SettingVariable.nmspamresult_failed).zfill(3))
-  if num1 == 4:
-    if num2 == 1:
-      SettingVariable.replyspamresult_success +=1
-      Setting.suc_replyspam_Label.set("Success: "+str(SettingVariable.replyspamresult_success).zfill(3))
-    if num2 == 2:
-      SettingVariable.replyspamresult_failed +=1
-      Setting.fai_replyspam_Label.set("Failed: "+str(SettingVariable.replyspamresult_failed).zfill(3))      
-  if num1 == 5:
-    if num2 == 1:
-      SettingVariable.ticketspamresult_success +=1
-      Setting.suc_ticketspam_Label.set("Success: "+str(SettingVariable.ticketspamresult_success).zfill(3))
-    if num2 == 2:
-      SettingVariable.ticketspamresult_failed +=1
-      Setting.fai_ticketspam_Label.set("Failed: "+str(SettingVariable.ticketspamresult_failed).zfill(3))      
-  if num1 == 6:
-    if num2 == 1:
-      SettingVariable.vcspamresult_success +=1
-      Setting.suc_vcspam_Label.set("Success: "+str(SettingVariable.vcspamresult_success).zfill(3))
-    if num2 == 2:
-      SettingVariable.vcspamresult_failed +=1
-      Setting.fai_vcspam_Label.set("Failed: "+str(SettingVariable.vcspamresult_failed).zfill(3))      
-
+    if num2 == 3:
+      if num3 == 1:
+        SettingVariable.nmspamresult_success +=1
+        Setting.suc_nmspam_Label.set("Success: "+str(SettingVariable.nmspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.nmspamresult_failed +=1
+        Setting.fai_nmspam_Label.set("Failed: "+str(SettingVariable.nmspamresult_failed).zfill(3))
+    if num2 == 4:
+      if num3 == 1:
+        SettingVariable.replyspamresult_success +=1
+        Setting.suc_replyspam_Label.set("Success: "+str(SettingVariable.replyspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.replyspamresult_failed +=1
+        Setting.fai_replyspam_Label.set("Failed: "+str(SettingVariable.replyspamresult_failed).zfill(3))      
+    if num2 == 5:
+      if num3 == 1:
+        SettingVariable.ticketspamresult_success +=1
+        Setting.suc_ticketspam_Label.set("Success: "+str(SettingVariable.ticketspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.ticketspamresult_failed +=1
+        Setting.fai_ticketspam_Label.set("Failed: "+str(SettingVariable.ticketspamresult_failed).zfill(3))      
+    if num2 == 6:
+      if num3 == 1:
+        SettingVariable.vcspamresult_success +=1
+        Setting.suc_vcspam_Label.set("Success: "+str(SettingVariable.vcspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.vcspamresult_failed +=1
+        Setting.fai_vcspam_Label.set("Failed: "+str(SettingVariable.vcspamresult_failed).zfill(3))      
+  
 def set_moduleframe(num1, num2):
   global invite_url
   frame = module_frame = ctk.CTkFrame(root, width=990, height=680)
@@ -979,7 +1025,7 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_channelid).place(x=85,y=57)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
 
-      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_1)).place(x=5,y=88)
+      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_3_1)).place(x=5,y=88)
 
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=81)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", textvariable=Setting.suc_vcjoiner_Label, font=("Roboto", 12)).place(x=140,y=106)
@@ -996,7 +1042,7 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_channelid).place(x=85,y=57)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
        
-      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_1)).place(x=5,y=88)
+      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_3_1)).place(x=5,y=88)
 
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=81)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", textvariable=Setting.suc_vcleaver_Label, font=("Roboto", 12)).place(x=140,y=106)

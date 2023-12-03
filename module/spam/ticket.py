@@ -110,7 +110,7 @@ def ticket_thread(tokens, module_status, proxysetting, proxies, proxytype, serve
             request = Client(transport=SyncProxyTransport.from_url(f'{proxytype}://{proxy}'))
         x = requests.post("https://discord.com/api/v9/interactions", headers=headers, json=data)
         if x.status_code == 200:
-            module_status(3, 1)
+            module_status(2, 5, 1)
             if proxysetting == True:
                 print(f"[-] 作成に成功しました Token: {extract_token}.******** Proxy: {proxy}")
             else:
@@ -121,6 +121,6 @@ def ticket_thread(tokens, module_status, proxysetting, proxies, proxytype, serve
                 if ratelimit == True:
                     timelock = True
                 return
-            module_status(3, 2)
+            module_status(2, 5, 2)
     except:
         pass

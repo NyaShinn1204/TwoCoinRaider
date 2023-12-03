@@ -70,12 +70,12 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                     if "captcha_key" not in newresponse.json():
                         if "You need to verify your account in order to perform this action." in newresponse.json():
                             print(f"{extract_token}は認証が必要としています。")
-                            module_status(1, 2)
+                            module_status(1, 1, 2)
                         print("[+] Success Join: " + extract_token)
                         if delete_joinms == True:
                             print("[~] Deleting Join Message...")
                             delete_join_msg(token, join_channelid)
-                        module_status(1, 1)
+                        module_status(1, 1, 1)
                     if memberscreen == True:
                         member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
 
@@ -83,19 +83,19 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                 if "captcha_key" in joinreq.json():
                     print("[-] Failed join: (Captcha Wrong) " + extract_token)
                     print(joinreq.json())
-                    module_status(1, 2)
+                    module_status(1, 1, 2)
         elif joinreq.status_code == 200:
             if "captcha_key" not in joinreq.json():
                 if joinreq.json().get("message") == "The user is banned from this guild.":
                     print(f"{extract_token}はサーバーからBANされています")
                 if "You need to verify your account in order to perform this action." in joinreq.json():
                     print(f"{extract_token}は認証が必要としています")
-                    module_status(1, 2)
+                    module_status(1, 1, 2)
                 print("[+] Success Join: " + extract_token)
                 if delete_joinms == True:
                     print("[~] Deleting Join Message...")
                     delete_joinms(token, headers, join_channelid)
-                module_status(1, 1)
+                module_status(1, 1, 1)
             if memberscreen == True:
                 member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
     except Exception as err:
