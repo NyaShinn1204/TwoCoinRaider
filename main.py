@@ -569,7 +569,7 @@ def module_thread(num):
   tokens = Setting.tokens
   proxies = Setting.proxies
   proxytype = Setting.proxytype.get()
-  proxysetting = Setting.proxy_enabled
+  proxysetting = Setting.proxy_enabled.get()
   delay = Setting.delay91.get()
   print(tokens)
   if num == 1_1_1:
