@@ -563,7 +563,7 @@ def module_thread(num):
   proxysetting = Setting.proxy_enabled
   delay = Setting.delay91.get()
   print(tokens)
-  if num == 1_1:
+  if num == 1_1_1:
     serverid = str(Setting.joiner_serverid.get())
     join_channelid = str(Setting.joiner_channelid.get())
     invitelink = Setting.joiner_link.get()
@@ -605,7 +605,7 @@ def module_thread(num):
 
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha, delete_joinms, join_channelid)).start()
 
-  if num == 2_1:
+  if num == 1_2_1:
     serverid = Setting.leaver_serverid.get()
 
     delay = Setting.delay02.get()
@@ -616,10 +616,10 @@ def module_thread(num):
 
     threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
 
-  if num == 2_2:
+  if num == 1_2_2:
     threading.Thread(target=module_leaver.stop).start()
 
-  if num == 3_1:
+  if num == 2_3_1:
     serverid = str(Setting.spam_serverid.get())
     channelid = str(Setting.spam_channelid.get())
     allchannel = Setting.spam_allch.get()
@@ -642,10 +642,10 @@ def module_thread(num):
 
     threading.Thread(target=module_spammer.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit, randomconvert)).start()
 
-  if num == 3_2:
+  if num == 2_3_2:
     threading.Thread(target=module_spammer.stop).start()
    
-  if num == 4_1:
+  if num == 2_4_1:
     serverid = Setting.vcspam_serverid.get()
     channelid = Setting.vcspam_channelid.get()
     voicefile = Setting.voicefile
@@ -665,7 +665,7 @@ def module_thread(num):
 
     threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
 
-  if num == 5_1:
+  if num == 2_5_1:
     serverid = str(Setting.reply_serverid.get())
     channelid = str(Setting.reply_channelid.get())
     messageid = str(Setting.reply_messageid.get())
@@ -691,10 +691,10 @@ def module_thread(num):
 
     threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
 
-  if num == 5_2:
+  if num == 2_5_2:
     threading.Thread(target=module_reply.stop).start()
 
-  if num == 6_1:
+  if num == 2_6_1:
     serverid = str(Setting.ticket_serverid.get())
     channelid = str(Setting.ticket_channelid.get())
     messageid = str(Setting.ticket_messageid.get())
@@ -712,10 +712,10 @@ def module_thread(num):
 
     threading.Thread(target=module_ticket.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid)).start()
 
-  if num == 6_2:
+  if num == 2_6_2:
     threading.Thread(target=module_ticket.stop).start()
 
-  if num == 7_1:
+  if num == 2_7_1:
     serverid = str(Setting.slash_serverid.get())
     channelid = str(Setting.slash_channelid.get())
     applicationid = str(Setting.slash_applicationid.get())
@@ -738,7 +738,10 @@ def module_thread(num):
 
     threading.Thread(target=module_slash.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, applicationid, commandname, subcommandname, subcommandname_value, ratelimit)).start()
 
-  if num == 8_1:
+  if num == 2_7_2:
+    threading.Thread(target=module_slash.stop).start()
+
+  if num == 2_8_1:
     channelid = str(Setting.reaction_channelid.get())
     messageid = str(Setting.reaction_messageid.get())
     emoji = str(Setting.reaction_emoji.get())
@@ -936,8 +939,8 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text=round(Setting.delay01.get(),1), font=("Roboto", 12)).place(x=205,y=164)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=164)
 
-      ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_1)).place(x=5,y=190)
-      ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_2)).place(x=70,y=190)
+      ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_1_1)).place(x=5,y=190)
+      ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_1_2)).place(x=70,y=190)
 
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=220)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=10,y=248)
@@ -958,8 +961,8 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text=round(Setting.delay02.get(),1), font=("Roboto", 12)).place(x=205,y=55)
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=55)
 
-      ctk.CTkButton(modules_frame01_02, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_1)).place(x=5,y=80)
-      ctk.CTkButton(modules_frame01_02, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_2)).place(x=70,y=80)
+      ctk.CTkButton(modules_frame01_02, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_2_1)).place(x=5,y=80)
+      ctk.CTkButton(modules_frame01_02, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(1_2_2)).place(x=70,y=80)
 
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=5,y=110)
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=135)
@@ -976,7 +979,7 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_channelid).place(x=85,y=57)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
 
-      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_1)).place(x=5,y=88)
+      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_1)).place(x=5,y=88)
 
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=81)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", textvariable=Setting.suc_vcjoiner_Label, font=("Roboto", 12)).place(x=140,y=106)
@@ -993,7 +996,7 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_channelid).place(x=85,y=57)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
        
-      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_1)).place(x=5,y=88)
+      ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_1)).place(x=5,y=88)
 
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=81)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", textvariable=Setting.suc_vcleaver_Label, font=("Roboto", 12)).place(x=140,y=106)
@@ -1029,8 +1032,8 @@ def set_moduleframe_scroll(num1, num2):
       spam_message.place(x=120,y=26)
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=40)
         
-      ctk.CTkButton(modules_frame02_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(3_1)).place(x=5,y=197)
-      ctk.CTkButton(modules_frame02_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(3_2)).place(x=70,y=197)
+      ctk.CTkButton(modules_frame02_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_3_1)).place(x=5,y=197)
+      ctk.CTkButton(modules_frame02_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_3_2)).place(x=70,y=197)
 
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=190)
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=140,y=215)
@@ -1068,8 +1071,8 @@ def set_moduleframe_scroll(num1, num2):
       reply_message.place(x=120,y=26)
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=40)
 
-      ctk.CTkButton(modules_frame02_02, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(5_1)).place(x=5,y=224)
-      ctk.CTkButton(modules_frame02_02, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(5_2)).place(x=70,y=224)
+      ctk.CTkButton(modules_frame02_02, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_5_1)).place(x=5,y=224)
+      ctk.CTkButton(modules_frame02_02, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_5_2)).place(x=70,y=224)
 
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=217)
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", textvariable=Setting.suc_replyspam_Label, font=("Roboto", 12)).place(x=140,y=242)
@@ -1089,8 +1092,8 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame02_04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_messageid).place(x=85,y=86)
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=84)
 
-      ctk.CTkButton(modules_frame02_04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_1)).place(x=5,y=117)
-      ctk.CTkButton(modules_frame02_04, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(6_2)).place(x=70,y=117)
+      ctk.CTkButton(modules_frame02_04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_1)).place(x=5,y=117)
+      ctk.CTkButton(modules_frame02_04, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_2)).place(x=70,y=117)
 
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=110)
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=135)
@@ -1111,7 +1114,7 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkLabel(modules_frame02_03, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.voicefile_filenameLabel).place(x=85,y=86)
       tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=84)
 
-      ctk.CTkButton(modules_frame02_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(4_1)).place(x=5,y=117)
+      ctk.CTkButton(modules_frame02_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_4_1)).place(x=5,y=117)
 
       tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=110)
       tk.Label(modules_frame02_03, bg=c1, fg="#fff", textvariable=Setting.suc_vcspam_Label, font=("Roboto", 12)).place(x=140,y=135)
@@ -1147,8 +1150,8 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", text=round(Setting.delay05.get(),1), font=("Roboto", 12)).place(x=208,y=200)
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Delay", font=("Roboto", 12)).place(x=240,y=198)
 
-      ctk.CTkButton(modules_frame02_05, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_1)).place(x=5,y=225)
-      ctk.CTkButton(modules_frame02_05, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(7_2)).place(x=70,y=225)
+      ctk.CTkButton(modules_frame02_05, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_7_1)).place(x=5,y=225)
+      ctk.CTkButton(modules_frame02_05, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_7_2)).place(x=70,y=225)
 
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=218)
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.suc_shspam_Label, font=("Roboto", 12)).place(x=140,y=243)
@@ -1171,7 +1174,7 @@ def set_moduleframe_scroll(num1, num2):
       ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reaction_emoji).place(x=85,y=86)
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Emoji  e.x. :skull:", font=("Roboto", 12)).place(x=240,y=84)
       
-      ctk.CTkButton(modules_frame02_07, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(8_1)).place(x=5,y=117)
+      ctk.CTkButton(modules_frame02_07, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_8_1)).place(x=5,y=117)
 
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=70,y=110)
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", textvariable=Setting.suc_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=135)
