@@ -197,6 +197,14 @@ class Setting:
   joiner_channelid.set("")
   leaver_serverid = tk.StringVar()
   leaver_serverid.set("")
+  vcjoin_channelid = tk.StringVar()
+  vcjoin_channelid.set("")
+  vcjoin_serverid = tk.StringVar()
+  vcjoin_serverid.set("")
+  vcleave_channelid = tk.StringVar()
+  vcleave_channelid.set("")
+  vcleave_serverid = tk.StringVar()
+  vcleave_serverid.set("")
   spam_serverid = tk.StringVar()
   spam_serverid.set("")
   spam_channelid = tk.StringVar()
@@ -271,8 +279,16 @@ def clear_entry01_02():
   Setting.joiner_serverid.set("")
 def clear_entry01_03():
   Setting.joiner_channelid.set("")
-def clear_entry03():
+def clear_entry02_01():
   Setting.leaver_serverid.set("")
+def clear_entry03_01():
+  Setting.vcjoin_serverid.set("")
+def clear_entry03_02():
+  Setting.vcjoin_channelid.set("")
+def clear_entry04_01():
+  Setting.vcleave_serverid.set("")
+def clear_entry04_02():
+  Setting.vcleave_channelid.set("")
 def clear_entry04():
   Setting.spam_serverid.set("")
 def clear_entry05():
@@ -917,7 +933,7 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame01_02 = ctk.CTkFrame(module_frame, width=350, height=200, border_width=1, border_color=c3, fg_color=c1)
       modules_frame01_02.grid(row=0, column=1, padx=12, pady=12)
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Leaver", font=("Roboto", 14)).place(x=10,y=2)
-      ctk.CTkButton(modules_frame01_02, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry03).place(x=5,y=33)
+      ctk.CTkButton(modules_frame01_02, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry02_01).place(x=5,y=33)
       ctk.CTkEntry(modules_frame01_02, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.leaver_serverid).place(x=85,y=33)
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=31)
 
@@ -939,14 +955,24 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame01_03 = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color=c3, fg_color=c1)
       modules_frame01_03.grid(row=1, column=0, padx=12, pady=12)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="VC Joiner", font=("Roboto", 14)).place(x=10,y=2)
-      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Release For v1.0.3β", font=("Roboto", 12)).place(x=10,y=25)
+      ctk.CTkButton(modules_frame01_03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry03_01).place(x=5,y=28)
+      ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_serverid).place(x=85,y=28)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=26)
+      ctk.CTkButton(modules_frame01_03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry03_02).place(x=5,y=57)
+      ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_channelid).place(x=85,y=57)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
 
       # VC Leaver Frame
       modules_frame01_03 = ctk.CTkFrame(module_frame, width=350, height=175, border_width=1, border_color=c3, fg_color=c1)
       modules_frame01_03.grid(row=1, column=1, padx=12, pady=12)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="VC Leaver", font=("Roboto", 14)).place(x=10,y=2)
-      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Release For v1.0.3β", font=("Roboto", 12)).place(x=10,y=25)
-
+      ctk.CTkButton(modules_frame01_03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry04_01).place(x=5,y=28)
+      ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_serverid).place(x=85,y=28)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=26)
+      ctk.CTkButton(modules_frame01_03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=clear_entry04_02).place(x=5,y=57)
+      ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_channelid).place(x=85,y=57)
+      tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=55)
+            
       printl("debug", "Open Join Leave Tab")
 
     if num2 == 2: # Spammer Tab
