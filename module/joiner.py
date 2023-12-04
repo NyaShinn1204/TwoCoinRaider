@@ -40,9 +40,9 @@ def delete_join_msg(token, join_channel_id):
     messages = requests.get(f"https://discord.com/api/v9/channels/{join_channel_id}/messages?limit=100",headers=headers).json()
     for message in messages:
         bot_token_id = base64.b64decode(token.split(".")[0]+"==").decode()
-        if message["content"]=="" and bot_token_id == message["author"]["id"]:
+        if message["content"] == "" and bot_token_id == message["author"]["id"]:
             deleted_join = requests.delete(f"https://discord.com/api/v9/channels/{join_channel_id}/messages/{message['id']}",headers=headers)
-            if deleted_join.status_code==204:
+            if deleted_join.status_code == 204:
                 print("[+] Success Delete Join Message: " + extract_token)
             else:
                 print("[-] Failed Delete Join Message: " + extract_token)
@@ -57,13 +57,10 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
     try:
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
         if joinreq.status_code == 400:
-
             if bypasscaptcha == True:
                 print("[-] Captcha Bypassing.. "+ extract_token)
-                sitekey = joinreq.json()['captcha_sitekey']
-                url = "https://discord.com"
                 payload = {
-                    "captcha_key": solver.bypass_captcha(answers, token, url, sitekey, apis),
+                    "captcha_key": solver.bypass_captcha(answers, token, "https://discord.com", joinreq.json()['captcha_sitekey'], apis)
                 }
                 newresponse = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
                 if newresponse.status_code == 200:
@@ -78,13 +75,14 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                         module_status(1, 1, 1)
                     if memberscreen == True:
                         member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
-
+                else:
+                    print("[-] Failed Captcha Bypass: " + extract_token + " Error: "+ newresponse.text)
             else:
                 if "captcha_key" in joinreq.json():
                     print("[-] Failed join: (Captcha Wrong) " + extract_token)
                     print(joinreq.json())
                     module_status(1, 1, 2)
-        elif joinreq.status_code == 200:
+        if joinreq.status_code == 200:
             if "captcha_key" not in joinreq.json():
                 if joinreq.json().get("message") == "The user is banned from this guild.":
                     print(f"{extract_token}はサーバーからBANされています")
