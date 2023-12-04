@@ -1242,8 +1242,13 @@ def set_moduleframe_scroll(num1, num2):
       # Soon
       modules_frame02_08 = ctk.CTkFrame(modules_frame02_06, width=400, height=95, border_width=1, border_color=c3, fg_color=c1)
       modules_frame02_08.grid(row=1, pady=5)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Soon Module", font=("Roboto", 12)).place(x=10,y=2)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Release For v1.0.3β", font=("Roboto", 12)).place(x=10,y=20)
+      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Token Onliner", font=("Roboto", 12)).place(x=10,y=2)
+      def set_socket(type):
+        print(type)
+      ctk.CTkOptionMenu(modules_frame02_08, values=["online", "dnd", "idle"], fg_color=c2, button_color=c5, button_hover_color=c4, width=150, height=25, command=set_socket).place(x=5,y=26)
+      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=200,y=26)
+      ctk.CTkOptionMenu(modules_frame02_08, values=["Playing", "Streaming", "Watching", "Listening"], fg_color=c2, button_color=c5, button_hover_color=c4, width=150, height=25, command=set_socket).place(x=5,y=55)
+      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Types", font=("Roboto", 12)).place(x=200,y=55)
 
       printl("debug", "Open Spam Tab")
       
