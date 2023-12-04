@@ -270,9 +270,9 @@ class Setting:
   tkonliner_random = tk.BooleanVar()
   tkonliner_random.set(False)
   tkonliner_status = tk.StringVar()
-  tkonliner_status.set("")
+  tkonliner_status.set("online")
   tkonliner_type = tk.StringVar()
-  tkonliner_type.set("")
+  tkonliner_type.set("Streaming")
   
   voicefile = []
 
