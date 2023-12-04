@@ -147,6 +147,12 @@ class Setting:
   fai_reactionspam_Label = tk.StringVar()
   fai_reactionspam_Label.set("Failed: 000")
   
+  # token onliner
+  suc_tokenonliner_Label = tk.StringVar()
+  suc_tokenonliner_Label.set("Success: 000")
+  fai_tokenonliner_Label = tk.StringVar()
+  fai_tokenonliner_Label.set("Failed: 000")
+  
   spam_allping = tk.BooleanVar()
   spam_allping.set(False)
   spam_allch = tk.BooleanVar()
@@ -261,6 +267,12 @@ class Setting:
   reaction_messageid.set("")
   reaction_emoji = tk.StringVar()
   reaction_emoji.set("")
+  tkonliner_random = tk.BooleanVar()
+  tkonliner_random.set(False)
+  tkonliner_status = tk.StringVar()
+  tkonliner_status.set("")
+  tkonliner_type = tk.StringVar()
+  tkonliner_type.set("")
   
   voicefile = []
 
@@ -800,6 +812,12 @@ def module_thread(num):
       return
 
     threading.Thread(target=module_reaction.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
+    
+  if num == 2_9_1:
+    printl("debug", "coming soon")
+    
+  if num == 2_9_2:
+    printl("debug", "coming soon")
 
 def module_status(num1, num2, num3):
   if num1 == 1:
@@ -1245,10 +1263,16 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Token Onliner", font=("Roboto", 12)).place(x=10,y=2)
       def set_socket(type):
         print(type)
-      ctk.CTkOptionMenu(modules_frame02_08, values=["online", "dnd", "idle"], fg_color=c2, button_color=c5, button_hover_color=c4, width=150, height=25, command=set_socket).place(x=5,y=26)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=200,y=26)
-      ctk.CTkOptionMenu(modules_frame02_08, values=["Playing", "Streaming", "Watching", "Listening"], fg_color=c2, button_color=c5, button_hover_color=c4, width=150, height=25, command=set_socket).place(x=5,y=55)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Types", font=("Roboto", 12)).place(x=200,y=55)
+      ctk.CTkOptionMenu(modules_frame02_08, values=["online", "dnd", "idle"], fg_color=c2, button_color=c5, button_hover_color=c4, width=125, height=25, command=set_socket, variable=Setting.tkonliner_status).place(x=5,y=26)
+      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=26)
+      ctk.CTkOptionMenu(modules_frame02_08, values=["Playing", "Streaming", "Watching", "Listening"], fg_color=c2, button_color=c5, button_hover_color=c4, width=125, height=25, command=set_socket, variable=Setting.tkonliner_type).place(x=5,y=55)
+      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Types", font=("Roboto", 12)).place(x=135,y=55)
+      ctk.CTkCheckBox(modules_frame02_08, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Random", variable=Setting.tkonliner_random).place(x=190,y=26)
+      ctk.CTkButton(modules_frame02_08, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=50, height=25, command=lambda: module_thread(2_9_1)).place(x=190,y=55)
+      ctk.CTkButton(modules_frame02_08, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=50, height=25, command=lambda: module_thread(2_9_2)).place(x=245,y=55)
+      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=293,y=10)
+      tk.Label(modules_frame02_08, bg=c1, fg="#fff", textvariable=Setting.suc_tokenonliner_Label, font=("Roboto", 12)).place(x=298,y=35)
+      tk.Label(modules_frame02_08, bg=c1, fg="#fff", textvariable=Setting.fai_tokenonliner_Label, font=("Roboto", 12)).place(x=298,y=60)
 
       printl("debug", "Open Spam Tab")
       
