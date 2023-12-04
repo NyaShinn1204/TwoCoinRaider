@@ -415,20 +415,26 @@ def get_hwid():
     printl("error", "get_hwid error wrong")
 
 def config_check():
-  if os.path.exists(r"config.json"):
-    filepath = json.load(open("config.json", "r"))["token_path"]
-    tokens = open(filepath, 'r').read().splitlines()
-    Setting.tokens = []
-    Setting.validtoken = 0
-    Setting.invalidtoken = 0
-    Setting.token_filenameLabel.set(os.path.basename(filepath))
-    Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
-    threading.Thread(target=token_checker.check(tokens, update_token)).start()
-    printl("debug", "Config Found")
-    return True
-  else:
-    printl("debug", "Config Not Found")
-    printl("debug", "token path not found. Please point to it manually.")
+  try:
+    if os.path.exists(r"config.json"):
+      filepath = json.load(open("config.json", "r"))["token_path"]
+      tokens = open(filepath, 'r').read().splitlines()
+      Setting.tokens = []
+      Setting.validtoken = 0
+      Setting.invalidtoken = 0
+      Setting.token_filenameLabel.set(os.path.basename(filepath))
+      Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
+      threading.Thread(target=token_checker.check(tokens, update_token)).start()
+      printl("debug", "Config Found")
+      return True
+    else:
+      printl("debug", "Config Not Found")
+      printl("debug", "token path not found. Please point to it manually.")
+      token_load()
+      return False
+  except:
+    printl("error", "Config Load Error")
+    printl("error", "Please Reselect")
     token_load()
     return False
 
@@ -493,20 +499,22 @@ def token_load():
     tokens = open(filepath, 'r').read().splitlines()
   else:
     tokens = open(filepath, 'r').read().splitlines()
-    with open('config.json', 'w'):
-      pass
-    token_file_path = {
-      "token_path": filepath
-    }
-    tokens_file = json.dumps(token_file_path)
-    with open("config.json", "w") as configfile:
-      configfile.write(tokens_file)
+  with open('config.json', 'w'):
+    pass
+  token_file_path = {
+    "token_path": filepath
+  }
+  tokens_file = json.dumps(token_file_path)
+  with open("config.json", "w") as configfile:
+    configfile.write(tokens_file)
   if tokens == []:
     return
   Setting.tokens = []
   Setting.validtoken = 0
   Setting.invalidtoken = 0
   Setting.token_filenameLabel.set(os.path.basename(filepath))
+  Setting.validtokenLabel.set("Valid: 000")
+  Setting.invalidtokenLabel.set("Invalid: 000")
   Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
   threading.Thread(target=token_checker.check(tokens, update_token)).start()
 
