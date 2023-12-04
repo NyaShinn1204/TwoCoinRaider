@@ -807,7 +807,7 @@ def module_status(num1, num2, num3):
       if num3 == 1:
         SettingVariable.joinerresult_success +=1
         Setting.suc_joiner_Label.set("Success: "+str(SettingVariable.joinerresult_success).zfill(3))
-      if num3 == 1:
+      if num3 == 2:
         SettingVariable.joinerresult_failed +=1
         Setting.fai_joiner_Label.set("Failed: "+str(SettingVariable.joinerresult_failed).zfill(3))
     if num2 == 2:
