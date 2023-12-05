@@ -820,11 +820,9 @@ def module_thread(num):
     randomse = Setting.tkonliner_random.get()
     
     threading.Thread(target=module_onliner.start, args=(delay, tokens, status, type, randomse)).start()
-    printl("debug", "coming soon")
     
   if num == 2_9_2:
     threading.Thread(target=module_onliner.stop).start()
-    printl("debug", "coming soon")
 
 def module_status(num1, num2, num3):
   if num1 == 1:
