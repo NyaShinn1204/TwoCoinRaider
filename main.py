@@ -33,6 +33,7 @@ import module.spam.reply as module_reply
 import module.spam.ticket as module_ticket
 import module.spam.slash as module_slash
 import module.spam.reaction as module_reaction
+import module.tkonliner as module_onliner
 
 import bypass.solver.solver as solver
 
@@ -814,9 +815,15 @@ def module_thread(num):
     threading.Thread(target=module_reaction.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
     
   if num == 2_9_1:
+    status = Setting.tkonliner_status.get()
+    type = Setting.tkonliner_type.get()
+    randomse = Setting.tkonliner_random.get()
+    
+    threading.Thread(target=module_onliner.start, args=(delay, tokens, status, type, randomse)).start()
     printl("debug", "coming soon")
     
   if num == 2_9_2:
+    threading.Thread(target=module_onliner.stop).start()
     printl("debug", "coming soon")
 
 def module_status(num1, num2, num3):
