@@ -55,7 +55,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
     req_header = header.request_header(token)
     headers = req_header[0]
     try:
-        joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
+        joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={}) # json={}を消すとエラーが出る
         if joinreq.status_code == 400:
             if bypasscaptcha == True:
                 print("[-] Captcha Bypassing.. "+ extract_token)
