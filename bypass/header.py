@@ -66,4 +66,25 @@ def request_header(token):
         'authorization': token,
         'user-agent': agent_string
     }
-    return headers, headers2
+    headers3 = {
+        "Accept":"*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": token,
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Host": "discord.com",
+        "Origin": "https://discord.com",
+        "Pragma": "no-cache",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "sec-ch-ua-platform": "Windows",
+        "sec-ch-ua-mobile": "?0",
+        "TE": "Trailers",
+        "User-Agent": agent_string,
+        "x-fingerprint": get_fingerprint.get_fingerprint(),
+        "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8"),
+        "X-Debug-Options": "bugReporterEnabled"
+    }
+    return headers, headers2, headers3

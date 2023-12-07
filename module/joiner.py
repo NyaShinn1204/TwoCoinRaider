@@ -3,9 +3,22 @@ import threading
 import requests
 import base64
 import re
+import os
+from colorama import Fore
 
 import bypass.header as header
 import bypass.solver.solver as solver
+
+def get_filename():
+  return os.path.basename(__file__)    
+
+def printl(num, data):
+  if num == "error":
+    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [{get_filename()}] " + data)
+  if num == "debug":
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [{get_filename()}] " + data)
+  if num == "info":
+    print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [{get_filename()}] " + data)
     
 def start(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, apis, bypasscaptcha, delete_joinms, join_channelid):
     for token in tokens:
@@ -28,10 +41,11 @@ def member_screen_bypass(token, requests, serverid):
         bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false", headers=headers).json()
         accept_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/requests/@me", headers=headers, json=bypass_rules)
         if accept_rules.status_code == 201 or accept_rules.status_code == 204:
-            print("[+] Success Memberbypass: " + extract_token)
+            printl("info", "Success Memberbypass: " + extract_token)
             return
         else:
-            print("[-] Failed Memberbypass: " + extract_token)
+            printl("error", "Failed Memberbypass: " + extract_token)
+            print(accept_rules.text)
 
 def delete_join_msg(token, join_channel_id):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
@@ -43,9 +57,9 @@ def delete_join_msg(token, join_channel_id):
         if message["content"] == "" and bot_token_id == message["author"]["id"]:
             deleted_join = requests.delete(f"https://discord.com/api/v9/channels/{join_channel_id}/messages/{message['id']}",headers=headers)
             if deleted_join.status_code == 204:
-                print("[+] Success Delete Join Message: " + extract_token)
+                printl("info", "Success Delete Join Message: " + extract_token)
             else:
-                print("[-] Failed Delete Join Message: " + extract_token)
+                printl("error", "Failed Delete Join Message: " + extract_token)
                 print(deleted_join.text)
             break
         
@@ -53,12 +67,12 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     session = header.get_session.get_session()
     req_header = header.request_header(token)
-    headers = req_header[0]
+    headers = req_header[2]
     try:
-        joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={}) # json={}を消すとエラーが出る
+        joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
         if joinreq.status_code == 400:
             if bypasscaptcha == True:
-                print("[-] Captcha Bypassing.. "+ extract_token)
+                printl("info", "Captcha Bypassing.. " + extract_token)
                 payload = {
                     "captcha_key": solver.bypass_captcha(answers, token, "https://discord.com", joinreq.json()['captcha_sitekey'], apis)
                 }
@@ -66,32 +80,33 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                 if newresponse.status_code == 200:
                     if "captcha_key" not in newresponse.json():
                         if "You need to verify your account in order to perform this action." in newresponse.json():
-                            print(f"{extract_token}は認証が必要としています。")
+                            printl("error", f"{extract_token}は認証が必要としています")
                             module_status(1, 1, 2)
-                        print("[+] Success Join: " + extract_token)
+                        printl("info", "Success Join: " + extract_token)
                         if delete_joinms == True:
-                            print("[~] Deleting Join Message...")
+                            printl("info", "Deleting Join Message...")
                             delete_join_msg(token, join_channelid)
                         module_status(1, 1, 1)
                     if memberscreen == True:
                         member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
                 else:
-                    print("[-] Failed Captcha Bypass: " + extract_token + " Error: "+ newresponse.text)
+                    printl("error", "Failed Captcha Bypass: " + extract_token + " Error: "+ newresponse.text)
             else:
                 if "captcha_key" in joinreq.json():
-                    print("[-] Failed join: (Captcha Wrong) " + extract_token)
+                    printl("error", "Failed join: (Captcha Wrong) " + extract_token)
                     print(joinreq.json())
                     module_status(1, 1, 2)
         if joinreq.status_code == 200:
             if "captcha_key" not in joinreq.json():
                 if joinreq.json().get("message") == "The user is banned from this guild.":
-                    print(f"{extract_token}はサーバーからBANされています")
-                if "You need to verify your account in order to perform this action." in joinreq.json():
-                    print(f"{extract_token}は認証が必要としています")
+                    printl("error", f"{extract_token}はサーバーからBANされています")
                     module_status(1, 1, 2)
-                print("[+] Success Join: " + extract_token)
+                if "You need to verify your account in order to perform this action." in joinreq.json():
+                    printl("error", f"{extract_token}は認証が必要としています")
+                    module_status(1, 1, 2)
+                printl("info", "Success Join: " + extract_token)
                 if delete_joinms == True:
-                    print("[~] Deleting Join Message...")
+                    printl("info", "Deleting Join Message...")
                     delete_joinms(token, headers, join_channelid)
                 module_status(1, 1, 1)
             if memberscreen == True:
