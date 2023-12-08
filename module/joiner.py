@@ -91,7 +91,7 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                     if memberscreen == True:
                         member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
                 else:
-                    printl("error", f"{pretty}Failed Captcha Bypass {gray}| " + Fore.CYAN + extract_token + Fore.RESET+ " | " + newresponse.text)
+                    printl("error", f"{pretty}Failed Captcha Bypass {gray}| " + Fore.CYAN + extract_token + Fore.RESET+ " | " + newresponse.text.replace("\n", ""))
             else:
                 if "captcha_key" in joinreq.json():
                     printl("error", f"{pretty}Failed Token Join (Captcha Wrong) {gray}| " + Fore.CYAN + extract_token + Fore.RESET)
