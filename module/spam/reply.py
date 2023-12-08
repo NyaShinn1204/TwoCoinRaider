@@ -114,7 +114,7 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
         if x.status_code == 200:
             module_status(2, 4, 1)
         else:
-            if x.status_code == 429 or 20016:
+            if x.status_code == 429 or x.status_code == 20016:
                 print("[-] RateLimit!! Please Wait!! "+json.loads(x.text)["retry_after"])
                 if ratelimit == True:
                     timelock = True

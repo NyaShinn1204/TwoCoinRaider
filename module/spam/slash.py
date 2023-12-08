@@ -81,7 +81,7 @@ def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, serv
         if x.status_code == 204:
             print(f"[+] 成功 Token: {extract_token}.******** Status: {x.status_code}")
         else:
-            if x.status_code == 429 or 20016:
+            if x.status_code == 429 or x.status_code == 20016:
                 if ratelimit == True:
                     timelock = True
                 return

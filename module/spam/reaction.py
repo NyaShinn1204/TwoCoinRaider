@@ -41,7 +41,7 @@ def req_reaction(token, proxysetting, proxies, proxytype, channelid, messageid, 
             else:
                 print(f"[-] 付与に成功しました ChannelID: {channelid} Token: {extract_token}.********")
         else:
-            if x.status_code == 429 or 20016:
+            if x.status_code == 429 or x.status_code == 20016:
                 print("[-] RateLimit!! "+json.loads(x.text)["retry_after"])
     except:
         pass

@@ -18,8 +18,10 @@ def check(tokens, update_token):
         request = Client()
         x = request.get('https://discord.com/api/v9/users/@me/library', headers={"authorization": token},timeout=5)
         if x.status_code == 200:
+            print(x.json)
             success(token)
         else:
+            print(x.json)
             invalid(token)
     def check_tokens():
         threads=[]
