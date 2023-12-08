@@ -1,5 +1,18 @@
+import os
+
 import bypass.header as header
 from colorama import Fore
+
+pretty = Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX
+
+def get_filename():
+  return os.path.basename(__file__)    
+
+def printl(num, data):
+  if num == "error":
+    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [{get_filename()}] " + data)
+  if num == "info":
+    print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [{get_filename()}] " + data)
 
 def get_fingerprint():
     session = header.get_session.get_session()
@@ -19,8 +32,8 @@ def get_fingerprint():
     if response.status_code == 200:
         data = response.json()
         fingerprint = data["fingerprint"]
-        print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [get_fingerprint.py] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Got Fingerprint {Fore.RESET}| {Fore.GREEN}{fingerprint}{Fore.RESET}")
+        printl("info", f"{pretty}Got Fingerprint {Fore.RESET}| " + Fore.GREEN + fingerprint + Fore.RESET)
         return fingerprint
     else:
-        print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [get_fingerprint.py] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Failed Got Fingerprint {Fore.RESET}")
+        printl("error", f"{pretty}Failed Got Fingerprint {Fore.RESET}| " + Fore.RESET)
         return

@@ -42,10 +42,10 @@ def member_screen_bypass(token, requests, serverid):
         bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false", headers=headers).json()
         accept_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/requests/@me", headers=headers, json=bypass_rules)
         if accept_rules.status_code == 201 or accept_rules.status_code == 204:
-            printl("info", f"{pretty}Success MemberBypass {gray}| " + {Fore.CYAN} + extract_token + Fore.RESET)
+            printl("info", f"{pretty}Success MemberBypass {gray}| " + Fore.CYAN + extract_token + Fore.RESET)
             return
         else:
-            printl("error", f"{pretty}Failed MemberBypass {gray}| " + {Fore.CYAN} + extract_token + Fore.RESET)
+            printl("error", f"{pretty}Failed MemberBypass {gray}| " + Fore.CYAN + extract_token + Fore.RESET)
             print(accept_rules.text)
 
 def delete_join_msg(token, join_channel_id):
@@ -58,9 +58,9 @@ def delete_join_msg(token, join_channel_id):
         if message["content"] == "" and bot_token_id == message["author"]["id"]:
             deleted_join = requests.delete(f"https://discord.com/api/v9/channels/{join_channel_id}/messages/{message['id']}",headers=headers)
             if deleted_join.status_code == 204:
-                printl("info", f"{pretty}Success Delete Join Message {gray}| " + {Fore.CYAN} + extract_token + Fore.RESET)
+                printl("info", f"{pretty}Success Delete Join Message {gray}| " + Fore.CYAN + extract_token + Fore.RESET)
             else:
-                printl("error", f"{pretty}Failed Delete Join Message {gray}| " + {Fore.CYAN} + extract_token + Fore.RESET)
+                printl("error", f"{pretty}Failed Delete Join Message {gray}| " + Fore.CYAN + extract_token + Fore.RESET)
                 print(deleted_join.text)
             break
         
