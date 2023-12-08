@@ -533,7 +533,7 @@ def token_load():
   Setting.token_filenameLabel.set(os.path.basename(filepath))
   Setting.validtokenLabel.set("Valid: 000")
   Setting.invalidtokenLabel.set("Invalid: 000")
-  Setting.lockedtokenLabel.set("Locked: 0000")
+  Setting.lockedtokenLabel.set("Locked: 000")
   Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
   threading.Thread(target=token_checker.check(tokens, update_token)).start()
 
