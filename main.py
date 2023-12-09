@@ -1298,7 +1298,6 @@ config_check()
 printl("debug", "Loading Tkinter")
 
 # Load About Tab
-
 set_moduleframe(2, 2)
 
 root.mainloop()
