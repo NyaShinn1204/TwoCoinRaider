@@ -33,7 +33,6 @@ import module.spam.reply as module_reply
 import module.spam.ticket as module_ticket
 import module.spam.slash as module_slash
 import module.spam.reaction as module_reaction
-import module.tkonliner as module_onliner
 
 import bypass.solver.solver as solver
 
@@ -271,12 +270,6 @@ class Setting:
   reaction_messageid.set("")
   reaction_emoji = tk.StringVar()
   reaction_emoji.set("")
-  tkonliner_random = tk.BooleanVar()
-  tkonliner_random.set(False)
-  tkonliner_status = tk.StringVar()
-  tkonliner_status.set("online")
-  tkonliner_type = tk.StringVar()
-  tkonliner_type.set("Streaming")
   
   voicefile = []
 
@@ -822,16 +815,6 @@ def module_thread(num):
       return
 
     threading.Thread(target=module_reaction.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
-    
-  if num == 2_9_1:
-    status = Setting.tkonliner_status.get()
-    type = Setting.tkonliner_type.get()
-    randomse = Setting.tkonliner_random.get()
-    
-    threading.Thread(target=module_onliner.start, args=(delay, tokens, status, type, randomse)).start()
-    
-  if num == 2_9_2:
-    threading.Thread(target=module_onliner.stop).start()
 
 def module_status(num1, num2, num3):
   if num1 == 1:
@@ -1272,25 +1255,27 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", textvariable=Setting.suc_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=135)
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", textvariable=Setting.fai_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=160)
       
-      # Soon
-      modules_frame02_08 = ctk.CTkFrame(modules_frame02_06, width=400, height=95, border_width=1, border_color=c3, fg_color=c1)
-      modules_frame02_08.grid(row=1, pady=5)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Token Onliner", font=("Roboto", 12)).place(x=10,y=2)
-      def set_socket(type):
-        print(type)
-      ctk.CTkOptionMenu(modules_frame02_08, values=["online", "dnd", "idle"], fg_color=c2, button_color=c5, button_hover_color=c4, width=125, height=25, command=set_socket, variable=Setting.tkonliner_status).place(x=5,y=26)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=26)
-      ctk.CTkOptionMenu(modules_frame02_08, values=["Playing", "Streaming", "Watching", "Listening"], fg_color=c2, button_color=c5, button_hover_color=c4, width=125, height=25, command=set_socket, variable=Setting.tkonliner_type).place(x=5,y=55)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Types", font=("Roboto", 12)).place(x=135,y=55)
-      ctk.CTkCheckBox(modules_frame02_08, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Random", variable=Setting.tkonliner_random).place(x=190,y=26)
-      ctk.CTkButton(modules_frame02_08, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=50, height=25, command=lambda: module_thread(2_9_1)).place(x=190,y=55)
-      ctk.CTkButton(modules_frame02_08, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=50, height=25, command=lambda: module_thread(2_9_2)).place(x=245,y=55)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=293,y=10)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", textvariable=Setting.suc_tokenonliner_Label, font=("Roboto", 12)).place(x=298,y=35)
-      tk.Label(modules_frame02_08, bg=c1, fg="#fff", textvariable=Setting.fai_tokenonliner_Label, font=("Roboto", 12)).place(x=298,y=60)
-
       printl("debug", "Open Spam Tab")
-      
+
+# Set Left Tab
+
+tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
+ctk.CTkLabel(master=root, bg_color="#142326", text="", image=ctk.CTkImage(Image.open("data/coin.png"),size=(80, 80))).place(x=20,y=20)
+tk.Label(bg="#142326", text="Two Coin", fg="#fff", font=("Roboto", 20)).place(x=100,y=10)
+tk.Label(bg="#142326", text="Raider", fg="#fff", font=("Roboto", 20)).place(x=160,y=40)
+tk.Label(bg="#142326", text=version, fg="#F8F8F8", font=("Roboto", 18)).place(x=100,y=70)
+
+# Set Right Tab
+
+modulelist = ctk.CTkFrame(master=root, width=250, height=500, border_width=0, bg_color="#142326", fg_color="#142326")
+modulelist.place(x=0,y=100)
+ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Joiner / Leaver", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_scroll(1, 1),anchor=tk.W).place(x=20,y=20)
+ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Spammer", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_scroll(1, 2),anchor=tk.W).place(x=20,y=60)
+ctk.CTkButton(master=root, image=ctk.CTkImage(Image.open("data/info.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Setting", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(2, 1),anchor=tk.W).place(x=20,y=620)
+ctk.CTkButton(master=root, image=ctk.CTkImage(Image.open("data/info.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="About", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(2, 2),anchor=tk.W).place(x=20,y=660)
+
+
+# Load Menu
 print(f"""
        &#BB#&
      B?^:::^~?B        _______             _____      _       _____       _     _ 
@@ -1307,20 +1292,7 @@ ffmpeg_check()
 config_check()
 printl("debug", "Loading Tkinter")
 
-tk.Label(bg="#142326", width=35, height=720).place(x=0,y=0)
-
-ctk.CTkLabel(master=root, bg_color="#142326", text="", image=ctk.CTkImage(Image.open("data/coin.png"),size=(80, 80))).place(x=20,y=20)
-tk.Label(bg="#142326", text="Two Coin", fg="#fff", font=("Roboto", 20)).place(x=100,y=10)
-tk.Label(bg="#142326", text="Raider", fg="#fff", font=("Roboto", 20)).place(x=160,y=40)
-tk.Label(bg="#142326", text=version, fg="#F8F8F8", font=("Roboto", 18)).place(x=100,y=70)
-
-modulelist = ctk.CTkFrame(master=root, width=250, height=500, border_width=0, bg_color="#142326", fg_color="#142326")
-modulelist.place(x=0,y=100)
-
-ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Joiner / Leaver", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_scroll(1, 1),anchor=tk.W).place(x=20,y=20)
-ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Spammer", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_scroll(1, 2),anchor=tk.W).place(x=20,y=60)
-ctk.CTkButton(master=root, image=ctk.CTkImage(Image.open("data/info.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Setting", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(2, 1),anchor=tk.W).place(x=20,y=620)
-ctk.CTkButton(master=root, image=ctk.CTkImage(Image.open("data/info.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="About", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(2, 2),anchor=tk.W).place(x=20,y=660)
+# Load About Tab
 
 set_moduleframe(2, 2)
 
