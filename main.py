@@ -1256,6 +1256,13 @@ def set_moduleframe_scroll(num1, num2):
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", textvariable=Setting.fai_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=160)
       
       printl("debug", "Open Spam Tab")
+      
+    if num2 == 3: # Token Tab
+      modules_frame03_01 = ctk.CTkFrame(module_frame, width=400, height=200, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame03_01.grid(row=0, column=0, padx=12, pady=12)
+      tk.Label(modules_frame03_01, bg=c1, fg="#fff", text="Coming Soon", font=("Roboto", 12)).place(x=10,y=2)
+      
+      printl("debug", "Open Token Tab")
 
 # Set Left Tab
 
@@ -1271,6 +1278,7 @@ modulelist = ctk.CTkFrame(master=root, width=250, height=500, border_width=0, bg
 modulelist.place(x=0,y=100)
 ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Joiner / Leaver", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_scroll(1, 1),anchor=tk.W).place(x=20,y=20)
 ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Spammer", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_scroll(1, 2),anchor=tk.W).place(x=20,y=60)
+ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/token.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Token", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe_scroll(1, 3),anchor=tk.W).place(x=20,y=100)
 ctk.CTkButton(master=root, image=ctk.CTkImage(Image.open("data/info.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="Setting", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(2, 1),anchor=tk.W).place(x=20,y=620)
 ctk.CTkButton(master=root, image=ctk.CTkImage(Image.open("data/info.png"),size=(25, 25)), compound="left", fg_color=c1, bg_color="#142326", hover_color=c5, text="About", width=210, height=35, font=("Roboto", 18, "normal"), command= lambda: set_moduleframe(2, 2),anchor=tk.W).place(x=20,y=660)
 
