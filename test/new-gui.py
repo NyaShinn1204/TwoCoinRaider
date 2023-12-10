@@ -30,13 +30,13 @@ theme = "twocoin"
 
 if theme == "akebi":
     c1 = ""
-    c2 = ""
+    c2 = "#020b1f"
     c3 = "#0a2b63"
     c4 = "#020b1f"
     c5 = "#00bbe3"
 if theme == "twocoin":
     c1 = ""
-    c2 = ""
+    c2 = "#213A3E"
     c3 = "#00484C"
     c4 = "#142326"
     c5 = "#2C8C99"
@@ -46,7 +46,7 @@ root.geometry("1280x720")
 #root.resizable(0, 0)
 root.title("TwoCoinRaider | "+version)
 root.iconbitmap(default="data/favicon.ico")
-root.configure(bg=c4)
+root.configure(bg=c2)
 
 
 tk.Label(bg=c4, width=32, height=720).place(x=0,y=0)
