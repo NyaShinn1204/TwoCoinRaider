@@ -13,4 +13,5 @@ discord
 discord.py-self
 websocket-client
 CTkMessagebox
+CTkToolTip
 customtkinter
