@@ -48,6 +48,19 @@ root.title("TwoCoinRaider | "+version)
 root.iconbitmap(default="data/favicon.ico")
 root.configure(bg=c2)
 
+def get_hwid():
+  if os.name == 'posix':
+    uuid = "Linux unsupported"
+    return uuid
+  else:
+    cmd = 'wmic csproduct get uuid'
+    uuid = str(subprocess.check_output(cmd))
+    pos1 = uuid.find("\\n")+2
+    uuid = uuid[pos1:-15]
+    return uuid
+  if uuid == "":
+    printl("error", "get_hwid error wrong")
+
 def get_filename():
   return os.path.basename(__file__)
 
@@ -65,9 +78,8 @@ def clear_frame(frame):
   frame.pack_forget()
 
 def set_moduleframe_scroll(num1, num2):
-    frame_scroll = module_frame = ctk.CTkScrollableFrame(root, width=970, height=630)
+    frame_scroll = module_frame = ctk.CTkScrollableFrame(root, fg_color=c2, width=970, height=630)
     module_frame.place(x=245, y=70)
-    module_frame.configure(fg_color=c2)
     clear_frame(frame_scroll)
     if num1 == 1:
         if num2 == 1:
@@ -92,7 +104,9 @@ ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.
 credit_frame = ctk.CTkFrame(root, width=990, height=50, fg_color=c1)
 credit_frame.place(x=245, y=10)
 ctk.CTkButton(master=credit_frame, image=ctk.CTkImage(Image.open("data/link.png"),size=(20, 20)), compound="right", fg_color=c1, text_color="#fff", corner_radius=0, text="", width=20, height=20, font=("Roboto", 16, "bold"), anchor="w", command= lambda: CTkMessagebox(title="Version Info", message=f"Version: {version}\n\nDeveloper: NyaShinn1204\nTester: Mino3753", width=450)).place(x=10,y=10)
-ctk.CTkLabel(master=credit_frame, image=ctk.CTkImage(Image.open("data/user.png"),size=(15, 15)), compound="right", fg_color=c1, text_color="#fff", corner_radius=0, text=os.getlogin(), width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=900,y=10)
-
+#ctk.CTkLabel(master=credit_frame, image=ctk.CTkImage(Image.open("data/user.png"),size=(15, 15)), compound="right", fg_color=c1, text_color="#fff", corner_radius=0, text=os.getlogin(), width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=5)
+#ctk.CTkLabel(master=credit_frame, image=ctk.CTkImage(Image.open("data/user.png"),size=(20, 20)), compound="left", fg_color=c1, text_color="#fff", corner_radius=0, text="", width=20, height=20, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=10)
+ctk.CTkLabel(master=credit_frame, fg_color=c1, text_color="#fff", corner_radius=0, text="Username: "+os.getlogin(), width=20, height=20, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=5)
+ctk.CTkLabel(master=credit_frame, fg_color=c1, text_color="#fff", corner_radius=0, text="Hwid: "+get_hwid(), width=20, height=20, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=25)
 
 root.mainloop()
