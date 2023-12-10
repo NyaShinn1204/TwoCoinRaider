@@ -43,7 +43,6 @@ if theme == "twocoin":
 
 root = tk.Tk()
 root.geometry("1280x720")
-#root.resizable(0, 0)
 root.title("TwoCoinRaider | "+version)
 root.iconbitmap(default="data/favicon.ico")
 root.configure(bg=c2)
@@ -51,10 +50,6 @@ root.configure(bg=c2)
 
 tk.Label(bg=c4, width=32, height=720).place(x=0,y=0)
 tk.Label(bg=c4, text="TWOCOIN RAIDER", fg="#fff", font=("Carlito", 20, "bold")).place(x=13,y=25)
-#ctk.CTkLabel(master=root, bg_color=c4, text="", image=ctk.CTkImage(Image.open("data/coin.png"),size=(80, 80))).place(x=20,y=20)
-#tk.Label(bg=c4, text="Two Coin", fg="#fff", font=("Roboto", 20)).place(x=100,y=10)
-#tk.Label(bg=c4, text="Raider", fg="#fff", font=("Roboto", 20)).place(x=160,y=40)
-#tk.Label(bg=c4, text=version, fg="#F8F8F8", font=("Roboto", 18)).place(x=100,y=70)
 
 modulelist = ctk.CTkFrame(master=root, width=230, height=720, corner_radius=0, fg_color=c4)
 modulelist.place(x=0,y=100)
