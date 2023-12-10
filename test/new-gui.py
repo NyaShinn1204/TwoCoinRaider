@@ -78,13 +78,15 @@ def clear_frame(frame):
   frame.pack_forget()
 
 def set_moduleframe_scroll(num1, num2):
-    frame_scroll = module_frame = ctk.CTkScrollableFrame(root, fg_color=c2, width=970, height=630)
+    frame_scroll = module_frame = ctk.CTkScrollableFrame(root, fg_color=c2, width=1000, height=630)
     module_frame.place(x=245, y=70)
     clear_frame(frame_scroll)
     if num1 == 1:
         if num2 == 1:
             printl("debug", "Open Join Leave Tab")
-
+            
+        if num2 == 2:
+            printl("debug", "Open Spammer Tab")
 
 tk.Label(root, bg=c4, width=32, height=720).place(x=0,y=0)
 tk.Label(root, bg=c4, text="TWOCOIN RAIDER", fg="#fff", font=("Carlito", 20, "bold")).place(x=13,y=25)
@@ -98,10 +100,10 @@ ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.
 ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Soon", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=20,y=148)
 ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Soon", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=20,y=194)
 ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Soon", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=20,y=240)
-ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Soon", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=20,y=286)
-ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Soon", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=20,y=332)
+ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/info.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Setting", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=20,y=286)
+ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/info.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Debug", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=20,y=332)
 
-credit_frame = ctk.CTkFrame(root, width=990, height=50, fg_color=c1)
+credit_frame = ctk.CTkFrame(root, width=1020, height=50, fg_color=c1)
 credit_frame.place(x=245, y=10)
 ctk.CTkButton(master=credit_frame, image=ctk.CTkImage(Image.open("data/link.png"),size=(20, 20)), compound="right", fg_color=c1, text_color="#fff", corner_radius=0, text="", width=20, height=20, font=("Roboto", 16, "bold"), anchor="w", command= lambda: CTkMessagebox(title="Version Info", message=f"Version: {version}\n\nDeveloper: NyaShinn1204\nTester: Mino3753", width=450)).place(x=10,y=10)
 #ctk.CTkLabel(master=credit_frame, image=ctk.CTkImage(Image.open("data/user.png"),size=(15, 15)), compound="right", fg_color=c1, text_color="#fff", corner_radius=0, text=os.getlogin(), width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=5)
