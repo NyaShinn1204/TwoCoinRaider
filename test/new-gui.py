@@ -91,6 +91,7 @@ ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.
 
 credit_frame = ctk.CTkFrame(root, width=990, height=50, fg_color=c1)
 credit_frame.place(x=245, y=10)
+ctk.CTkButton(master=credit_frame, image=ctk.CTkImage(Image.open("data/link.png"),size=(20, 20)), compound="right", fg_color=c1, text_color="#fff", corner_radius=0, text="", width=20, height=20, font=("Roboto", 16, "bold"), anchor="w", command= lambda: CTkMessagebox(title="Version Info", message=f"Version: {version}\n\nDeveloper: NyaShinn1204\nTester: Mino3753", width=450)).place(x=10,y=10)
 ctk.CTkLabel(master=credit_frame, image=ctk.CTkImage(Image.open("data/user.png"),size=(15, 15)), compound="right", fg_color=c1, text_color="#fff", corner_radius=0, text=os.getlogin(), width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=900,y=10)
 
 
