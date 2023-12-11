@@ -36,12 +36,14 @@ if theme == "akebi":
     c3 = "#0a2b63"
     c4 = "#020b1f"
     c5 = "#00bbe3"
+    c6 = "#0a2b63"
 if theme == "twocoin":
     c1 = "#28464B"
     c2 = "#213A3E"
     c3 = "#00484C"
     c4 = "#142326"
     c5 = "#2C8C99"
+    c6 = "#002D2D"
 
 root = tk.Tk()
 root.geometry("1280x720")
@@ -93,7 +95,7 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame01_01 = ctk.CTkFrame(module_frame, width=470, height=300, border_width=0, fg_color=c1)
       modules_frame01_01.grid(row=0, column=0, padx=6, pady=6)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Joiner", font=("Roboto", 14)).place(x=15,y=0)
-      tk.Canvas(modules_frame01_01, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      tk.Canvas(modules_frame01_01, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkCheckBox(modules_frame01_01, bg_color=c1, text_color="#fff", border_color=c4, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass MemberScreen", variable=Setting.bypass_ms).place(x=5,y=31)
       test = ctk.CTkLabel(modules_frame01_01, text_color="#fff", text="(?)")
       test.place(x=170,y=31)
@@ -134,7 +136,7 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame01_02 = ctk.CTkFrame(module_frame, width=470, height=300, border_width=0, fg_color=c1)
       modules_frame01_02.grid(row=0, column=1, padx=6, pady=6)
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Leaver", font=("Roboto", 14)).place(x=15,y=0)
-      tk.Canvas(modules_frame01_02, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      tk.Canvas(modules_frame01_02, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkButton(modules_frame01_02, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.leaver_serverid.set("")).place(x=5,y=33)
       ctk.CTkEntry(modules_frame01_02, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.leaver_serverid).place(x=85,y=33)
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=31)
@@ -156,7 +158,7 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame01_03 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
       modules_frame01_03.grid(row=1, column=0, padx=6, pady=6)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="VC Joiner", font=("Roboto", 14)).place(x=15,y=0)
-      tk.Canvas(modules_frame01_03, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      tk.Canvas(modules_frame01_03, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkButton(modules_frame01_03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.vcjoin_serverid.set("")).place(x=5,y=28)
       ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_serverid).place(x=85,y=28)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=26)
@@ -180,7 +182,7 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame01_04 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
       modules_frame01_04.grid(row=1, column=1, padx=6, pady=6)
       tk.Label(modules_frame01_04, bg=c1, fg="#fff", text="VC Leaver", font=("Roboto", 14)).place(x=15,y=0)
-      tk.Canvas(modules_frame01_04, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      tk.Canvas(modules_frame01_04, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkButton(modules_frame01_04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.vcleave_serverid.set("")).place(x=5,y=28)
       ctk.CTkEntry(modules_frame01_04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_serverid).place(x=85,y=28)
       tk.Label(modules_frame01_04, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=26)
@@ -211,7 +213,7 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame10_01 = ctk.CTkFrame(module_frame, width=470, height=210, border_width=0, fg_color=c1)
       modules_frame10_01.grid(row=0, column=0, padx=6, pady=6)
       tk.Label(modules_frame10_01, bg=c1, fg="#fff", text="Tokens", font=("Roboto", 14)).place(x=15,y=0)
-      tk.Canvas(modules_frame10_01, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      tk.Canvas(modules_frame10_01, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkButton(modules_frame10_01, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: print()).place(x=5,y=33)
       ctk.CTkEntry(modules_frame10_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=33)
       ctk.CTkLabel(modules_frame10_01, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.token_filenameLabel).place(x=85,y=33)
@@ -226,7 +228,7 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame10_02 = ctk.CTkFrame(module_frame, width=470, height=210, border_width=0, fg_color=c1)
       modules_frame10_02.grid(row=0, column=1, padx=6, pady=6)
       tk.Label(modules_frame10_02, bg=c1, fg="#fff", text="Proxies", font=("Roboto", 14)).place(x=15,y=0)
-      tk.Canvas(modules_frame10_02, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      tk.Canvas(modules_frame10_02, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkCheckBox(modules_frame10_02, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.proxy_enabled ,text="Enabled").place(x=5,y=31)
       def set_socket(socks):
         Setting.proxytype.set(socks)
@@ -245,13 +247,13 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame10_03 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
       modules_frame10_03.grid(row=1, column=0, padx=6, pady=6)
       tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="Settings", font=("Roboto", 14)).place(x=15,y=0)
-      tk.Canvas(modules_frame10_03, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      tk.Canvas(modules_frame10_03, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       
-      CTkLabel(modules_frame10_03, text_color="#fff", text="Default Delay Time (s)", font=("Roboto", 15)).place(x=5,y=79)
+      CTkLabel(modules_frame10_03, text_color="#fff", text="Default Delay Time (s)", font=("Roboto", 15)).place(x=5,y=30)
       def show_value01_05(value):
           tooltip01_05.configure(message=round(value, 1))
       test = ctk.CTkSlider(modules_frame10_03, from_=0.1, to=3.0, variable=Setting.delay01_03, command=show_value01_05)
-      test.place(x=5,y=104)
+      test.place(x=5,y=55)
       tooltip01_05 = CTkToolTip(test, message="0.1")
       
       CTkLabel(modules_frame10_03, text_color="#fff", text="Default Mention Count (m)", font=("Roboto", 15)).place(x=5,y=79)
@@ -261,24 +263,10 @@ def set_moduleframe_scroll(num1, num2):
       test.place(x=5,y=104)
       tooltip01_06 = CTkToolTip(test, message="0.1")
       
-      #def slider_event91(value):
-      #  tk.Label(modules_frame10_03, bg=c1, fg="#fff", text=round(value,1), font=("Roboto", 12)).place(x=205,y=10)
-#
-      #ctk.CTkSlider(modules_frame10_03, from_=0.1, to=3.0, variable=Setting.delay91, command=slider_event91).place(x=5,y=15)
-      #tk.Label(modules_frame10_03, bg=c1, fg="#fff", text=round(Setting.delay91.get(),1), font=("Roboto", 12)).place(x=205,y=10)
-      #tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="Defalut Delay", font=("Roboto", 12)).place(x=240,y=10)
-#
-      #def slider_event92(value):
-      #  tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="        ", font=("Roboto", 12)).place(x=205,y=40)
-      #  tk.Label(modules_frame10_03, bg=c1, fg="#fff", text=round(value), font=("Roboto", 12)).place(x=205,y=40)
-#
-      #ctk.CTkSlider(modules_frame10_03, from_=1, to=50, variable=Setting.mention_count_def, command=slider_event92).place(x=5,y=45)
-      #tk.Label(modules_frame10_03, bg=c1, fg="#fff", text=round(Setting.mention_count_def.get()), font=("Roboto", 12)).place(x=205,y=40)
-      #tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="Defalut Mt Ct", font=("Roboto", 12)).place(x=240,y=40)
-      #ctk.CTkButton(modules_frame10_03, text="Get Info     ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: print()).place(x=5,y=106)
-      #invite_url = ctk.CTkEntry(modules_frame10_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20)
-      #invite_url.place(x=85,y=106)
-      #tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="Defalut Sv ID", font=("Roboto", 12)).place(x=240,y=104)
+      ctk.CTkButton(modules_frame10_03, text="Get Info     ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: print()).place(x=5,y=126)
+      invite_url = ctk.CTkEntry(modules_frame10_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20)
+      invite_url.place(x=85,y=126)
+      tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="Defalut Sv ID", font=("Roboto", 12)).place(x=240,y=124)
 
       printl("debug", "Open Setting Tab")
         
@@ -290,7 +278,7 @@ tk.Label(root, bg=c4, text="TWOCOIN RAIDER", fg="#fff", font=("Carlito", 20, "bo
 
 modulelist = ctk.CTkFrame(master=root, width=230, height=720, corner_radius=0, fg_color=c4)
 modulelist.place(x=0,y=100)
-tk.Canvas(bg=c3, highlightthickness=0, height=2080, width=4).place(x=230, y=10)
+tk.Canvas(bg=c6, highlightthickness=0, height=2080, width=4).place(x=230, y=0)
 ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Joiner / Leaver", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w", command= lambda: set_moduleframe_scroll(1, 1)).place(x=20,y=12)
 ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Spammer", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w", command= lambda: set_moduleframe_scroll(1, 2)).place(x=20,y=57)
 ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/join_leave.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Soon", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w").place(x=20,y=102)
