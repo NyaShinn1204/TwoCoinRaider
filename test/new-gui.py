@@ -382,6 +382,16 @@ def set_moduleframe_scroll(num1, num2):
             tk.Label(modules_frame01_02, bg=c1, fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=155)
             tk.Label(modules_frame01_02, bg=c1, fg="#fff", textvariable=Setting.fai_leaver_Label, font=("Roboto", 12)).place(x=10,y=175)
 
+            modules_frame01_03 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
+            modules_frame01_03.grid(row=1, column=0, padx=3, pady=12)
+            tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="VC Joiner", font=("Roboto", 14)).place(x=15,y=0)
+            tk.Canvas(modules_frame01_03, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+            
+            modules_frame01_04 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
+            modules_frame01_04.grid(row=1, column=1, padx=3, pady=12)
+            tk.Label(modules_frame01_04, bg=c1, fg="#fff", text="VC Leaver", font=("Roboto", 14)).place(x=15,y=0)
+            tk.Canvas(modules_frame01_04, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+            
             printl("debug", "Open Join Leave Tab")
             
         if num2 == 2:
