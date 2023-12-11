@@ -51,8 +51,8 @@ root.iconbitmap(default="data/favicon.ico")
 root.configure(bg=c2)
 
 class Setting:
-  voicefile = []
   tokens = []
+  voicefile = []
   validtoken = 0
   invalidtoken = 0
   lockedtoken = 0
@@ -91,15 +91,114 @@ class Setting:
   invalidProxiesLabel = tk.StringVar()
   invalidProxiesLabel.set("Invalid: 000")
   
+  voicefile_filenameLabel = tk.StringVar()
+  voicefile_filenameLabel.set("")
+  
   # joiner
   suc_joiner_Label = tk.StringVar()
   suc_joiner_Label.set("Success: 000")
   fai_joiner_Label = tk.StringVar()
   fai_joiner_Label.set("Failed: 000")
-    
+  
+  # leaver
+  suc_leaver_Label = tk.StringVar()
+  suc_leaver_Label.set("Success: 000")
+  fai_leaver_Label = tk.StringVar()
+  fai_leaver_Label.set("Failed: 000")
+  
+  # vc joiner
+  suc_vcjoiner_Label = tk.StringVar()
+  suc_vcjoiner_Label.set("Success: 000")
+  fai_vcjoiner_Label = tk.StringVar()
+  fai_vcjoiner_Label.set("Failed: 000")
+
+  # vc leaver
+  suc_vcleaver_Label = tk.StringVar()
+  suc_vcleaver_Label.set("Success: 000")
+  fai_vcleaver_Label = tk.StringVar()
+  fai_vcleaver_Label.set("Failed: 000")  
+
+  # nm spam
+  suc_nmspam_Label = tk.StringVar()
+  suc_nmspam_Label.set("Success: 000")
+  fai_nmspam_Label = tk.StringVar()
+  fai_nmspam_Label.set("Failed: 000")
+  
+  # reply spam
+  suc_replyspam_Label = tk.StringVar()
+  suc_replyspam_Label.set("Success: 000")
+  fai_replyspam_Label = tk.StringVar()
+  fai_replyspam_Label.set("Failed: 000")
+  
+  # ticket spam
+  suc_ticketspam_Label = tk.StringVar()
+  suc_ticketspam_Label.set("Success: 000")
+  fai_ticketspam_Label = tk.StringVar()
+  fai_ticketspam_Label.set("Failed: 000")
+  
+  # vc spam
+  suc_vcspam_Label = tk.StringVar()
+  suc_vcspam_Label.set("Success: 000")
+  fai_vcspam_Label = tk.StringVar()
+  fai_vcspam_Label.set("Failed: 000")
+  
+  # slash spam
+  suc_shspam_Label = tk.StringVar()
+  suc_shspam_Label.set("Success: 000")
+  fai_shspam_Label = tk.StringVar()
+  fai_shspam_Label.set("Failed: 000")
+  
+  # reaction spam
+  suc_reactionspam_Label = tk.StringVar()
+  suc_reactionspam_Label.set("Success: 000")
+  fai_reactionspam_Label = tk.StringVar()
+  fai_reactionspam_Label.set("Failed: 000")
+  
+  # token onliner
+  suc_tokenonliner_Label = tk.StringVar()
+  suc_tokenonliner_Label.set("Success: 000")
+  fai_tokenonliner_Label = tk.StringVar()
+  fai_tokenonliner_Label.set("Failed: 000")
+  
+  spam_allping = tk.BooleanVar()
+  spam_allping.set(False)
+  spam_allch = tk.BooleanVar()
+  spam_allch.set(False)
+  spam_rdstring = tk.BooleanVar()
+  spam_rdstring.set(False)
+  spam_ratefixer = tk.BooleanVar()
+  spam_ratefixer.set(False)
+  spam_randomconvert = tk.BooleanVar()
+  spam_randomconvert.set(False)
+
+  reply_allping = tk.BooleanVar()
+  reply_allping.set(False)
+  reply_allmg = tk.BooleanVar()
+  reply_allmg.set(False)
+  reply_rdstring = tk.BooleanVar()
+  reply_rdstring.set(False)
+  reply_ratefixer = tk.BooleanVar()
+  reply_ratefixer.set(False)
+  
+  ticket_ratefixer = tk.BooleanVar()
+  ticket_ratefixer.set(False) 
+  
+  slash_ratefixer = tk.BooleanVar()
+  slash_ratefixer.set(False) 
+  
+  sbspam_rdsounds = tk.BooleanVar()
+  sbspam_rdsounds.set(False)
+  
   delay01_01 = tk.DoubleVar()
   delay01_01.set(0.1)
-
+  
+  delay01_02 = tk.DoubleVar()
+  delay01_02.set(0.1)
+  
+  
+  mention_count_def = tk.DoubleVar()
+  mention_count_def.set(20)
+  
   joiner_link = tk.StringVar()
   joiner_link.set("")
   bypass_ms = tk.BooleanVar()
@@ -112,16 +211,78 @@ class Setting:
   joiner_serverid.set("")
   joiner_channelid = tk.StringVar()
   joiner_channelid.set("")
-  
+  leaver_serverid = tk.StringVar()
+  leaver_serverid.set("")
+  vcjoin_channelid = tk.StringVar()
+  vcjoin_channelid.set("")
+  vcjoin_serverid = tk.StringVar()
+  vcjoin_serverid.set("")
+  vcleave_channelid = tk.StringVar()
+  vcleave_channelid.set("")
+  vcleave_serverid = tk.StringVar()
+  vcleave_serverid.set("")
+  spam_serverid = tk.StringVar()
+  spam_serverid.set("")
+  spam_channelid = tk.StringVar()
+  spam_channelid.set("")
+  reply_serverid = tk.StringVar()
+  reply_serverid.set("")
+  reply_channelid = tk.StringVar()
+  reply_channelid.set("")
+  reply_messageid = tk.StringVar()
+  reply_messageid.set("")
+  vcspam_serverid = tk.StringVar()
+  vcspam_serverid.set("")
+  vcspam_channelid = tk.StringVar()
+  vcspam_channelid.set("")
+  sbspam_serverid = tk.StringVar()
+  sbspam_serverid.set("")
+  sbspam_channelid = tk.StringVar()
+  sbspam_channelid.set("")
+  ticket_serverid = tk.StringVar()
+  ticket_serverid.set("")
+  ticket_channelid = tk.StringVar()
+  ticket_channelid.set("")
+  ticket_messageid = tk.StringVar()
+  ticket_messageid.set("")
+  slash_serverid = tk.StringVar()
+  slash_serverid.set("")
+  slash_channelid = tk.StringVar()
+  slash_channelid.set("")
+  slash_applicationid = tk.StringVar()
+  slash_applicationid.set("")
+  slash_commandname = tk.StringVar()
+  slash_commandname.set("")
+  slash_subcommandname = tk.StringVar()
+  slash_subcommandname.set("")
+  slash_subcommandname_value = tk.StringVar()
+  slash_subcommandname_value.set("")
+  reaction_channelid = tk.StringVar()
+  reaction_channelid.set("")
+  reaction_messageid = tk.StringVar()
+  reaction_messageid.set("")
+  reaction_emoji = tk.StringVar()
+  reaction_emoji.set("")
+
 class SettingVariable:
   joinerresult_success = 0
   joinerresult_failed = 0
-  bms_joinerresult_success = 0
-  bms_joinerresult_failed = 0
-  bh_joinerresult_success = 0
-  bh_joinerresult_failed = 0
-  djm_joinerresult_success = 0
-  djm_joinerresult_failed = 0
+  leaverresult_success = 0
+  leaverresult_failed = 0
+  nmspamresult_success = 0
+  nmspamresult_failed = 0
+  vcjoinerresult_success = 0
+  vcjoinerresult_failed = 0
+  vcleaverresult_success = 0
+  vcleaverresult_failed = 0
+  replyspamresult_success = 0
+  replyspamresult_failed = 0
+  ticketspamresult_success = 0
+  ticketspamresult_failed = 0
+  slashspamresult_success = 0
+  slashspamresult_failed = 0
+  vcspamresult_success = 0
+  vcspamresult_failed = 0
 
 def get_hwid():
   if os.name == 'posix':
@@ -174,13 +335,7 @@ def set_moduleframe_scroll(num1, num2):
             test = ctk.CTkLabel(modules_frame01_01, text_color="#fff", text="(?)")
             test.place(x=160,y=79)
             CTkToolTip(test, delay=0.5, message="Delete the message when you join") 
-            CTkLabel(modules_frame01_01, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=185)
-            def show_value01_01(value):
-                tooltip.configure(message=round(value, 1))
-            test = ctk.CTkSlider(modules_frame01_01, from_=0.1, to=3.0, variable=Setting.delay01_01, command=show_value01_01)
-            test.place(x=5,y=210)
-            tooltip = CTkToolTip(test, message="0.1")
-
+            
             ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.joiner_link.set("")).place(x=5,y=109)
             ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_link).place(x=85,y=109)
             tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Invite Link", font=("Roboto", 12)).place(x=240,y=107)
@@ -191,26 +346,41 @@ def set_moduleframe_scroll(num1, num2):
             ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_channelid).place(x=85,y=167)
             tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=165)
 
-            ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=5,y=230)
-            ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=70,y=230)
+            CTkLabel(modules_frame01_01, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=187)
+            def show_value01_01(value):
+                tooltip01_01.configure(message=round(value, 1))
+            test = ctk.CTkSlider(modules_frame01_01, from_=0.1, to=3.0, variable=Setting.delay01_01, command=show_value01_01)
+            test.place(x=5,y=212)
+            tooltip01_01 = CTkToolTip(test, message="0.1")
+
+            ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=5,y=232)
+            ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=70,y=232)
 
             tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Join Status", font=("Roboto", 12)).place(x=205,y=30)
             tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=210,y=58)
             tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.fai_joiner_Label, font=("Roboto", 12)).place(x=210,y=83)
-            #tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Bypass MemberScreen Status", font=("Roboto", 12)).place(x=205,y=110)
-            #tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.bms_suc_joiner_Label, font=("Roboto", 12)).place(x=210,y=138)
-            #tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.bms_fai_joiner_Label, font=("Roboto", 12)).place(x=210,y=163)
-            #tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Bypass hCaptcha Status", font=("Roboto", 12)).place(x=5,y=190)
-            #tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.bh_suc_joiner_Label, font=("Roboto", 12)).place(x=5,y=218)
-            #tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.bh_fai_joiner_Label, font=("Roboto", 12)).place(x=5,y=243)
-            #tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Delete Join Meassge Status", font=("Roboto", 12)).place(x=205,y=190)
-            #tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.djm_suc_joiner_Label, font=("Roboto", 12)).place(x=210,y=218)
-            #tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.djm_fai_joiner_Label, font=("Roboto", 12)).place(x=210,y=243)
 
             modules_frame01_02 = ctk.CTkFrame(module_frame, width=470, height=300, border_width=0, fg_color=c1)
             modules_frame01_02.grid(row=0, column=1, padx=3, pady=12)
             tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Leaver", font=("Roboto", 14)).place(x=15,y=0)
             tk.Canvas(modules_frame01_02, bg=c3, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+            ctk.CTkButton(modules_frame01_02, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.leaver_serverid.set("")).place(x=5,y=33)
+            ctk.CTkEntry(modules_frame01_02, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.leaver_serverid).place(x=85,y=33)
+            tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=31)
+      
+            CTkLabel(modules_frame01_02, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=55)
+            def show_value01_02(value):
+                tooltip01_02.configure(message=round(value, 1))
+            test = ctk.CTkSlider(modules_frame01_02, from_=0.1, to=3.0, variable=Setting.delay01_02, command=show_value01_02)
+            test.place(x=5,y=80)
+            tooltip01_02 = CTkToolTip(test, message="0.1")
+
+            ctk.CTkButton(modules_frame01_02, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=5,y=100)
+            ctk.CTkButton(modules_frame01_02, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=70,y=100)
+            
+            tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Leaver Status", font=("Roboto", 12)).place(x=5,y=130)
+            tk.Label(modules_frame01_02, bg=c1, fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=155)
+            tk.Label(modules_frame01_02, bg=c1, fg="#fff", textvariable=Setting.fai_leaver_Label, font=("Roboto", 12)).place(x=10,y=175)
 
             printl("debug", "Open Join Leave Tab")
             
