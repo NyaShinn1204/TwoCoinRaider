@@ -60,6 +60,57 @@ import data.setting as config
 Setting = config.Setting
 SettingVariable = config.SettingVariable
 
+def get_filename():
+  return os.path.basename(__file__)
+
+def printl(num, data):
+  if num == "error":
+    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [{get_filename()}] " + data)
+  if num == "debug":
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [{get_filename()}] " + data)
+  if num == "info":
+    print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [{get_filename()}] " + data)
+    
+def extractfi(input_str):
+  if len(input_str) >= 5:
+    replaced_str = input_str[:-5] + '*' * 5
+    return replaced_str
+  else:
+    return input_str
+
+def get_info():
+  invite_code = invite_url.get()
+  if invite_code.__contains__('discord.gg/'):
+    invite_code = invite_code.replace('discord.gg/', '').replace('https://', '').replace('http://', '')
+  elif invite_code.__contains__('discord.com/invite/'):
+    invite_code = invite_code.replace('discord.com/invite/', '').replace('https://', '').replace('http://', '')
+  try:
+    invite_code = invite_code.split(".gg/")[1]
+  except:
+    pass
+  printl("debug", "Connecting API Server...")
+  res = requests.get(f"https://discord.com/api/v9/invites/{invite_code}?with_counts=true&with_expiration=true")
+  if res.status_code == 200:
+    printl("debug", "Successfull Get Info")
+    info = json.loads(res.text)
+    serverid = info["guild"]["id"]
+    servername = info["guild"]["name"]
+    serverdescription = info["guild"]["description"]
+    membercount = str(info["approximate_member_count"])
+    boostcount = str(info["guild"]["premium_subscription_count"])
+    Setting.joiner_link.set(invite_code)
+    Setting.joiner_serverid.set(serverid)
+    Setting.leaver_serverid.set(serverid)
+    Setting.spam_serverid.set(serverid)
+    Setting.reply_serverid.set(serverid)
+    Setting.vcspam_serverid.set(serverid)
+    Setting.ticket_serverid.set(serverid)
+    print(f"""----------\nServer ID\n{serverid}\n----------\nServer Name\n{servername}\n\nServer Description\n{serverdescription}\n----------\nMember Count\n{membercount}\n\nBoost Count\n{boostcount}\n----------""")
+    printl("debug", "End Info")
+    CTkMessagebox(title="Invite Info", message=f"Server ID: {serverid}\nServer Name: {servername}\nServer Description: {serverdescription}\n\nMember Count: {membercount}\nBoost Count: {boostcount}", width=450)
+  if res.status_code == 404:
+    printl("error", "Unknown Invite")
+
 def get_hwid():
   if os.name == 'posix':
     uuid = "Linux unsupported"
@@ -73,17 +124,79 @@ def get_hwid():
   if uuid == "":
     printl("error", "get_hwid error wrong")
 
-def get_filename():
-  return os.path.basename(__file__)
+def config_check():
+  try:
+    if os.path.exists(r"config.json"):
+      filepath = json.load(open("config.json", "r"))
+      tokens = open(filepath["token_path"], 'r').read().splitlines()
+      Setting.tokens = []
+      Setting.validtoken = 0
+      Setting.invalidtoken = 0
+      Setting.lockedtoken = 0
+      Setting.token_filenameLabel.set(os.path.basename(filepath["token_path"]))
+      Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
+      threading.Thread(target=token_checker.check(tokens, update_token)).start()
+      printl("debug", "Config Found")
+      return True
+    else:
+      printl("debug", "Config Not Found")
+      printl("debug", "token path not found. Please point to it manually.")
+      token_load()
+      return False
+  except:
+    printl("error", "Config Load Error")
+    printl("error", "Please Reselect")
+    token_load()
+    return False
 
-def printl(num, data):
-  if num == "error":
-    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [{get_filename()}] " + data)
-  if num == "debug":
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [{get_filename()}] " + data)
-  if num == "info":
-    print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [{get_filename()}] " + data)
+def ffmpeg_check():
+  ffmpeg_path = os.path.join(os.getcwd(),"./data/ffmpeg.exe")
+  if os.path.exists(ffmpeg_path):
+    printl("debug", "FFmpeg Found")
+  else :
+    printl("debug", "FFmpeg Not Found")
+    download_file("ffmpeg")
+  dll_path = os.path.join(os.getcwd(),"./data/libopus.dll")
+  if os.path.exists(dll_path):
+    printl("debug", "FFmpeg lib Found")
+  else :
+    printl("debug", "FFmpeg lib Not Found")
+    download_file("ffmpeg-dll")
 
+def download_file(type):
+  if type == "ffmpeg":
+    with open("./data/ffmpeg.exe" ,mode='wb') as f:
+      f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/ffmpeg.exe").content)
+      printl("info", "Downloaded FFmpeg.")
+  if type == "ffmpeg-dll":
+    with open("./data/libopus.dll" ,mode='wb') as f:
+      f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/libopus.dll").content)
+      printl("info", "Downloaded FFmpeg Dll.")
+      
+def ffmpeg_load():
+  global ffmpegfile
+  fTyp = [("", "*.exe")]
+  iFile = os.path.abspath(os.path.dirname(__file__))
+  filepath = filedialog.askopenfilename(
+    filetype=fTyp, initialdir=iFile, title="Select FFmpeg.exe")
+  if filepath == "":
+    return
+  ffmpegfile = filepath
+  if ffmpegfile == []:
+    return
+
+def voice_load():
+  fTyp = [("", "*.mp3")]
+  iFile = os.path.abspath(os.path.dirname(__file__))
+  filepath = filedialog.askopenfilename(
+    filetype=fTyp, initialdir=iFile, title="Select Voice File")
+  if filepath == "":
+    return
+  Setting.voicefile = filepath
+  if filepath == []:
+    return
+  voicefile_show = filepath.split('/')[len(filepath.split('/'))-1]
+  Setting.voicefile_filenameLabel.set(voicefile_show)
 
 # Token Tab
 def token_load():
@@ -176,6 +289,7 @@ def clear_frame(frame):
   frame.pack_forget()
 
 def set_moduleframe_scroll(num1, num2):
+  global invite_url
   frame_scroll = module_frame = ctk.CTkScrollableFrame(root, fg_color=c2, width=1000, height=630)
   module_frame.place(x=245, y=70)
   clear_frame(frame_scroll)
@@ -352,7 +466,7 @@ def set_moduleframe_scroll(num1, num2):
       test.place(x=5,y=104)
       tooltip01_06 = CTkToolTip(test, message="0.1")
       
-      ctk.CTkButton(modules_frame10_03, text="Get Info     ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: print()).place(x=5,y=126)
+      ctk.CTkButton(modules_frame10_03, text="Get Info     ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: get_info()).place(x=5,y=126)
       invite_url = ctk.CTkEntry(modules_frame10_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20)
       invite_url.place(x=85,y=126)
       tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="Defalut Sv ID", font=("Roboto", 12)).place(x=240,y=124)
@@ -382,5 +496,25 @@ credit_frame.place(x=245, y=10)
 ctk.CTkButton(master=credit_frame, image=ctk.CTkImage(Image.open("data/link.png"),size=(20, 20)), compound="right", fg_color=c1, text_color="#fff", corner_radius=0, text="", width=20, height=20, font=("Roboto", 16, "bold"), anchor="w", command= lambda: CTkMessagebox(title="Version Info", message=f"Version: {version}\n\nDeveloper: NyaShinn1204\nTester: Mino3753", width=450)).place(x=10,y=10)
 ctk.CTkLabel(master=credit_frame, fg_color=c1, text_color="#fff", corner_radius=0, text="Username: "+os.getlogin(), width=20, height=20, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=5)
 ctk.CTkLabel(master=credit_frame, fg_color=c1, text_color="#fff", corner_radius=0, text="Hwid: "+get_hwid(), width=20, height=20, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=25)
+
+# Load Menu
+print(f"""
+       &#BB#&
+     B?^:::^~?B        _______             _____      _       _____       _     _ 
+    P^:::^^^^^^P      |__   __|           / ____|    (_)     |  __ \     (_)   | | 
+    J~~^^~~~~~~J         | |_      _____ | |     ___  _ _ __ | |__) |__ _ _  __| | ___ _ __ 
+    B7~!!~~~!~7B         | \ \ /\ / / _ \| |    / _ \| | '_ \|  _  // _` | |/ _` |/ _ \ '__|
+     #5J7777J55          | |\ V  V / (_) | |___| (_) | | | | | | \ \ (_| | | (_| |  __/ |
+       &&&&&&&           |_| \_/\_/ \___/ \_____\___/|_|_| |_|_|  \_\__,_|_|\__,_|\___|_|
+                                            This Software was Paid Only
+
+You HWID: [{get_hwid()}]                Version: [{version}]
+-----------------------""")
+ffmpeg_check()
+config_check()
+printl("debug", "Loading Tkinter")
+
+# Load About Tab
+set_moduleframe_scroll(2, 1)
 
 root.mainloop()
