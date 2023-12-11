@@ -25,6 +25,9 @@ from customtkinter import *
 from CTkMessagebox import CTkMessagebox
 from CTkToolTip import *
 
+import module.token_checker as token_checker
+import module.proxy_checker as proxy_checker
+
 colorama.init(autoreset=True)
 
 version = "v1.0.3β"
@@ -52,7 +55,7 @@ root.title("TwoCoinRaider | "+version)
 root.iconbitmap(default="data/favicon.ico")
 root.configure(bg=c2)
 
-import setting as config
+import data.setting as config
 
 Setting = config.Setting
 SettingVariable = config.SettingVariable
@@ -80,6 +83,92 @@ def printl(num, data):
     print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [{get_filename()}] " + data)
   if num == "info":
     print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [{get_filename()}] " + data)
+
+
+# Token Tab
+def token_load():
+  fTyp = [("", "*.txt")]
+  iFile = os.path.abspath(os.path.dirname(__file__))
+  filepath = filedialog.askopenfilename(
+    filetype=fTyp, initialdir=iFile, title="Select Tokens")
+  if filepath == "":
+    return
+  if os.path.exists(r"config.json"):
+    tokens = open(filepath, 'r').read().splitlines()
+  else:
+    tokens = open(filepath, 'r').read().splitlines()
+  with open('config.json', 'w'):
+    pass
+  token_file_path = {
+    "token_path": filepath
+  }
+  tokens_file = json.dumps(token_file_path)
+  with open("config.json", "w") as configfile:
+    configfile.write(tokens_file)
+  if tokens == []:
+    return
+  Setting.tokens = []
+  Setting.validtoken = 0
+  Setting.invalidtoken = 0
+  Setting.lockedtoken = 0
+  Setting.token_filenameLabel.set(os.path.basename(filepath))
+  Setting.validtokenLabel.set("Valid: 000")
+  Setting.invalidtokenLabel.set("Invalid: 000")
+  Setting.lockedtokenLabel.set("Locked: 000")
+  Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
+  threading.Thread(target=token_checker.check(tokens, update_token)).start()
+
+def update_token(status, token):
+  if status == True:
+    Setting.tokens.append(token)
+    Setting.validtoken += 1
+    Setting.validtokenLabel.set("Valid: "+str(Setting.validtoken).zfill(3))
+  if status == False:
+    Setting.invalidtoken += 1
+    Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
+  if status == "Lock":
+    Setting.lockedtoken +=1
+    Setting.lockedtokenLabel.set("Locked: "+str(Setting.lockedtoken).zfill(3))
+
+# Proxy Tab
+def proxy_load():
+  threading.Thread(target=proxy_main).start()
+  
+def proxy_main():
+  proxy_type = Setting.proxytype.get()
+  print(proxy_type)
+  if proxy_type == "":
+    print("[-] Cancel proxy")
+    return
+  proxy_filepath()
+
+def proxy_filepath():
+  fTyp = [("", "*.txt")]
+  iFile = os.path.abspath(os.path.dirname(__file__))
+  filepath = filedialog.askopenfilename(filetype=fTyp, initialdir=iFile, title="Select Proxies")
+  if filepath == "":
+    return
+  proxies = open(filepath, 'r').read().splitlines()
+  if proxies == []:
+    return
+  Setting.proxies = []
+  Setting.totalproxies = str(len(proxies))
+  Setting.vaildproxies = 0
+  Setting.invaildproxies = 0
+  Setting.proxy_filenameLabel.set(os.path.basename(filepath))
+  Setting.totalProxiesLabel.set("Total: "+Setting.totalproxies.zfill(3))
+  print("[+] Load: " + Setting.totalproxies + "Proxies")
+  time.sleep(1)
+  threading.Thread(target=proxy_checker.check(update_proxy, proxies, Setting.proxytype.get()))
+     
+def update_proxy(status, proxy):
+  if status == True:
+    Setting.proxies.append(proxy)
+    Setting.vaildproxies += 1
+    Setting.validProxiesLabel.set("Valid: "+str(Setting.vaildproxies).zfill(3))
+  if status == False:
+    Setting.invaildproxies += 1
+    Setting.invalidProxiesLabel.set("Invalid: "+str(Setting.invaildproxies).zfill(3))
 
 def clear_frame(frame):
   for widget in frame.winfo_children():
@@ -214,7 +303,7 @@ def set_moduleframe_scroll(num1, num2):
       modules_frame10_01.grid(row=0, column=0, padx=6, pady=6)
       tk.Label(modules_frame10_01, bg=c1, fg="#fff", text="Tokens", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame10_01, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
-      ctk.CTkButton(modules_frame10_01, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: print()).place(x=5,y=33)
+      ctk.CTkButton(modules_frame10_01, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: token_load()).place(x=5,y=33)
       ctk.CTkEntry(modules_frame10_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=33)
       ctk.CTkLabel(modules_frame10_01, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.token_filenameLabel).place(x=85,y=33)
       tk.Label(modules_frame10_01, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=31)
@@ -234,7 +323,7 @@ def set_moduleframe_scroll(num1, num2):
         Setting.proxytype.set(socks)
       ctk.CTkOptionMenu(modules_frame10_02, values=["http", "https", "socks4", "socks5"], fg_color=c2, button_color=c5, button_hover_color=c4, command=set_socket, variable=Setting.proxytype).place(x=5,y=57)
       tk.Label(modules_frame10_02, bg=c1, fg="#fff", text="Socket Type", font=("Roboto", 12)).place(x=150,y=55)
-      ctk.CTkButton(modules_frame10_02, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: print()).place(x=5,y=90)
+      ctk.CTkButton(modules_frame10_02, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: proxy_load()).place(x=5,y=90)
       ctk.CTkEntry(modules_frame10_02, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=90)
       ctk.CTkLabel(modules_frame10_02, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.proxy_filenameLabel).place(x=85,y=90)
       tk.Label(modules_frame10_02, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=87)
