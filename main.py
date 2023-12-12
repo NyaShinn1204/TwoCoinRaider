@@ -23,11 +23,11 @@ colorama.init(autoreset=True)
 
 version = "v1.0.3β"
 
-root = tk.Tk()
-root.geometry("10x10")
-root.resizable(0, 0)
-root.title("TwoCoinRaider | " + version)
-root.iconbitmap(default="data/favicon.ico")
+window = tk.Tk()
+window.geometry("10x10")
+window.resizable(0, 0)
+window.title("TwoCoinRaider | " + version)
+window.iconbitmap(default="data/favicon.ico")
 
 import data.setting as config
 
@@ -70,8 +70,7 @@ def config_check():
     if os.path.exists(r"config.json"):
       printl("debug", "Config Found")
       ffmpeg_check()
-      root.update()
-      root.destroy()
+      window.destroy()
       with open("config.json", "r") as f:
         json_show = json.load(f)
       theme = json_show["theme"]
@@ -126,7 +125,7 @@ def config_load():
   if tokens == []:
     printl("debug", "You Select 0 tokens File")
     sys.exit()
-  root.geometry("150x100")
+  window.geometry("150x100")
 
   def optionmenu_callback(choice):
     printl("info", "Select Theme " + choice)
@@ -134,10 +133,10 @@ def config_load():
     tokens_file = json.dumps(setting_data)
     with open("config.json", "w") as configfile:
       configfile.write(tokens_file)
+    window.destroy()
     load_gui(choice)
-    sys.exit()
   
-  optionmenu = ctk.CTkOptionMenu(root, values=["old", "new"], command=optionmenu_callback)
+  optionmenu = ctk.CTkOptionMenu(window, values=["old", "new"], command=optionmenu_callback)
   optionmenu.pack()
   optionmenu.set("Select Theme")
 
@@ -159,4 +158,4 @@ You HWID: [{get_hwid()}]                Version: [{version}]
 printl("debug", "Load Config")
 config_check()
 
-root.mainloop()
+window.mainloop()
