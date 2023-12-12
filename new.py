@@ -14,7 +14,7 @@ try:
   import CTkMessagebox
 except ImportError:
   print("足りないモジュールをインストールします")
-  os.system('pip install -r ./data/requirements.txt')
+  os.system("pip install -r ./data/requirements.txt")
 import requests
 import colorama
 import tkinter as tk
@@ -149,30 +149,6 @@ def config_check():
     token_load()
     return False
 
-def ffmpeg_check():
-  ffmpeg_path = os.path.join(os.getcwd(),"./data/ffmpeg.exe")
-  if os.path.exists(ffmpeg_path):
-    printl("debug", "FFmpeg Found")
-  else :
-    printl("debug", "FFmpeg Not Found")
-    download_file("ffmpeg")
-  dll_path = os.path.join(os.getcwd(),"./data/libopus.dll")
-  if os.path.exists(dll_path):
-    printl("debug", "FFmpeg lib Found")
-  else :
-    printl("debug", "FFmpeg lib Not Found")
-    download_file("ffmpeg-dll")
-
-def download_file(type):
-  if type == "ffmpeg":
-    with open("./data/ffmpeg.exe" ,mode='wb') as f:
-      f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/ffmpeg.exe").content)
-      printl("info", "Downloaded FFmpeg.")
-  if type == "ffmpeg-dll":
-    with open("./data/libopus.dll" ,mode='wb') as f:
-      f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/libopus.dll").content)
-      printl("info", "Downloaded FFmpeg Dll.")
-      
 def ffmpeg_load():
   global ffmpegfile
   fTyp = [("", "*.exe")]
@@ -498,19 +474,6 @@ ctk.CTkLabel(master=credit_frame, fg_color=c1, text_color="#fff", corner_radius=
 ctk.CTkLabel(master=credit_frame, fg_color=c1, text_color="#fff", corner_radius=0, text="Hwid: "+get_hwid(), width=20, height=20, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=25)
 
 # Load Menu
-print(f"""
-       &#BB#&
-     B?^:::^~?B        _______             _____      _       _____       _     _ 
-    P^:::^^^^^^P      |__   __|           / ____|    (_)     |  __ \     (_)   | | 
-    J~~^^~~~~~~J         | |_      _____ | |     ___  _ _ __ | |__) |__ _ _  __| | ___ _ __ 
-    B7~!!~~~!~7B         | \ \ /\ / / _ \| |    / _ \| | '_ \|  _  // _` | |/ _` |/ _ \ '__|
-     #5J7777J55          | |\ V  V / (_) | |___| (_) | | | | | | \ \ (_| | | (_| |  __/ |
-       &&&&&&&           |_| \_/\_/ \___/ \_____\___/|_|_| |_|_|  \_\__,_|_|\__,_|\___|_|
-                                            This Software was Paid Only
-
-You HWID: [{get_hwid()}]                Version: [{version}]
------------------------""")
-ffmpeg_check()
 config_check()
 printl("debug", "Loading Tkinter")
 
