@@ -61,9 +61,9 @@ def get_hwid():
 
 def load_gui(theme):
   if theme == "old":
-    import old
+    subprocess.run("python old.py")
   if theme == "new":
-    import new
+    subprocess.run("python new.py")
 
 def config_check():
   try:
