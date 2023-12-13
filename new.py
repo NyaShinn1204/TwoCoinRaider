@@ -71,7 +71,6 @@ def apply_frame(num1, num2):
   module_frame.destroy()
   module_list_frame()
   module_scroll_frame(num1, num2)
-  root.configure(bg=c2)
 
 def setup_frame(num1, num2):
   module_list_frame()
@@ -82,7 +81,7 @@ root.geometry("1280x720")
 root.resizable(0, 0)
 root.title("TwoCoinRaider | "+version)
 root.iconbitmap(default="data/favicon.ico")
-root.configure(bg=c2)
+root.configure(bg="#fff")
 
 import data.setting as config
 
@@ -295,7 +294,7 @@ def clear_frame(frame):
 
 def module_scroll_frame(num1, num2):
   global invite_url, module_frame
-  frame_scroll = module_frame = ctk.CTkScrollableFrame(root, fg_color=c2, width=1000, height=630)
+  frame_scroll = module_frame = ctk.CTkScrollableFrame(root, fg_color=c2, bg_color=c2, width=1000, height=630)
   module_frame.place(x=245, y=70)
   clear_frame(frame_scroll)
   if num1 == 1:
@@ -500,6 +499,7 @@ def module_scroll_frame(num1, num2):
 
 def module_list_frame():
   global modulelist
+  tk.Label(root, bg=c2, width=1024, height=720).place(x=0,y=0)
   tk.Label(root, bg=c4, width=32, height=720).place(x=0,y=0)
   tk.Label(root, bg=c4, text="TWOCOIN RAIDER", fg="#fff", font=("Carlito", 20, "bold")).place(x=13,y=25)
   
@@ -515,7 +515,7 @@ def module_list_frame():
   ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/setting.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Settings", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w", command= lambda: module_scroll_frame(2, 1)).place(x=20,y=286)
   ctk.CTkButton(master=modulelist, image=ctk.CTkImage(Image.open("data/info.png"),size=(20, 20)), compound="left", fg_color=c4, hover_color=c5, corner_radius=0, text="Debug", width=195, height=40, font=("Roboto", 16, "bold"), anchor="w", command= lambda: module_scroll_frame(2, 2)).place(x=20,y=332)
   
-  credit_frame = ctk.CTkFrame(root, width=1020, height=50, fg_color=c1)
+  credit_frame = ctk.CTkFrame(root, width=1020, height=50, fg_color=c1, bg_color=c2)
   credit_frame.place(x=245, y=10)
   ctk.CTkButton(master=credit_frame, image=ctk.CTkImage(Image.open("data/link.png"),size=(20, 20)), compound="right", fg_color=c1, text_color="#fff", corner_radius=0, text="", width=20, height=20, font=("Roboto", 16, "bold"), anchor="w", command= lambda: CTkMessagebox(title="Version Info", message=f"Version: {version}\n\nDeveloper: NyaShinn1204\nTester: Mino3753", width=450)).place(x=10,y=10)
   ctk.CTkLabel(master=credit_frame, fg_color=c1, text_color="#fff", corner_radius=0, text="Username: "+os.getlogin(), width=20, height=20, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=5)
