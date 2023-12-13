@@ -221,6 +221,8 @@ class Setting:
   reaction_messageid.set("")
   reaction_emoji = tk.StringVar()
   reaction_emoji.set("")
+  
+  theme_var = tk.StringVar(value="Default Theme")
 
 class SettingVariable:
   joinerresult_success = 0
