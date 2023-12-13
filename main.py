@@ -129,8 +129,8 @@ def config_load():
 
   def optionmenu_callback(choice):
     printl("info", "Select Theme " + choice)
-    setting_data = {"token_path": filepath, "theme": choice}
-    tokens_file = json.dumps(setting_data)
+    config.Settingdata = {"token_path": filepath, "theme": choice}
+    tokens_file = json.dumps(config.Settingdata)
     with open("config.json", "w") as configfile:
       configfile.write(tokens_file)
     window.destroy()

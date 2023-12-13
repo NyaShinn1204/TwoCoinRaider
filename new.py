@@ -33,7 +33,34 @@ colorama.init(autoreset=True)
 version = "v1.0.3β"
 theme = "twocoin"
 
-if theme == "akebi":
+def get_filename():
+  return os.path.basename(__file__)
+
+def printl(num, data):
+  if num == "error":
+    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [{get_filename()}] " + data)
+  if num == "debug":
+    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [{get_filename()}] " + data)
+  if num == "info":
+    print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [{get_filename()}] " + data)
+    
+def extractfi(input_str):
+  if len(input_str) >= 5:
+    replaced_str = input_str[:-5] + '*' * 5
+    return replaced_str
+  else:
+    return input_str
+
+with open('config.json') as f:
+    data_load = json.load(f)
+try:
+  if data_load['select_theme']:
+    theme = data_load['select_theme']
+  printl("info", "Load Theme Name: " + theme)
+except:
+  printl("debug", "Not Found Save Theme")
+finally:
+  if theme == "akebi":
     c1 = "#040f24"
     c2 = "#020b1f"
     c3 = "#0a2b63"
@@ -41,7 +68,7 @@ if theme == "akebi":
     c5 = "#00bbe3"
     c6 = "#0a2b63"
     c7 = "#142326"
-if theme == "twocoin":
+  if theme == "twocoin":
     c1 = "#28464B"
     c2 = "#213A3E"
     c3 = "#00484C"
@@ -91,24 +118,6 @@ import data.setting as config
 
 Setting = config.Setting
 SettingVariable = config.SettingVariable
-
-def get_filename():
-  return os.path.basename(__file__)
-
-def printl(num, data):
-  if num == "error":
-    print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [{get_filename()}] " + data)
-  if num == "debug":
-    print(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [{get_filename()}] " + data)
-  if num == "info":
-    print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [{get_filename()}] " + data)
-    
-def extractfi(input_str):
-  if len(input_str) >= 5:
-    replaced_str = input_str[:-5] + '*' * 5
-    return replaced_str
-  else:
-    return input_str
 
 def get_info():
   invite_code = invite_url.get()
@@ -161,6 +170,10 @@ def config_check():
     if os.path.exists(r"config.json"):
       filepath = json.load(open("config.json", "r"))
       tokens = open(filepath["token_path"], 'r').read().splitlines()
+      if theme == "akebi":
+        Setting.theme_var.set("Akebi Theme")
+      if theme == "twocoin":
+        Setting.theme_var.set("Default Theme")
       Setting.tokens = []
       Setting.validtoken = 0
       Setting.invalidtoken = 0
@@ -493,8 +506,13 @@ def module_scroll_frame(num1, num2):
         if choice == "Akebi Theme":
           theme = "akebi"
           update_theme(num1, num2)
+        with open('config.json') as f:
+          data = json.load(f)
+        data.update({"select_theme": theme})
+        with open('config.json', 'w') as f:
+          json.dump(data, f)
   
-      ctk.CTkComboBox(master=modules_frame10_04, values=["Default Theme", "Akebi Theme"], fg_color=c7, button_color=c5, button_hover_color=c4, text_color="#fff", command=combobox_callback, variable=Setting.theme_var).place(x=5, y=55)
+      ctk.CTkOptionMenu(master=modules_frame10_04, values=["Default Theme", "Akebi Theme"], fg_color=c7, button_color=c5, button_hover_color=c4, text_color="#fff", command=combobox_callback, variable=Setting.theme_var).place(x=5, y=55)
 
       printl("debug", "Open Setting Tab")
         
