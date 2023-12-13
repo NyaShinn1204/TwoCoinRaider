@@ -40,6 +40,7 @@ if theme == "akebi":
     c4 = "#020b1f"
     c5 = "#00bbe3"
     c6 = "#0a2b63"
+    c7 = "#142326"
 if theme == "twocoin":
     c1 = "#28464B"
     c2 = "#213A3E"
@@ -47,9 +48,10 @@ if theme == "twocoin":
     c4 = "#142326"
     c5 = "#2C8C99"
     c6 = "#002D2D"
+    c7 = "#142326"
 
 def update_theme(num1, num2):
-  global c1,c2,c3,c4,c5,c6
+  global c1,c2,c3,c4,c5,c6,c7
   if theme == "akebi":
     c1 = "#040f24"
     c2 = "#020b1f"
@@ -57,6 +59,7 @@ def update_theme(num1, num2):
     c4 = "#020b1f"
     c5 = "#00bbe3"
     c6 = "#0a2b63"
+    c7 = "#000117"
   if theme == "twocoin":
     c1 = "#28464B"
     c2 = "#213A3E"
@@ -64,6 +67,7 @@ def update_theme(num1, num2):
     c4 = "#142326"
     c5 = "#2C8C99"
     c6 = "#002D2D"
+    c7 = "#142326"
   apply_frame(num1, num2)
 
 def apply_frame(num1, num2):
@@ -317,13 +321,13 @@ def module_scroll_frame(num1, num2):
       CTkToolTip(test, delay=0.5, message="Delete the message when you join") 
       
       ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.joiner_link.set("")).place(x=5,y=109)
-      ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_link).place(x=85,y=109)
+      ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_link).place(x=85,y=109)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Invite Link", font=("Roboto", 12)).place(x=240,y=107)
       ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.joiner_serverid.set("")).place(x=5,y=138)
-      ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_serverid).place(x=85,y=138)
+      ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_serverid).place(x=85,y=138)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=136)
       ctk.CTkButton(modules_frame01_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.joiner_channelid.set("")).place(x=5,y=167)
-      ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_channelid).place(x=85,y=167)
+      ctk.CTkEntry(modules_frame01_01, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.joiner_channelid).place(x=85,y=167)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=165)
 
       CTkLabel(modules_frame01_01, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=187)
@@ -345,7 +349,7 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Leaver", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame01_02, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkButton(modules_frame01_02, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.leaver_serverid.set("")).place(x=5,y=33)
-      ctk.CTkEntry(modules_frame01_02, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.leaver_serverid).place(x=85,y=33)
+      ctk.CTkEntry(modules_frame01_02, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.leaver_serverid).place(x=85,y=33)
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=31)
 
       CTkLabel(modules_frame01_02, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=55)
@@ -367,10 +371,10 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="VC Joiner", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame01_03, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkButton(modules_frame01_03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.vcjoin_serverid.set("")).place(x=5,y=31)
-      ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_serverid).place(x=85,y=31)
+      ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_serverid).place(x=85,y=31)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=29)
       ctk.CTkButton(modules_frame01_03, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.vcjoin_channelid.set("")).place(x=5,y=60)
-      ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_channelid).place(x=85,y=60)
+      ctk.CTkEntry(modules_frame01_03, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcjoin_channelid).place(x=85,y=60)
       tk.Label(modules_frame01_03, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=58)
 
       CTkLabel(modules_frame01_03, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=82)
@@ -391,10 +395,10 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame01_04, bg=c1, fg="#fff", text="VC Leaver", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame01_04, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkButton(modules_frame01_04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.vcleave_serverid.set("")).place(x=5,y=31)
-      ctk.CTkEntry(modules_frame01_04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_serverid).place(x=85,y=31)
+      ctk.CTkEntry(modules_frame01_04, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_serverid).place(x=85,y=31)
       tk.Label(modules_frame01_04, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=29)
       ctk.CTkButton(modules_frame01_04, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.vcleave_channelid.set("")).place(x=5,y=60)
-      ctk.CTkEntry(modules_frame01_04, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_channelid).place(x=85,y=60)
+      ctk.CTkEntry(modules_frame01_04, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.vcleave_channelid).place(x=85,y=60)
       tk.Label(modules_frame01_04, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=58)
 
       CTkLabel(modules_frame01_04, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=82)
@@ -422,7 +426,7 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame10_01, bg=c1, fg="#fff", text="Tokens", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame10_01, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
       ctk.CTkButton(modules_frame10_01, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: token_load()).place(x=5,y=33)
-      ctk.CTkEntry(modules_frame10_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=33)
+      ctk.CTkEntry(modules_frame10_01, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=33)
       ctk.CTkLabel(modules_frame10_01, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.token_filenameLabel).place(x=85,y=33)
       tk.Label(modules_frame10_01, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=31)
 
@@ -439,10 +443,10 @@ def module_scroll_frame(num1, num2):
       ctk.CTkCheckBox(modules_frame10_02, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.proxy_enabled ,text="Enabled").place(x=5,y=31)
       def set_socket(socks):
         Setting.proxytype.set(socks)
-      ctk.CTkOptionMenu(modules_frame10_02, values=["http", "https", "socks4", "socks5"], fg_color=c2, button_color=c5, button_hover_color=c4, command=set_socket, variable=Setting.proxytype).place(x=5,y=57)
+      ctk.CTkOptionMenu(modules_frame10_02, values=["http", "https", "socks4", "socks5"], fg_color=c7, button_color=c5, button_hover_color=c4, command=set_socket, variable=Setting.proxytype).place(x=5,y=57)
       tk.Label(modules_frame10_02, bg=c1, fg="#fff", text="Socket Type", font=("Roboto", 12)).place(x=150,y=55)
       ctk.CTkButton(modules_frame10_02, text="Select File", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: proxy_load()).place(x=5,y=90)
-      ctk.CTkEntry(modules_frame10_02, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=90)
+      ctk.CTkEntry(modules_frame10_02, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, state="disabled").place(x=85,y=90)
       ctk.CTkLabel(modules_frame10_02, bg_color=c1, fg_color=c4, text_color="#fff", text="", width=150, height=20, textvariable=Setting.proxy_filenameLabel).place(x=85,y=90)
       tk.Label(modules_frame10_02, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=87)
     
@@ -471,7 +475,7 @@ def module_scroll_frame(num1, num2):
       tooltip01_06 = CTkToolTip(test, message="0.1")
       
       ctk.CTkButton(modules_frame10_03, text="Get Info     ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: get_info()).place(x=5,y=126)
-      invite_url = ctk.CTkEntry(modules_frame10_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20)
+      invite_url = ctk.CTkEntry(modules_frame10_03, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20)
       invite_url.place(x=85,y=126)
       tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="Defalut Sv ID", font=("Roboto", 12)).place(x=240,y=124)
 
@@ -490,7 +494,7 @@ def module_scroll_frame(num1, num2):
           theme = "akebi"
           update_theme(num1, num2)
   
-      ctk.CTkComboBox(master=modules_frame10_04, values=["Default Theme", "Akebi Theme"], fg_color=c2, button_color=c5, button_hover_color=c4, text_color="#fff", command=combobox_callback, variable=Setting.theme_var).place(x=5, y=55)
+      ctk.CTkComboBox(master=modules_frame10_04, values=["Default Theme", "Akebi Theme"], fg_color=c7, button_color=c5, button_hover_color=c4, text_color="#fff", command=combobox_callback, variable=Setting.theme_var).place(x=5, y=55)
 
       printl("debug", "Open Setting Tab")
         
