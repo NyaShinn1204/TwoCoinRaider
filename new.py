@@ -64,13 +64,14 @@ def update_theme(num1, num2):
     c4 = "#142326"
     c5 = "#2C8C99"
     c6 = "#002D2D"
-  module_frame_update(num1, num2)
+  apply_frame(num1, num2)
 
-def module_frame_update(num1, num2):
-  root.configure(bg=c2)
+def apply_frame(num1, num2):
   modulelist.destroy()
+  module_frame.destroy()
   module_list_frame()
   module_scroll_frame(num1, num2)
+  root.configure(bg=c2)
 
 def setup_frame(num1, num2):
   module_list_frame()
@@ -293,7 +294,7 @@ def clear_frame(frame):
   frame.pack_forget()
 
 def module_scroll_frame(num1, num2):
-  global invite_url
+  global invite_url, module_frame
   frame_scroll = module_frame = ctk.CTkScrollableFrame(root, fg_color=c2, width=1000, height=630)
   module_frame.place(x=245, y=70)
   clear_frame(frame_scroll)
