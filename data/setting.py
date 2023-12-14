@@ -151,6 +151,9 @@ class Setting:
   delay01_04 = tk.DoubleVar()
   delay01_04.set(0.1)
   
+  delay02_01 = tk.DoubleVar()
+  delay02_01.set(0.1)
+  
   delay91 = tk.DoubleVar()
   delay91.set(0.1)
   

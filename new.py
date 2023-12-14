@@ -430,6 +430,39 @@ def module_scroll_frame(num1, num2):
       printl("debug", "Open Join Leave Tab")
         
     if num2 == 2:
+      modules_frame02_01 = ctk.CTkFrame(module_frame, width=400, height=300, border_width=1, border_color=c3, fg_color=c1)
+      modules_frame02_01.grid(row=0, column=0, padx=12, pady=12)
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Spammer", font=("Roboto", 12)).place(x=10,y=2)
+      ctk.CTkCheckBox(modules_frame02_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allping ,text="All Ping").place(x=5,y=26)
+      ctk.CTkCheckBox(modules_frame02_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_allch ,text="All Ch").place(x=5,y=48)
+      ctk.CTkCheckBox(modules_frame02_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_rdstring ,text="Random String").place(x=5,y=70)
+      ctk.CTkCheckBox(modules_frame02_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_ratefixer ,text="RateLimitFixer").place(x=5,y=92)
+      ctk.CTkCheckBox(modules_frame02_01, bg_color=c1, text_color="#fff", border_color=c3, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, variable=Setting.spam_randomconvert ,text="RandomConvert").place(x=150,y=92)
+      ctk.CTkButton(modules_frame02_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.spam_serverid.set("")).place(x=5,y=121)
+      ctk.CTkEntry(modules_frame02_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.spam_serverid).place(x=85,y=121)
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=119)
+      ctk.CTkButton(modules_frame02_01, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.spam_channelid.set("")).place(x=5,y=150)
+      ctk.CTkEntry(modules_frame02_01, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.spam_channelid).place(x=85,y=150)
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=148)
+
+      CTkLabel(modules_frame02_01, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=172)
+      def show_value02_01(value):
+          tooltip02_01.configure(message=round(value, 1))
+      test = ctk.CTkSlider(modules_frame02_01, from_=0.1, to=3.0, variable=Setting.delay02_01, command=show_value02_01)
+      test.place(x=5,y=197)
+      tooltip02_01 = CTkToolTip(test, message="0.1")
+
+      spam_message = ctk.CTkTextbox(modules_frame02_01, bg_color=c1, fg_color=c4, text_color="#fff", width=150, height=60)
+      spam_message.place(x=120,y=26)
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=275,y=40)
+        
+      ctk.CTkButton(modules_frame02_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=215)
+      ctk.CTkButton(modules_frame02_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=215)
+
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=208)
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=140,y=233)
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=140,y=258)
+      
       printl("debug", "Open Spammer Tab")
         
   if num1 == 2:
