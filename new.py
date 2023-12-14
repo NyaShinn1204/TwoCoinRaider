@@ -30,7 +30,7 @@ import module.proxy_checker as proxy_checker
 
 colorama.init(autoreset=True)
 
-version = "v1.0.3β"
+version = "v1.0.3"
 theme = "twocoin"
 
 def get_filename():
@@ -164,16 +164,6 @@ def get_hwid():
     return uuid
   if uuid == "":
     printl("error", "get_hwid error wrong")
-
-def update_check():
-  version_get = requests.get("https://raw.githubusercontent.com/NyaShinn1204/twocoin-assets/main/version.txt").text
-  if version_get.__contains__('\n'):
-    version_get = version_get.replace('\n', '')
-  if version == version_get:
-    printl("info", "Latest Version")
-  else:
-    printl("error", "You are using an older version")
-    printl("error", "New Version "+version_get)
 
 def config_check():
   try:
@@ -604,7 +594,6 @@ def module_list_frame():
   ctk.CTkLabel(master=credit_frame, fg_color=c1, text_color="#fff", corner_radius=0, text="Hwid: "+get_hwid(), width=20, height=20, font=("Roboto", 16, "bold"), anchor="w").place(x=40,y=25)
 
 # Load Menu
-update_check()
 config_check()
 setup_frame(2, 1)
 printl("debug", "Loading Tkinter")

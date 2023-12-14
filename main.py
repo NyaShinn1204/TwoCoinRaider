@@ -21,7 +21,7 @@ from customtkinter import *
 
 colorama.init(autoreset=True)
 
-version = "v1.0.3β"
+version = "v1.0.3"
 
 window = tk.Tk()
 window.geometry("10x10")
@@ -64,6 +64,16 @@ def load_gui(theme):
     subprocess.run("python old.py")
   if theme == "new":
     subprocess.run("python new.py")
+
+def update_check():
+  version_get = requests.get("https://raw.githubusercontent.com/NyaShinn1204/twocoin-assets/main/version.txt").text
+  if version_get.__contains__('\n'):
+    version_get = version_get.replace('\n', '')
+  if version == version_get:
+    printl("info", "Latest Version")
+  else:
+    printl("error", "You are using an older version")
+    printl("error", "New Version "+version_get)
 
 def config_check():
   try:
@@ -155,6 +165,8 @@ print(
 You HWID: [{get_hwid()}]                Version: [{version}]
 -----------------------"""
 )
+printl("debug", "Checking Version")
+update_check()
 printl("debug", "Load Config")
 config_check()
 

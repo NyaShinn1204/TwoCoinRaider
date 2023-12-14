@@ -39,7 +39,7 @@ import bypass.solver.solver as solver
 
 colorama.init(autoreset=True)
 
-version = "v1.0.3β"
+version = "v1.0.3"
 
 root = tk.Tk()
 root.geometry("1280x720")
