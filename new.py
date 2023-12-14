@@ -348,7 +348,7 @@ def module_scroll_frame(num1, num2):
           tooltip01_01.configure(message=round(value, 1))
       test = ctk.CTkSlider(modules_frame01_01, from_=0.1, to=3.0, variable=Setting.delay01_01, command=show_value01_01)
       test.place(x=5,y=217)
-      tooltip01_01 = CTkToolTip(test, message="0.1")
+      tooltip01_01 = CTkToolTip(test, message=round(Setting.delay01_01.get(), 1))
 
       ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=5,y=237)
       ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=70,y=237)
@@ -370,7 +370,7 @@ def module_scroll_frame(num1, num2):
           tooltip01_02.configure(message=round(value, 1))
       test = ctk.CTkSlider(modules_frame01_02, from_=0.1, to=3.0, variable=Setting.delay01_02, command=show_value01_02)
       test.place(x=5,y=80)
-      tooltip01_02 = CTkToolTip(test, message="0.1")
+      tooltip01_02 = CTkToolTip(test, message=round(Setting.delay01_02.get(), 1))
 
       ctk.CTkButton(modules_frame01_02, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=5,y=100)
       ctk.CTkButton(modules_frame01_02, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=70,y=100)
@@ -395,7 +395,7 @@ def module_scroll_frame(num1, num2):
           tooltip01_03.configure(message=round(value, 1))
       test = ctk.CTkSlider(modules_frame01_03, from_=0.1, to=3.0, variable=Setting.delay01_03, command=show_value01_03)
       test.place(x=5,y=107)
-      tooltip01_03 = CTkToolTip(test, message="0.1")
+      tooltip01_03 = CTkToolTip(test, message=round(Setting.delay01_03.get(), 1))
 
       ctk.CTkButton(modules_frame01_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=127)
 
@@ -419,7 +419,7 @@ def module_scroll_frame(num1, num2):
           tooltip01_04.configure(message=round(value, 1))
       test = ctk.CTkSlider(modules_frame01_04, from_=0.1, to=3.0, variable=Setting.delay01_04, command=show_value01_04)
       test.place(x=5,y=107)
-      tooltip01_04 = CTkToolTip(test, message="0.1")
+      tooltip01_04 = CTkToolTip(test, message=round(Setting.delay01_04.get(), 1))
 
       ctk.CTkButton(modules_frame01_04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=127)
 
@@ -467,7 +467,7 @@ def module_scroll_frame(num1, num2):
           tooltip02_01.configure(message=round(value, 1))
       test = ctk.CTkSlider(modules_frame02_01, from_=0.1, to=3.0, variable=Setting.delay02_01, command=show_value02_01)
       test.place(x=5,y=222)
-      tooltip02_01 = CTkToolTip(test, message="0.1")
+      tooltip02_01 = CTkToolTip(test, message=round(Setting.delay02_01.get(), 1))
 
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=150,y=30)
       spam_message = ctk.CTkTextbox(modules_frame02_01, bg_color=c1, fg_color=c4, text_color="#fff", width=250, height=75)
@@ -476,9 +476,9 @@ def module_scroll_frame(num1, num2):
       ctk.CTkButton(modules_frame02_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=245)
       ctk.CTkButton(modules_frame02_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=245)
 
-      #tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=208)
-      #tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=140,y=233)
-      #tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=140,y=258)
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=240,y=208)
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=235,y=233)
+      tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=235,y=258)
       
       printl("debug", "Open Spammer Tab")
         
@@ -526,16 +526,16 @@ def module_scroll_frame(num1, num2):
       CTkLabel(modules_frame10_03, text_color="#fff", text="Default Delay Time (s)", font=("Roboto", 15)).place(x=5,y=30)
       def show_value01_05(value):
           tooltip01_05.configure(message=round(value, 1))
-      test = ctk.CTkSlider(modules_frame10_03, from_=0.1, to=3.0, variable=Setting.delay01_03, command=show_value01_05)
+      test = ctk.CTkSlider(modules_frame10_03, from_=0.1, to=3.0, variable=Setting.delay99_01, command=show_value01_05)
       test.place(x=5,y=55)
-      tooltip01_05 = CTkToolTip(test, message="0.1")
+      tooltip01_05 = CTkToolTip(test, message=round(Setting.delay99_01.get(), 1))
       
       CTkLabel(modules_frame10_03, text_color="#fff", text="Default Mention Count (m)", font=("Roboto", 15)).place(x=5,y=79)
       def show_value01_06(value):
           tooltip01_06.configure(message=round(value, 1))
-      test = ctk.CTkSlider(modules_frame10_03, from_=0.1, to=3.0, variable=Setting.delay01_03, command=show_value01_06)
+      test = ctk.CTkSlider(modules_frame10_03, from_=0.1, to=3.0, variable=Setting.delay99_02, command=show_value01_06)
       test.place(x=5,y=104)
-      tooltip01_06 = CTkToolTip(test, message="0.1")
+      tooltip01_06 = CTkToolTip(test, message=round(Setting.delay99_02.get(), 1))
       
       ctk.CTkButton(modules_frame10_03, text="Get Info     ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: get_info()).place(x=5,y=126)
       invite_url = ctk.CTkEntry(modules_frame10_03, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20)
