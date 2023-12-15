@@ -5,16 +5,7 @@ import threading
 import webbrowser
 import subprocess
 import tkinter
- 
-try:
-  import requests
-  import colorama
-  import customtkinter
-  import CTkToolTip
-  import CTkMessagebox
-except ImportError:
-  print("足りないモジュールをインストールします")
-  os.system("pip install -r ./data/requirements.txt")
+
 import requests
 import colorama
 import tkinter as tk
@@ -1024,8 +1015,3 @@ printl("debug", "Loading Tkinter")
 set_moduleframe(2, 2)
 
 root.mainloop()
-
-# Todo:
-# Rewrite Gui Code
-# Rewrite Module Code
-# Reset Ticker Spammer Gui&Code

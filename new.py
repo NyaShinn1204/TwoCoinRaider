@@ -6,15 +6,6 @@ import webbrowser
 import subprocess
 import tkinter
  
-try:
-  import requests
-  import colorama
-  import customtkinter
-  import CTkToolTip
-  import CTkMessagebox
-except ImportError:
-  print("足りないモジュールをインストールします")
-  os.system("pip install -r ./data/requirements.txt")
 import requests
 import colorama
 import tkinter as tk
