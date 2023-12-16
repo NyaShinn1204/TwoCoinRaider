@@ -25,6 +25,7 @@ colorama.init(autoreset=True)
 
 version = "v1.0.3"
 theme = "twocoin"
+developer = "nyanyakko"
 
 def get_filename():
   return os.path.basename(__file__)
@@ -704,11 +705,17 @@ def module_scroll_frame(num1, num2):
     if num2 == 2:
       credits_frame = ctk.CTkFrame(module_frame, width=940, height=400, border_width=0, fg_color=c2)
       credits_frame.grid(row=1, column=1, padx=6, pady=6)
-      tk.Label(credits_frame, bg=c2, fg="#fff", text="TwoCoin github:", font=("Roboto", 12)).place(x=0,y=0)
-      test = tk.Label(credits_frame, bg=c2, fg="#fff", text="Github link", font=("Roboto", 12))
-      test.place(x=150,y=35)
+      tk.Label(credits_frame, bg=c2, fg="#489ea1", text="TwoCoin github:", font=("Roboto", 12)).place(x=0,y=0)
+      test = tk.Label(credits_frame, bg=c2, fg="#454c7f", text="Github link", font=("Roboto", 12, "underline"))
+      test.place(x=120,y=0)
       test.bind("<Button-1>", lambda e:webbrowser.open_new("https://github.com/NyaShinn1204/TwoCoinRaider"))
-
+      tk.Label(credits_frame, bg=c2, fg="#489ea1", text="TwoCoin discord:", font=("Roboto", 12)).place(x=0,y=25)
+      test = tk.Label(credits_frame, bg=c2, fg="#454c7f", text="Discord invite link", font=("Roboto", 12, "underline"))
+      test.place(x=125,y=25)
+      test.bind("<Button-1>", lambda e:webbrowser.open_new("https://discord.gg/y6qreBQYsJ"))
+      tk.Label(credits_frame, bg=c2, fg="#fff", text="Main developer and updater:", font=("Roboto", 12)).place(x=0,y=50)
+      tk.Label(credits_frame, bg=c2, fg="#003283", text=developer, font=("Roboto", 12)).place(x=250,y=50)
+      
       printl("debug", "Open About Tab")
 
 def module_list_frame():
