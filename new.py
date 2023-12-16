@@ -278,6 +278,10 @@ def proxy_filepath():
   print("[+] Load: " + Setting.totalproxies + "Proxies")
   time.sleep(1)
   threading.Thread(target=proxy_checker.check(update_proxy, proxies, Setting.proxytype.get()))
+  if str(Setting.vaildproxies) == 0:
+    print("[-] Not Found Load Vaild Proxies")
+  else:
+    print("[+] Success Load Vaild Proxies: " + str(Setting.vaildproxies))
      
 def update_proxy(status, proxy):
   if status == True:
