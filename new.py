@@ -224,12 +224,11 @@ def token_load():
     tokens = open(filepath, 'r').read().splitlines()
   with open('config.json', 'w'):
     pass
-  token_file_path = {
-    "token_path": filepath
-  }
-  tokens_file = json.dumps(token_file_path)
-  with open("config.json", "w") as configfile:
-    configfile.write(tokens_file)
+  with open('config.json') as f:
+    data = json.load(f)
+  data.update({"select_theme": theme})
+  with open('token_path.json', 'w') as f:
+    json.dump(data, f)
   if tokens == []:
     return
   Setting.tokens = []

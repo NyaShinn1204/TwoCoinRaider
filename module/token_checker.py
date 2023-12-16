@@ -26,7 +26,7 @@ def check(tokens, update_token):
             success(token)
         if x.status_code == 403:
             locked(token)
-        else:
+        if x.status_code == 401:
             invalid(token)
     def check_tokens():
         threads=[]
