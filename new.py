@@ -26,6 +26,8 @@ colorama.init(autoreset=True)
 version = "v1.0.3"
 theme = "twocoin"
 developer = "nyanyakko"
+contributors = "None"
+testers = "Mino3753"
 
 def get_filename():
   return os.path.basename(__file__)
@@ -714,8 +716,12 @@ def module_scroll_frame(num1, num2):
       test.place(x=125,y=25)
       test.bind("<Button-1>", lambda e:webbrowser.open_new("https://discord.gg/y6qreBQYsJ"))
       tk.Label(credits_frame, bg=c2, fg="#fff", text="Main developer and updater:", font=("Roboto", 12)).place(x=0,y=50)
-      tk.Label(credits_frame, bg=c2, fg="#003283", text=developer, font=("Roboto", 12)).place(x=250,y=50)
-      
+      tk.Label(credits_frame, bg=c2, fg="#0000D8", text=developer, font=("Roboto", 12)).place(x=210,y=50)
+      tk.Label(credits_frame, bg=c2, fg="#fff", text="Main contributors:", font=("Roboto", 12)).place(x=0,y=75)
+      tk.Label(credits_frame, bg=c2, fg="#0000D8", text=contributors, font=("Roboto", 12)).place(x=130,y=75)
+      tk.Label(credits_frame, bg=c2, fg="#fff", text="Main testers:", font=("Roboto", 12)).place(x=0,y=100)
+      tk.Label(credits_frame, bg=c2, fg="#0000D8", text=testers, font=("Roboto", 12)).place(x=100,y=100)
+
       printl("debug", "Open About Tab")
 
 def module_list_frame():
