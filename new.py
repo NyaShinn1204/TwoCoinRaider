@@ -412,6 +412,7 @@ def module_scroll_frame(num1, num2):
       printl("debug", "Open Join Leave Tab")
         
     if num2 == 2:
+      # Spammer
       modules_frame02_01 = ctk.CTkFrame(module_frame, width=470, height=300, border_width=0, fg_color=c1)
       modules_frame02_01.grid(row=0, column=0, padx=6, pady=6)
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Spammer", font=("Roboto", 14)).place(x=15,y=0)
@@ -462,6 +463,7 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=335,y=169)
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.fai_nmspam_Label, font=("Roboto", 12)).place(x=335,y=194)
 
+      # Reply Spammer
       modules_frame02_02 = ctk.CTkFrame(module_frame, width=470, height=300, border_width=0, fg_color=c1)
       modules_frame02_02.grid(row=0, column=1, padx=6, pady=6)
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", text="Reply Spammer", font=("Roboto", 14)).place(x=15,y=0)
@@ -514,6 +516,18 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=330,y=144)
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", textvariable=Setting.suc_replyspam_Label, font=("Roboto", 12)).place(x=335,y=169)
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", textvariable=Setting.fai_replyspam_Label, font=("Roboto", 12)).place(x=335,y=194)
+      
+      # Ticket Spammer
+      modules_frame02_03 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
+      modules_frame02_03.grid(row=1, column=0, padx=6, pady=6)
+      tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="Ticket Spammer", font=("Roboto", 14)).place(x=15,y=0)
+      tk.Canvas(modules_frame02_03, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+
+      # VC Spammer
+      modules_frame02_04 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
+      modules_frame02_04.grid(row=1, column=1, padx=6, pady=6)
+      tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=15,y=0)
+      tk.Canvas(modules_frame02_04, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
 
       printl("debug", "Open Spammer Tab")
         
