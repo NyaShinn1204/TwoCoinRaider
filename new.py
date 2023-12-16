@@ -529,6 +529,40 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame02_04, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
 
+      # Reaction Spammer
+      modules_frame02_05 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
+      modules_frame02_05.grid(row=2, column=0, padx=6, pady=6)
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Reaction Spammer", font=("Roboto", 14)).place(x=15,y=0)
+      tk.Canvas(modules_frame02_05, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      #ctk.CTkButton(modules_frame02_05, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.reaction_channelid.set("")).place(x=5,y=28)
+      #ctk.CTkEntry(modules_frame02_05, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reaction_channelid).place(x=85,y=28)
+      #tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=26)
+      #ctk.CTkButton(modules_frame02_05, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.reaction_messageid.set("")).place(x=5,y=57)
+      #ctk.CTkEntry(modules_frame02_05, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reaction_messageid).place(x=85,y=57)
+      #tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=55)
+      #ctk.CTkButton(modules_frame02_05, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.reaction_emoji.set("")).place(x=5,y=86)
+      #ctk.CTkEntry(modules_frame02_05, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reaction_emoji).place(x=85,y=86)
+      #tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Emoji  e.x. :skull:", font=("Roboto", 12)).place(x=240,y=84)
+
+      ctk.CTkButton(modules_frame02_05, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.reaction_channelid.set("")).place(x=5,y=31)
+      ctk.CTkEntry(modules_frame02_05, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reaction_channelid).place(x=85,y=31)
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=29)
+      ctk.CTkButton(modules_frame02_05, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.reaction_messageid.set("")).place(x=5,y=60)
+      ctk.CTkEntry(modules_frame02_05, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reaction_messageid).place(x=85,y=60)
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=58)
+      ctk.CTkButton(modules_frame02_05, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.reaction_emoji.set("")).place(x=5,y=89)
+      ctk.CTkEntry(modules_frame02_05, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.reaction_emoji).place(x=85,y=89)
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Emoji", font=("Roboto", 12)).place(x=240,y=87)
+      test = ctk.CTkLabel(modules_frame02_05, text_color="#fff", text="(?)")
+      test.place(x=290,y=87)
+      CTkToolTip(test, delay=0.5, message="Example :skull:") 
+
+      ctk.CTkButton(modules_frame02_05, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=117)
+
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=70,y=110)
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.suc_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=135)
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.fai_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=160)
+
       printl("debug", "Open Spammer Tab")
         
   if num1 == 2:
