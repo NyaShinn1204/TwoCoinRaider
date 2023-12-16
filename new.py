@@ -19,6 +19,8 @@ from CTkToolTip import *
 import module.token_checker as token_checker
 import module.proxy_checker as proxy_checker
 
+import bypass.solver.solver as solver
+
 colorama.init(autoreset=True)
 
 version = "v1.0.3"
@@ -298,6 +300,31 @@ def module_scroll_frame(num1, num2):
   clear_frame(frame_scroll)
   if num1 == 1:
     if num2 == 1:
+      def hcaptcha_select():
+        global answers, api
+        if Setting.bypass_cap.get() == True:
+          answers = ctk.CTkInputDialog(text = "Select Sovler\n1, CapSolver\n2, CapMonster\n3, 2Cap").get_input()
+          if answers in ['1','2','3']:
+            print("[+] Select " + answers)
+            api = ctk.CTkInputDialog(text = "Input API Key").get_input()
+            if api == "":
+              print("[-] Not Set. Please Input")
+              Setting.bypass_cap.set(False)
+            else:
+              print("[~] Checking API Key: " + extractfi(api))
+              if answers == "1":
+                if solver.get_balance_capsolver(api) == 0.0:
+                  Setting.bypass_cap.set(False)
+              if answers == "2":
+                if solver.get_balance_capmonster(api) == 0.0:
+                  Setting.bypass_cap.set(False)
+              if answers == "3":
+                if solver.get_balance_2cap(api) == 0.0:
+                  Setting.bypass_cap.set(False)
+          else:
+            print("[-] Not Set. Please Input")
+            Setting.bypass_cap.set(False)
+
       modules_frame01_01 = ctk.CTkFrame(module_frame, width=470, height=300, border_width=0, fg_color=c1)
       modules_frame01_01.grid(row=0, column=0, padx=6, pady=6)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Joiner", font=("Roboto", 14)).place(x=15,y=0)
@@ -306,7 +333,7 @@ def module_scroll_frame(num1, num2):
       test = ctk.CTkLabel(modules_frame01_01, text_color="#fff", text="(?)")
       test.place(x=170,y=31)
       CTkToolTip(test, delay=0.5, message="Bypass the member screen when you join.") 
-      ctk.CTkCheckBox(modules_frame01_01, bg_color=c1, text_color="#fff", border_color=c4, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass hCaptcha", variable=Setting.bypass_cap).place(x=5,y=55) 
+      ctk.CTkCheckBox(modules_frame01_01, bg_color=c1, text_color="#fff", border_color=c4, checkbox_width=20, checkbox_height=20, hover=False, border_width=3, text="Bypass hCaptcha", variable=Setting.bypass_cap, command=hcaptcha_select).place(x=5,y=55) 
       test = ctk.CTkLabel(modules_frame01_01, text_color="#fff", text="(?)")
       test.place(x=140,y=55)
       CTkToolTip(test, delay=0.5, message="Automatically resolve hcaptcha")
