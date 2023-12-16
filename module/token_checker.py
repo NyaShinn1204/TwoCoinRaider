@@ -13,20 +13,13 @@ def check(tokens, update_token):
         lock.acquire()
         update_token(False, text)
         lock.release()
-        
-    def locked(text):
-        lock.acquire()
-        update_token("Lock", text)
-        lock.release()
 
     def check_token(token:str):
         request = Client()
         x = request.get('https://discord.com/api/v9/users/@me/library', headers={"authorization": token},timeout=5)
         if x.status_code == 200:
             success(token)
-        if x.status_code == 403:
-            locked(token)
-        if x.status_code == 401:
+        else:
             invalid(token)
     def check_tokens():
         threads=[]

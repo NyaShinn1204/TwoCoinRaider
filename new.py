@@ -168,7 +168,6 @@ def config_check():
       Setting.tokens = []
       Setting.validtoken = 0
       Setting.invalidtoken = 0
-      Setting.lockedtoken = 0
       Setting.token_filenameLabel.set(os.path.basename(filepath["token_path"]))
       Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
       threading.Thread(target=token_checker.check(tokens, update_token)).start()
@@ -222,23 +221,19 @@ def token_load():
     tokens = open(filepath, 'r').read().splitlines()
   else:
     tokens = open(filepath, 'r').read().splitlines()
-  with open('config.json', 'w'):
-    pass
   with open('config.json') as f:
     data = json.load(f)
-  data.update({"select_theme": theme})
-  with open('token_path.json', 'w') as f:
+  data.update({"token_path": filepath})
+  with open('config.json', 'w') as f:
     json.dump(data, f)
   if tokens == []:
     return
   Setting.tokens = []
   Setting.validtoken = 0
   Setting.invalidtoken = 0
-  Setting.lockedtoken = 0
   Setting.token_filenameLabel.set(os.path.basename(filepath))
   Setting.validtokenLabel.set("Valid: 000")
   Setting.invalidtokenLabel.set("Invalid: 000")
-  Setting.lockedtokenLabel.set("Locked: 000")
   Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
   threading.Thread(target=token_checker.check(tokens, update_token)).start()
 
@@ -250,9 +245,6 @@ def update_token(status, token):
   if status == False:
     Setting.invalidtoken += 1
     Setting.invalidtokenLabel.set("Invalid: "+str(Setting.invalidtoken).zfill(3))
-  if status == "Lock":
-    Setting.lockedtoken +=1
-    Setting.lockedtokenLabel.set("Locked: "+str(Setting.lockedtoken).zfill(3))
 
 # Proxy Tab
 def proxy_load():
@@ -487,7 +479,6 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame10_01, bg=c1, fg="#fff", text="Total: 000", font=("Roboto", 12), textvariable=Setting.totaltokenLabel).place(x=10,y=95)
       tk.Label(modules_frame10_01, bg=c1, fg="#fff", text="Valid: 000", font=("Roboto", 12), textvariable=Setting.validtokenLabel).place(x=10,y=115)
       tk.Label(modules_frame10_01, bg=c1, fg="#fff", text="Invalid: 000", font=("Roboto", 12), textvariable=Setting.invalidtokenLabel).place(x=10,y=135)
-      tk.Label(modules_frame10_01, bg=c1, fg="#fff", text="Lock: 000", font=("Roboto", 12), textvariable=Setting.lockedtokenLabel).place(x=110,y=135)
       
       modules_frame10_02 = ctk.CTkFrame(module_frame, width=470, height=210, border_width=0, fg_color=c1)
       modules_frame10_02.grid(row=0, column=1, padx=6, pady=6)
