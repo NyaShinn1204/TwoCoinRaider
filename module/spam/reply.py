@@ -106,10 +106,10 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
             print(f"[-] 不明なエラー  Message: {x.json()['message']} ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
             module_status(2, 4, 2)
         if x.status_code == 403:
-            print(f"[-] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
+            print(f"[+] このチャンネルで発現する権限がないっぽい ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
             module_status(2, 4, 2)
         if x.status_code == 404:
-            print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
+            print(f"[+] このチャンネルは存在しません ChannelID: {channelid} Token: {extract_token} Status: {x.status_code}")
             module_status(2, 4, 2)
         if x.status_code == 200:
             module_status(2, 4, 1)

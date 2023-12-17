@@ -557,10 +557,10 @@ def module_thread(num):
       print("[-] Threads Name is not set")
       return   
 
-    threading.Thread(target=module_threads.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
+    threading.Thread(target=module_threads.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, name)).start()
 
   if num == 2_5_2:
-    threading.Thread(target=module_threads.stop, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
+    threading.Thread(target=module_threads.stop, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, name)).start()
 
 def module_status(num1, num2, num3):
   if num1 == 1:

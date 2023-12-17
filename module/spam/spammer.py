@@ -115,9 +115,9 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
         if x.status_code == 200:
             module_status(2, 3, 1)
             if proxysetting == True:
-                print(f"[-] 送信に成功しました ChannelID: {channelid} Token: {extract_token}.******** Proxy: {proxy}")
+                print(f"[+] 送信に成功しました ChannelID: {channelid} Token: {extract_token}.******** Proxy: {proxy}")
             else:
-                print(f"[-] 送信に成功しました ChannelID: {channelid} Token: {extract_token}.********")
+                print(f"[+] 送信に成功しました ChannelID: {channelid} Token: {extract_token}.********")
         else:
             if x.status_code == 429 or x.status_code == 20016:
                 print("[-] RateLimit!! Please Wait!! "+json.loads(x.text)["retry_after"])

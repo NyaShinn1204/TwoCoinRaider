@@ -93,7 +93,7 @@ def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, chan
                 print(f"[+] 作成に成功しました ChannelID: {channelid} Token: {extract_token}.********")
         else:
             if x.status_code == 429 or x.status_code == 20016:
-                retry_after = x.json().get("retry_after")
+                retry_after = json.loads(x.text)["retry_after"]
                 print(f"[-] レートリミットにかかりました  Message: {x.json()['message']} Token: {extract_token}.******** Status: {x.status_code} 待機秒数: {retry_after}s")
                 time.sleep(float(retry_after))
                 module_status(2, 3, 2)
