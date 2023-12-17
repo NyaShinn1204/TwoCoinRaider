@@ -294,6 +294,235 @@ def clear_frame(frame):
     widget.destroy()
   frame.pack_forget()
 
+def module_thread(num):
+  global answers, api
+  tokens = Setting.tokens
+  proxies = Setting.proxies
+  proxytype = Setting.proxytype.get()
+  proxysetting = Setting.proxy_enabled.get()
+  delay = Setting.delay99_01.get()
+  printl("info", "Total Tokens: "+len(tokens))
+  if num == 1_1_1:
+    serverid = str(Setting.joiner_serverid.get())
+    join_channelid = str(Setting.joiner_channelid.get())
+    invitelink = str(Setting.joiner_link.get())
+    memberscreen = Setting.bypass_ms.get()
+    delete_joinms = Setting.delete_join_ms.get()
+    bypasscaptcha = Setting.bypass_cap.get()
+
+    delay = Setting.delay01_01.get()
+
+    answers = None
+    api = None
+
+    if invitelink == "":
+      print("[-] InviteLink is not set")
+      return
+    if invitelink.__contains__('discord.gg/'):
+      invitelink = invitelink.replace('discord.gg/', '').replace('https://', '').replace('http://', '')
+    elif invitelink.__contains__('discord.com/invite/'):
+      invitelink = invitelink.replace('discord.com/invite/', '').replace('https://', '').replace('http://', '')
+    try:
+      invitelink = invitelink.split(".gg/")[1]
+    except:
+      pass
+    if memberscreen == True:
+      if serverid == "":
+        print("[-] ServerID is not set")
+        print("[-] 代わりにInvite CodeからServerIDを取得します")
+    if bypasscaptcha == True:
+      if answers == "":
+        print("[-] Please Select API Service")
+        return
+      else:
+        if api == "":
+          print("[-] Please Input API Keys")
+    if delete_joinms == True:
+      if join_channelid == "":
+        print("[-] Join ChannelID is not set")
+        return
+
+    threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, api, bypasscaptcha, delete_joinms, join_channelid)).start()
+
+  if num == 1_2_1:
+    serverid = Setting.leaver_serverid.get()
+
+    delay = Setting.delay02.get()
+
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+
+    threading.Thread(target=module_leaver.start, args=(serverid, delay, tokens)).start()
+
+  if num == 1_2_2:
+    threading.Thread(target=module_leaver.stop).start()
+
+  if num == 1_3_1:
+    serverid = Setting.vcjoin_serverid.get()
+    channelid = Setting.vcjoin_channelid.get()
+    
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ServerID is not set")
+      return
+    
+    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, "join")).start()
+    
+  if num == 1_4_1:
+    serverid = Setting.vcjoin_serverid.get()
+    channelid = Setting.vcjoin_channelid.get()
+    
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ServerID is not set")
+      return
+    
+    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, "leave")).start()
+    
+  if num == 2_3_1:
+    serverid = str(Setting.spam_serverid.get())
+    channelid = str(Setting.spam_channelid.get())
+    allchannel = Setting.spam_allch.get()
+    allping = Setting.spam_allping.get()
+    randomstring = Setting.spam_rdstring.get()
+    ratelimit = Setting.spam_ratefixer.get()
+    randomconvert = Setting.spam_randomconvert.get()
+
+    contents = spam_message.get("0.0","end-1c")
+    mentions = Setting.mention_count_def.get()
+
+    delay = Setting.delay03.get()
+
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return    
+
+    threading.Thread(target=module_spammer.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit, randomconvert)).start()
+
+  if num == 2_3_2:
+    threading.Thread(target=module_spammer.stop).start()
+   
+  if num == 2_4_1:
+    serverid = Setting.vcspam_serverid.get()
+    channelid = Setting.vcspam_channelid.get()
+    voicefile = Setting.voicefile
+
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return  
+
+    try:
+      ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
+    except:
+      print("Error load ffmpeg")
+      ffmpeg = ffmpeg_load()
+
+    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
+
+  if num == 2_5_1:
+    serverid = str(Setting.reply_serverid.get())
+    channelid = str(Setting.reply_channelid.get())
+    messageid = str(Setting.reply_messageid.get())
+    allmg = Setting.reply_allmg.get()
+    allping = Setting.reply_allping.get()
+    randomstring = Setting.reply_rdstring.get()
+    ratelimit = Setting.reply_ratefixer.get()
+
+    contents = reply_message.get("0.0","end-1c")
+    mentions = Setting.mention_count_def.get()
+
+    delay = Setting.delay04.get()
+
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return  
+    if messageid == "":
+      print("[-] ChannelID is not set")
+      return    
+
+    threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
+
+  if num == 2_5_2:
+    threading.Thread(target=module_reply.stop).start()
+
+  if num == 2_6_1:
+    serverid = str(Setting.ticket_serverid.get())
+    channelid = str(Setting.ticket_channelid.get())
+    messageid = str(Setting.ticket_messageid.get())
+    ratelimit = Setting.ticket_ratefixer.get()
+
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return   
+    if messageid == "":
+      print("[-] MessageID is not set")
+      return
+
+    threading.Thread(target=module_ticket.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid)).start()
+
+  if num == 2_6_2:
+    threading.Thread(target=module_ticket.stop).start()
+
+  if num == 2_7_1:
+    serverid = str(Setting.slash_serverid.get())
+    channelid = str(Setting.slash_channelid.get())
+    applicationid = str(Setting.slash_applicationid.get())
+    commandname = str(Setting.slash_commandname.get())
+    subcommandname = str(Setting.slash_subcommandname.get())
+    subcommandname_value = str(Setting.slash_subcommandname_value.get())
+    ratelimit = Setting.slash_ratefixer.get()
+
+    delay = Setting.delay05.get()
+
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return   
+    if applicationid == "":
+      print("[-] ApplicationID is not set")
+      return
+
+    threading.Thread(target=module_slash.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, applicationid, commandname, subcommandname, subcommandname_value, ratelimit)).start()
+
+  if num == 2_7_2:
+    threading.Thread(target=module_slash.stop).start()
+
+  if num == 2_8_1:
+    channelid = str(Setting.reaction_channelid.get())
+    messageid = str(Setting.reaction_messageid.get())
+    emoji = str(Setting.reaction_emoji.get())
+
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return
+    if messageid == "":
+      print("[-] Messageid is not set")
+      return   
+    if emoji == "":
+      print("[-] Emoji is not set")
+      return
+
+    threading.Thread(target=module_reaction.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
+
 def module_scroll_frame(num1, num2):
   global invite_url, module_frame
   frame_scroll = module_frame = ctk.CTkScrollableFrame(root, fg_color=c2, bg_color=c2, width=1000, height=630)
@@ -360,8 +589,8 @@ def module_scroll_frame(num1, num2):
       test.place(x=5,y=217)
       tooltip01_01 = CTkToolTip(test, message=round(Setting.delay01_01.get(), 1))
 
-      ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=5,y=237)
-      ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=70,y=237)
+      ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: module_thread(1_1_1)).place(x=5,y=237)
+      ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: module_thread(1_1_2)).place(x=70,y=237)
 
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Join Status", font=("Roboto", 12)).place(x=205,y=30)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=210,y=58)
@@ -382,8 +611,8 @@ def module_scroll_frame(num1, num2):
       test.place(x=5,y=80)
       tooltip01_02 = CTkToolTip(test, message=round(Setting.delay01_02.get(), 1))
 
-      ctk.CTkButton(modules_frame01_02, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=5,y=100)
-      ctk.CTkButton(modules_frame01_02, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: print("a")).place(x=70,y=100)
+      ctk.CTkButton(modules_frame01_02, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: module_thread(1_2_1)).place(x=5,y=100)
+      ctk.CTkButton(modules_frame01_02, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: module_thread(1_2_2)).place(x=70,y=100)
       
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", text="Leaver Status", font=("Roboto", 12)).place(x=5,y=130)
       tk.Label(modules_frame01_02, bg=c1, fg="#fff", textvariable=Setting.suc_leaver_Label, font=("Roboto", 12)).place(x=10,y=155)
