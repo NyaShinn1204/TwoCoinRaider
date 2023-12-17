@@ -613,6 +613,25 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.suc_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=135)
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.fai_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=160)
 
+      # Threads Spammer
+      modules_frame02_06 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
+      modules_frame02_06.grid(row=2, column=1, padx=6, pady=6)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Threads Spammer", font=("Roboto", 14)).place(x=15,y=0)
+      tk.Canvas(modules_frame02_06, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      ctk.CTkButton(modules_frame02_06, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.threads_channelid.set("")).place(x=5,y=31)
+      ctk.CTkEntry(modules_frame02_06, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_channelid).place(x=85,y=31)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=29)
+      ctk.CTkButton(modules_frame02_06, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.threads_name.set("")).place(x=5,y=60)
+      ctk.CTkEntry(modules_frame02_06, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_name).place(x=85,y=60)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Threads Name", font=("Roboto", 12)).place(x=240,y=58)
+
+      ctk.CTkButton(modules_frame02_06, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=117)
+      ctk.CTkButton(modules_frame02_06, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=117)
+
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=110)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=135)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=160)
+
       printl("debug", "Open Spammer Tab")
         
   if num1 == 2:

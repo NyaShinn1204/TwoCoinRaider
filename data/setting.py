@@ -227,6 +227,10 @@ class Setting:
   reaction_messageid.set("")
   reaction_emoji = tk.StringVar()
   reaction_emoji.set("")
+  threads_channelid = tk.StringVar()
+  threads_channelid.set("")
+  threads_name = tk.StringVar()
+  threads_name.set("")
   
   theme_var = tk.StringVar(value="Default Theme")
 
