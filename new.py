@@ -622,9 +622,9 @@ def module_scroll_frame(num1, num2):
       CTkToolTip(test, delay=0.5, message="Example :skull:") 
       
       CTkLabel(modules_frame02_05, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=112)
-      def show_value02_03(value):
+      def show_value02_05(value):
           tooltip02_05.configure(message=round(value, 1))
-      test = ctk.CTkSlider(modules_frame02_05, from_=0.1, to=3.0, variable=Setting.delay02_05, command=show_value02_03)
+      test = ctk.CTkSlider(modules_frame02_05, from_=0.1, to=3.0, variable=Setting.delay02_05, command=show_value02_05)
       test.place(x=5,y=137)
       tooltip02_05 = CTkToolTip(test, message=round(Setting.delay02_05.get(), 1))
 
@@ -646,12 +646,19 @@ def module_scroll_frame(num1, num2):
       ctk.CTkEntry(modules_frame02_06, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_name).place(x=85,y=60)
       tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Threads Name", font=("Roboto", 12)).place(x=240,y=58)
 
-      ctk.CTkButton(modules_frame02_06, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=90)
-      ctk.CTkButton(modules_frame02_06, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=90)
+      CTkLabel(modules_frame02_06, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=82)
+      def show_value02_06(value):
+          tooltip02_06.configure(message=round(value, 1))
+      test = ctk.CTkSlider(modules_frame02_06, from_=0.1, to=3.0, variable=Setting.delay02_06, command=show_value02_06)
+      test.place(x=5,y=107)
+      tooltip02_06 = CTkToolTip(test, message=round(Setting.delay02_06.get(), 1))
 
-      tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=83)
-      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.suc_threadsspam_Label, font=("Roboto", 12)).place(x=140,y=108)
-      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.fai_threadsspam_Label, font=("Roboto", 12)).place(x=140,y=133)
+      ctk.CTkButton(modules_frame02_06, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=127)
+      ctk.CTkButton(modules_frame02_06, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=127)
+
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=83)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.suc_threadsspam_Label, font=("Roboto", 12)).place(x=210,y=108)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.fai_threadsspam_Label, font=("Roboto", 12)).place(x=210,y=133)
 
       printl("debug", "Open Spammer Tab")
         
