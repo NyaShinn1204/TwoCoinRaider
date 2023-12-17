@@ -590,11 +590,19 @@ def module_scroll_frame(num1, num2):
       ctk.CTkLabel(modules_frame02_04, bg_color=c1, fg_color=c7, text_color="#fff", width=150, height=20, textvariable=Setting.voicefile_filenameLabel).place(x=85,y=89)
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="File Name", font=("Roboto", 12)).place(x=240,y=87)
 
-      ctk.CTkButton(modules_frame02_04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=117)
+      CTkLabel(modules_frame02_04, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=112)
+      def show_value02_04(value):
+          tooltip02_04.configure(message=round(value, 1))
+      test = ctk.CTkSlider(modules_frame02_04, from_=0.1, to=3.0, variable=Setting.delay02_04, command=show_value02_04)
+      test.place(x=5,y=137)
+      tooltip02_04 = CTkToolTip(test, message=round(Setting.delay02_04.get(), 1))
 
-      tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=110)
-      tk.Label(modules_frame02_04, bg=c1, fg="#fff", textvariable=Setting.suc_vcspam_Label, font=("Roboto", 12)).place(x=140,y=135)
-      tk.Label(modules_frame02_04, bg=c1, fg="#fff", textvariable=Setting.fai_vcspam_Label, font=("Roboto", 12)).place(x=140,y=160)
+      ctk.CTkButton(modules_frame02_04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=157)
+
+
+      tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=110)
+      tk.Label(modules_frame02_04, bg=c1, fg="#fff", textvariable=Setting.suc_vcspam_Label, font=("Roboto", 12)).place(x=210,y=135)
+      tk.Label(modules_frame02_04, bg=c1, fg="#fff", textvariable=Setting.fai_vcspam_Label, font=("Roboto", 12)).place(x=210,y=160)
 
       # Reaction Spammer
       modules_frame02_05 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
