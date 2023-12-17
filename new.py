@@ -16,6 +16,14 @@ from customtkinter import *
 from CTkMessagebox import CTkMessagebox
 from CTkToolTip import *
 
+import module.joiner as module_joiner
+import module.leaver as module_leaver
+import module.spam.spammer as module_spammer
+import module.vcspam as module_vc
+import module.spam.reply as module_reply
+import module.spam.ticket as module_ticket
+import module.spam.reaction as module_reaction
+
 import module.token_checker as token_checker
 import module.proxy_checker as proxy_checker
 
@@ -347,7 +355,7 @@ def module_thread(num):
   if num == 1_2_1:
     serverid = Setting.leaver_serverid.get()
 
-    delay = Setting.delay02.get()
+    delay = Setting.delay01_02.get()
 
     if serverid == "":
       print("[-] ServerID is not set")
@@ -590,7 +598,6 @@ def module_scroll_frame(num1, num2):
       tooltip01_01 = CTkToolTip(test, message=round(Setting.delay01_01.get(), 1))
 
       ctk.CTkButton(modules_frame01_01, text="Start", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: module_thread(1_1_1)).place(x=5,y=237)
-      ctk.CTkButton(modules_frame01_01, text="Stop", fg_color=c2, hover_color=c5, width=60, height=25, command=lambda: module_thread(1_1_2)).place(x=70,y=237)
 
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", text="Join Status", font=("Roboto", 12)).place(x=205,y=30)
       tk.Label(modules_frame01_01, bg=c1, fg="#fff", textvariable=Setting.suc_joiner_Label, font=("Roboto", 12)).place(x=210,y=58)
