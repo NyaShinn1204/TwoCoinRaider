@@ -23,6 +23,7 @@ import module.vcspam as module_vc
 import module.spam.reply as module_reply
 import module.spam.ticket as module_ticket
 import module.spam.reaction as module_reaction
+import module.spam.threads as module_threads
 
 import module.token_checker as token_checker
 import module.proxy_checker as proxy_checker
@@ -355,7 +356,7 @@ def module_thread(num):
     threading.Thread(target=module_joiner.start, args=(tokens, serverid, invitelink, memberscreen, delay, module_status, answers, api, bypasscaptcha, delete_joinms, join_channelid)).start()
 
   if num == 1_2_1:
-    serverid = Setting.leaver_serverid.get()
+    serverid = str(Setting.leaver_serverid.get())
 
     delay = Setting.delay01_02.get()
 
@@ -369,8 +370,10 @@ def module_thread(num):
     threading.Thread(target=module_leaver.stop).start()
 
   if num == 1_3_1:
-    serverid = Setting.vcjoin_serverid.get()
-    channelid = Setting.vcjoin_channelid.get()
+    serverid = str(Setting.vcjoin_serverid.get())
+    channelid = str(Setting.vcjoin_channelid.get())
+    
+    delay = Setting.delay01_03.get()
     
     if serverid == "":
       print("[-] ServerID is not set")
@@ -382,8 +385,10 @@ def module_thread(num):
     threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, "join")).start()
     
   if num == 1_4_1:
-    serverid = Setting.vcjoin_serverid.get()
-    channelid = Setting.vcjoin_channelid.get()
+    serverid = str(Setting.vcjoin_serverid.get())
+    channelid = str(Setting.vcjoin_channelid.get())
+    
+    delay = Setting.delay01_04.get()
     
     if serverid == "":
       print("[-] ServerID is not set")
@@ -454,7 +459,9 @@ def module_thread(num):
     channelid = str(Setting.ticket_channelid.get())
     messageid = str(Setting.ticket_messageid.get())
     ratelimit = Setting.ticket_ratefixer.get()
-
+    
+    delay = Setting.delay02_03.get()
+    
     if serverid == "":
       print("[-] ServerID is not set")
       return
@@ -475,6 +482,8 @@ def module_thread(num):
     serverid = str(Setting.vcspam_serverid.get())
     channelid = str(Setting.vcspam_channelid.get())
     voicefile = Setting.voicefile
+    
+    delay = Setting.delay02_04.get()
 
     if serverid == "":
       print("[-] ServerID is not set")
@@ -520,6 +529,8 @@ def module_thread(num):
     channelid = str(Setting.reaction_channelid.get())
     messageid = str(Setting.reaction_messageid.get())
     emoji = str(Setting.reaction_emoji.get())
+    
+    delay = Setting.delay02_05.get()
 
     if channelid == "":
       print("[-] ChannelID is not set")
@@ -532,6 +543,24 @@ def module_thread(num):
       return
 
     threading.Thread(target=module_reaction.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
+
+  if num == 2_5_1:
+    channelid = str(Setting.threads_channelid.get())
+    name = str(Setting.threads_name.get())
+    
+    delay = Setting.delay02_06.get()
+
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return
+    if name == "":
+      print("[-] Threads Name is not set")
+      return   
+
+    threading.Thread(target=module_threads.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
+
+  if num == 2_5_2:
+    threading.Thread(target=module_threads.stop, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
 
 def module_status(num1, num2, num3):
   if num1 == 1:
