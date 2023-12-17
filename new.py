@@ -516,7 +516,7 @@ def module_thread(num):
 #  if num == 2_7_2:
 #    threading.Thread(target=module_slash.stop).start()
 
-  if num == 2_8_1:
+  if num == 2_5_1:
     channelid = str(Setting.reaction_channelid.get())
     messageid = str(Setting.reaction_messageid.get())
     emoji = str(Setting.reaction_emoji.get())
