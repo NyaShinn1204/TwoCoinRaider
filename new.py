@@ -546,7 +546,7 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", textvariable=Setting.fai_replyspam_Label, font=("Roboto", 12)).place(x=335,y=194)
       
       # Ticket Spammer
-      modules_frame02_03 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
+      modules_frame02_03 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
       modules_frame02_03.grid(row=1, column=0, padx=6, pady=6)
       tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="Ticket Spammer", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame02_03, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
@@ -575,7 +575,7 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_03, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=210,y=160)
   
       # VC Spammer
-      modules_frame02_04 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
+      modules_frame02_04 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
       modules_frame02_04.grid(row=1, column=1, padx=6, pady=6)
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="VC Spammer", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame02_04, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
@@ -599,7 +599,6 @@ def module_scroll_frame(num1, num2):
 
       ctk.CTkButton(modules_frame02_04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=157)
 
-
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=110)
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", textvariable=Setting.suc_vcspam_Label, font=("Roboto", 12)).place(x=210,y=135)
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", textvariable=Setting.fai_vcspam_Label, font=("Roboto", 12)).place(x=210,y=160)
@@ -621,12 +620,19 @@ def module_scroll_frame(num1, num2):
       test = ctk.CTkLabel(modules_frame02_05, text_color="#fff", text="(?)")
       test.place(x=290,y=87)
       CTkToolTip(test, delay=0.5, message="Example :skull:") 
+      
+      CTkLabel(modules_frame02_05, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=112)
+      def show_value02_03(value):
+          tooltip02_05.configure(message=round(value, 1))
+      test = ctk.CTkSlider(modules_frame02_05, from_=0.1, to=3.0, variable=Setting.delay02_05, command=show_value02_03)
+      test.place(x=5,y=137)
+      tooltip02_05 = CTkToolTip(test, message=round(Setting.delay02_05.get(), 1))
 
-      ctk.CTkButton(modules_frame02_05, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=117)
+      ctk.CTkButton(modules_frame02_05, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=157)
 
-      tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=70,y=110)
-      tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.suc_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=135)
-      tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.fai_reactionspam_Label, font=("Roboto", 12)).place(x=75,y=160)
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=110)
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.suc_reactionspam_Label, font=("Roboto", 12)).place(x=210,y=135)
+      tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.fai_reactionspam_Label, font=("Roboto", 12)).place(x=210,y=160)
 
       # Threads Spammer
       modules_frame02_06 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
