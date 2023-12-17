@@ -528,11 +528,11 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=202)
 
       CTkLabel(modules_frame02_02, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=227)
-      def show_value02_01(value):
-          tooltip02_01.configure(message=round(value, 1))
-      test = ctk.CTkSlider(modules_frame02_02, from_=0.1, to=3.0, variable=Setting.delay02_01, command=show_value02_01)
+      def show_value02_02(value):
+          tooltip02_02.configure(message=round(value, 1))
+      test = ctk.CTkSlider(modules_frame02_02, from_=0.1, to=3.0, variable=Setting.delay02_02, command=show_value02_02)
       test.place(x=5,y=252)
-      tooltip02_01 = CTkToolTip(test, message=round(Setting.delay02_01.get(), 1))
+      tooltip02_02 = CTkToolTip(test, message=round(Setting.delay02_02.get(), 1))
 
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=150,y=30)
       spam_message = ctk.CTkTextbox(modules_frame02_02, bg_color=c1, fg_color=c4, text_color="#fff", width=250, height=75)
@@ -560,12 +560,19 @@ def module_scroll_frame(num1, num2):
       ctk.CTkEntry(modules_frame02_03, bg_color=c1, fg_color=c4, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.ticket_messageid).place(x=85,y=86)
       tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=84)
 
-      ctk.CTkButton(modules_frame02_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=117)
-      ctk.CTkButton(modules_frame02_03, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=117)
+      CTkLabel(modules_frame02_03, text_color="#fff", text="Delay Time (s)", font=("Roboto", 15)).place(x=5,y=107)
+      def show_value02_03(value):
+          tooltip02_03.configure(message=round(value, 1))
+      test = ctk.CTkSlider(modules_frame02_03, from_=0.1, to=3.0, variable=Setting.delay02_03, command=show_value02_03)
+      test.place(x=5,y=132)
+      tooltip02_03 = CTkToolTip(test, message=round(Setting.delay02_03.get(), 1))
 
-      tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=110)
-      tk.Label(modules_frame02_03, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=135)
-      tk.Label(modules_frame02_03, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=160)
+      ctk.CTkButton(modules_frame02_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=137)
+      ctk.CTkButton(modules_frame02_03, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=137)
+#
+      #tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=110)
+      #tk.Label(modules_frame02_03, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=135)
+      #tk.Label(modules_frame02_03, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=160)
   
       # VC Spammer
       modules_frame02_04 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
