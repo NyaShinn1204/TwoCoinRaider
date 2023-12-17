@@ -625,12 +625,12 @@ def module_scroll_frame(num1, num2):
       ctk.CTkEntry(modules_frame02_06, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_name).place(x=85,y=60)
       tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Threads Name", font=("Roboto", 12)).place(x=240,y=58)
 
-      ctk.CTkButton(modules_frame02_06, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=117)
-      ctk.CTkButton(modules_frame02_06, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=117)
+      ctk.CTkButton(modules_frame02_06, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=90)
+      ctk.CTkButton(modules_frame02_06, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=90)
 
-      tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=110)
-      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=135)
-      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=160)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=83)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=108)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=133)
 
       printl("debug", "Open Spammer Tab")
         
