@@ -678,7 +678,7 @@ def module_scroll_frame(num1, num2):
       ctk.CTkButton(modules_frame10_03, text="Get Info     ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: get_info()).place(x=5,y=126)
       invite_url = ctk.CTkEntry(modules_frame10_03, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20)
       invite_url.place(x=85,y=126)
-      tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="Defalut Sv ID", font=("Roboto", 12)).place(x=240,y=124)
+      tk.Label(modules_frame10_03, bg=c1, fg="#fff", text="Defalut Server ID", font=("Roboto", 12)).place(x=240,y=124)
 
       modules_frame10_04 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
       modules_frame10_04.grid(row=1, column=1, padx=6, pady=6)

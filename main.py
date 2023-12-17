@@ -69,14 +69,17 @@ def load_gui(theme):
     subprocess.run("python new.py")
 
 def update_check():
-  version_get = requests.get("https://raw.githubusercontent.com/NyaShinn1204/twocoin-assets/main/version.txt").text
-  if version_get.__contains__('\n'):
-    version_get = version_get.replace('\n', '')
-  if version == version_get:
-    printl("info", "Latest Version")
-  else:
-    printl("error", "You are using an older version")
-    printl("error", "New Version "+version_get)
+  try:
+    version_get = requests.get("https://raw.githubusercontent.com/NyaShinn1204/twocoin-assets/main/version").text
+    if version_get.__contains__('\n'):
+      version_get = version_get.replace('\n', '')
+    if version == version_get:
+      printl("info", "Latest Version")
+    else:
+      printl("error", "You are using an older version")
+      printl("error", "New Version "+version_get)
+  except:
+    printl("error", "Failed to Get Version")
 
 def config_check():
   try:
