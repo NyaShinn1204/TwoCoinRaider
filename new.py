@@ -309,6 +309,7 @@ def module_thread(num):
   proxytype = Setting.proxytype.get()
   proxysetting = Setting.proxy_enabled.get()
   delay = Setting.delay99_01.get()
+  mentions = Setting.delay99_02.get()
   printl("info", "Total Tokens: "+len(tokens))
   if num == 1_1_1:
     serverid = str(Setting.joiner_serverid.get())
@@ -337,7 +338,8 @@ def module_thread(num):
     if memberscreen == True:
       if serverid == "":
         print("[-] ServerID is not set")
-        print("[-] 代わりにInvite CodeからServerIDを取得します")
+      else:
+        print("[-] このオプションは非推奨です")
     if bypasscaptcha == True:
       if answers == "":
         print("[-] Please Select API Service")
@@ -392,7 +394,7 @@ def module_thread(num):
     
     threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, "leave")).start()
     
-  if num == 2_3_1:
+  if num == 2_1_1:
     serverid = str(Setting.spam_serverid.get())
     channelid = str(Setting.spam_channelid.get())
     allchannel = Setting.spam_allch.get()
@@ -402,9 +404,9 @@ def module_thread(num):
     randomconvert = Setting.spam_randomconvert.get()
 
     contents = spam_message.get("0.0","end-1c")
-    mentions = Setting.mention_count_def.get()
+    mentions = Setting.delay99_02.get()
 
-    delay = Setting.delay03.get()
+    delay = Setting.delay02_01.get()
 
     if serverid == "":
       print("[-] ServerID is not set")
@@ -415,30 +417,10 @@ def module_thread(num):
 
     threading.Thread(target=module_spammer.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, contents, allchannel, allping, mentions, randomstring, ratelimit, randomconvert)).start()
 
-  if num == 2_3_2:
+  if num == 2_1_2:
     threading.Thread(target=module_spammer.stop).start()
    
-  if num == 2_4_1:
-    serverid = Setting.vcspam_serverid.get()
-    channelid = Setting.vcspam_channelid.get()
-    voicefile = Setting.voicefile
-
-    if serverid == "":
-      print("[-] ServerID is not set")
-      return
-    if channelid == "":
-      print("[-] ChannelID is not set")
-      return  
-
-    try:
-      ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
-    except:
-      print("Error load ffmpeg")
-      ffmpeg = ffmpeg_load()
-
-    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
-
-  if num == 2_5_1:
+  if num == 2_2_1:
     serverid = str(Setting.reply_serverid.get())
     channelid = str(Setting.reply_channelid.get())
     messageid = str(Setting.reply_messageid.get())
@@ -450,7 +432,7 @@ def module_thread(num):
     contents = reply_message.get("0.0","end-1c")
     mentions = Setting.mention_count_def.get()
 
-    delay = Setting.delay04.get()
+    delay = Setting.delay02_02.get()
 
     if serverid == "":
       print("[-] ServerID is not set")
@@ -464,10 +446,10 @@ def module_thread(num):
 
     threading.Thread(target=module_reply.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid, contents, allmg, allping, mentions, randomstring, ratelimit)).start()
 
-  if num == 2_5_2:
+  if num == 2_2_2:
     threading.Thread(target=module_reply.stop).start()
 
-  if num == 2_6_1:
+  if num == 2_3_1:
     serverid = str(Setting.ticket_serverid.get())
     channelid = str(Setting.ticket_channelid.get())
     messageid = str(Setting.ticket_messageid.get())
@@ -485,34 +467,54 @@ def module_thread(num):
 
     threading.Thread(target=module_ticket.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, messageid)).start()
 
-  if num == 2_6_2:
+  if num == 2_3_2:
     threading.Thread(target=module_ticket.stop).start()
 
-  if num == 2_7_1:
-    serverid = str(Setting.slash_serverid.get())
-    channelid = str(Setting.slash_channelid.get())
-    applicationid = str(Setting.slash_applicationid.get())
-    commandname = str(Setting.slash_commandname.get())
-    subcommandname = str(Setting.slash_subcommandname.get())
-    subcommandname_value = str(Setting.slash_subcommandname_value.get())
-    ratelimit = Setting.slash_ratefixer.get()
 
-    delay = Setting.delay05.get()
+  if num == 2_4_1:
+    serverid = str(Setting.vcspam_serverid.get())
+    channelid = str(Setting.vcspam_channelid.get())
+    voicefile = Setting.voicefile
 
     if serverid == "":
       print("[-] ServerID is not set")
       return
     if channelid == "":
       print("[-] ChannelID is not set")
-      return   
-    if applicationid == "":
-      print("[-] ApplicationID is not set")
-      return
+      return  
 
-    threading.Thread(target=module_slash.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, applicationid, commandname, subcommandname, subcommandname_value, ratelimit)).start()
+    try:
+      ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
+    except:
+      print("Error load ffmpeg")
+      ffmpeg = ffmpeg_load()
 
-  if num == 2_7_2:
-    threading.Thread(target=module_slash.stop).start()
+    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
+#  if num == 2_7_1:
+#    serverid = str(Setting.slash_serverid.get())
+#    channelid = str(Setting.slash_channelid.get())
+#    applicationid = str(Setting.slash_applicationid.get())
+#    commandname = str(Setting.slash_commandname.get())
+#    subcommandname = str(Setting.slash_subcommandname.get())
+#    subcommandname_value = str(Setting.slash_subcommandname_value.get())
+#    ratelimit = Setting.slash_ratefixer.get()
+#
+#    delay = Setting.delay05.get()
+#
+#    if serverid == "":
+#      print("[-] ServerID is not set")
+#      return
+#    if channelid == "":
+#      print("[-] ChannelID is not set")
+#      return   
+#    if applicationid == "":
+#      print("[-] ApplicationID is not set")
+#      return
+#
+#    threading.Thread(target=module_slash.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, applicationid, commandname, subcommandname, subcommandname_value, ratelimit)).start()
+#
+#  if num == 2_7_2:
+#    threading.Thread(target=module_slash.stop).start()
 
   if num == 2_8_1:
     channelid = str(Setting.reaction_channelid.get())
@@ -531,8 +533,83 @@ def module_thread(num):
 
     threading.Thread(target=module_reaction.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
 
+def module_status(num1, num2, num3):
+  if num1 == 1:
+    if num2 == 1:
+      if num3 == 1:
+        SettingVariable.joinerresult_success +=1
+        Setting.suc_joiner_Label.set("Success: "+str(SettingVariable.joinerresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.joinerresult_failed +=1
+        Setting.fai_joiner_Label.set("Failed: "+str(SettingVariable.joinerresult_failed).zfill(3))
+    if num2 == 2:
+      if num3 == 1:
+        SettingVariable.leaverresult_success +=1
+        Setting.suc_leaver_Label.set("Success: "+str(SettingVariable.leaverresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.leaverresult_failed +=1
+        Setting.fai_leaver_Label.set("Failed: "+str(SettingVariable.leaverresult_failed).zfill(3))
+    if num2 == 3:
+      if num3 == 1:
+        SettingVariable.vcjoinerresult_success +=1
+        Setting.suc_vcjoiner_Label.set("Success: "+str(SettingVariable.vcjoinerresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.vcjoinerresult_failed +=1
+        Setting.fai_vcjoiner_Label.set("Failed: "+str(SettingVariable.vcjoinerresult_failed).zfill(3))
+    if num2 == 4:
+      if num3 == 1:
+        SettingVariable.vcleaverresult_success +=1
+        Setting.suc_vcleaver_Label.set("Success: "+str(SettingVariable.vcleaverresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.vcleaverresult_failed +=1
+        Setting.fai_vcleaver_Label.set("Failed: "+str(SettingVariable.vcleaverresult_failed).zfill(3))
+  if num1 == 2:
+    if num2 == 1:
+      if num3 == 1:
+        SettingVariable.nmspamresult_success +=1
+        Setting.suc_nmspam_Label.set("Success: "+str(SettingVariable.nmspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.nmspamresult_failed +=1
+        Setting.fai_nmspam_Label.set("Failed: "+str(SettingVariable.nmspamresult_failed).zfill(3))
+    if num2 == 2:
+      if num3 == 1:
+        SettingVariable.replyspamresult_success +=1
+        Setting.suc_replyspam_Label.set("Success: "+str(SettingVariable.replyspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.replyspamresult_failed +=1
+        Setting.fai_replyspam_Label.set("Failed: "+str(SettingVariable.replyspamresult_failed).zfill(3))      
+    if num2 == 3:
+      if num3 == 1:
+        SettingVariable.ticketspamresult_success +=1
+        Setting.suc_ticketspam_Label.set("Success: "+str(SettingVariable.ticketspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.ticketspamresult_failed +=1
+        Setting.fai_ticketspam_Label.set("Failed: "+str(SettingVariable.ticketspamresult_failed).zfill(3))      
+    if num2 == 4:
+      if num3 == 1:
+        SettingVariable.vcspamresult_success +=1
+        Setting.suc_vcspam_Label.set("Success: "+str(SettingVariable.vcspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.vcspamresult_failed +=1
+        Setting.fai_vcspam_Label.set("Failed: "+str(SettingVariable.vcspamresult_failed).zfill(3))      
+    if num2 == 5:
+      if num3 == 1:
+        SettingVariable.reactionspamresult_success +=1
+        Setting.suc_reactionspam_Label.set("Success: "+str(SettingVariable.reactionspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.reactionspamresult_failed +=1
+        Setting.fai_reactionspam_Label.set("Failed: "+str(SettingVariable.reactionspamresult_failed).zfill(3))      
+    if num2 == 6:
+      if num3 == 1:
+        SettingVariable.ticketspamresult_success +=1
+        Setting.suc_ticketspam_Label.set("Success: "+str(SettingVariable.ticketspamresult_success).zfill(3))
+      if num3 == 2:
+        SettingVariable.ticketspamresult_failed +=1
+        Setting.fai_ticketspam_Label.set("Failed: "+str(SettingVariable.ticketspamresult_failed).zfill(3))      
+
 def module_scroll_frame(num1, num2):
   global invite_url, module_frame
+  global spam_message, reply_message
   frame_scroll = module_frame = ctk.CTkScrollableFrame(root, fg_color=c2, bg_color=c2, width=1000, height=630)
   module_frame.place(x=245, y=70)
   clear_frame(frame_scroll)
@@ -771,8 +848,8 @@ def module_scroll_frame(num1, num2):
       tooltip02_02 = CTkToolTip(test, message=round(Setting.delay02_02.get(), 1))
 
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", text="Message", font=("Roboto", 12)).place(x=150,y=30)
-      spam_message = ctk.CTkTextbox(modules_frame02_02, bg_color=c1, fg_color=c4, text_color="#fff", width=250, height=75)
-      spam_message.place(x=150,y=55)
+      reply_message = ctk.CTkTextbox(modules_frame02_02, bg_color=c1, fg_color=c4, text_color="#fff", width=250, height=75)
+      reply_message.place(x=150,y=55)
         
       ctk.CTkButton(modules_frame02_02, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("i")).place(x=5,y=275)
       ctk.CTkButton(modules_frame02_02, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("i")).place(x=70,y=275)

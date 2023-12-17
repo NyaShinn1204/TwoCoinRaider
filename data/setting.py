@@ -268,6 +268,10 @@ class SettingVariable:
   slashspamresult_failed = 0
   vcspamresult_success = 0
   vcspamresult_failed = 0
+  reactionspamresult_success = 0
+  reactionspamresult_failed = 0
+  ticketspamresult_success = 0
+  ticketspamresult_failed = 0
   
 class oldSetting:
   tokens = []
