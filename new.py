@@ -604,7 +604,7 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", textvariable=Setting.fai_vcspam_Label, font=("Roboto", 12)).place(x=210,y=160)
 
       # Reaction Spammer
-      modules_frame02_05 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
+      modules_frame02_05 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
       modules_frame02_05.grid(row=2, column=0, padx=6, pady=6)
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Reaction Spammer", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame02_05, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
@@ -635,7 +635,7 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.fai_reactionspam_Label, font=("Roboto", 12)).place(x=210,y=160)
 
       # Threads Spammer
-      modules_frame02_06 = ctk.CTkFrame(module_frame, width=470, height=250, border_width=0, fg_color=c1)
+      modules_frame02_06 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
       modules_frame02_06.grid(row=2, column=1, padx=6, pady=6)
       tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Threads Spammer", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame02_06, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
