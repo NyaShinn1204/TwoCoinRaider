@@ -104,11 +104,11 @@ class Setting:
   fai_reactionspam_Label = tk.StringVar()
   fai_reactionspam_Label.set("Failed: 000")
   
-  # token onliner
-  suc_tokenonliner_Label = tk.StringVar()
-  suc_tokenonliner_Label.set("Success: 000")
-  fai_tokenonliner_Label = tk.StringVar()
-  fai_tokenonliner_Label.set("Failed: 000")
+  # threads spam
+  suc_threadsspam_Label = tk.StringVar()
+  suc_threadsspam_Label.set("Success: 000")
+  fai_threadsspam_Label = tk.StringVar()
+  fai_threadsspam_Label.set("Failed: 000")
   
   spam_allping = tk.BooleanVar()
   spam_allping.set(False)

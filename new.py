@@ -629,8 +629,8 @@ def module_scroll_frame(num1, num2):
       ctk.CTkButton(modules_frame02_06, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=90)
 
       tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=135,y=83)
-      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=108)
-      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.fai_ticketspam_Label, font=("Roboto", 12)).place(x=140,y=133)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.suc_threadsspam_Label, font=("Roboto", 12)).place(x=140,y=108)
+      tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.fai_threadsspam_Label, font=("Roboto", 12)).place(x=140,y=133)
 
       printl("debug", "Open Spammer Tab")
         
