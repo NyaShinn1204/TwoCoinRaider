@@ -47,6 +47,31 @@ def extractfi(input_str):
   else:
     return input_str
 
+def set_theme():
+  global c1,c2,c3,c4,c5,c6,c7,c8,c9,c10
+  if theme == "akebi":
+    c1 = "#040f24"
+    c2 = "#020b1f"
+    c3 = "#0a2b63"
+    c4 = "#020b1f"
+    c5 = "#00bbe3"
+    c6 = "#0a2b63"
+    c7 = "#000117"
+    c8 = "#489ea1"
+    c9 = "#454c7f"
+    c10 = "#2D2DA0"
+  if theme == "twocoin":
+    c1 = "#28464B"
+    c2 = "#213A3E"
+    c3 = "#00484C"
+    c4 = "#142326"
+    c5 = "#2C8C99"
+    c6 = "#002D2D"
+    c7 = "#142326"
+    c8 = "#489ea1"
+    c9 = "#454c7f"
+    c10 = "#000AA0"
+
 with open('config.json') as f:
     data_load = json.load(f)
 try:
@@ -56,41 +81,10 @@ try:
 except:
   printl("debug", "Not Found Save Theme")
 finally:
-  if theme == "akebi":
-    c1 = "#040f24"
-    c2 = "#020b1f"
-    c3 = "#0a2b63"
-    c4 = "#020b1f"
-    c5 = "#00bbe3"
-    c6 = "#0a2b63"
-    c7 = "#142326"
-  if theme == "twocoin":
-    c1 = "#28464B"
-    c2 = "#213A3E"
-    c3 = "#00484C"
-    c4 = "#142326"
-    c5 = "#2C8C99"
-    c6 = "#002D2D"
-    c7 = "#142326"
+  set_theme()
 
 def update_theme(num1, num2):
-  global c1,c2,c3,c4,c5,c6,c7
-  if theme == "akebi":
-    c1 = "#040f24"
-    c2 = "#020b1f"
-    c3 = "#0a2b63"
-    c4 = "#020b1f"
-    c5 = "#00bbe3"
-    c6 = "#0a2b63"
-    c7 = "#000117"
-  if theme == "twocoin":
-    c1 = "#28464B"
-    c2 = "#213A3E"
-    c3 = "#00484C"
-    c4 = "#142326"
-    c5 = "#2C8C99"
-    c6 = "#002D2D"
-    c7 = "#142326"
+  set_theme()
   apply_frame(num1, num2)
 
 def apply_frame(num1, num2):
@@ -707,20 +701,20 @@ def module_scroll_frame(num1, num2):
     if num2 == 2:
       credits_frame = ctk.CTkFrame(module_frame, width=940, height=400, border_width=0, fg_color=c2)
       credits_frame.grid(row=1, column=1, padx=6, pady=6)
-      tk.Label(credits_frame, bg=c2, fg="#489ea1", text="TwoCoin github:", font=("Roboto", 12)).place(x=0,y=0)
-      test = tk.Label(credits_frame, bg=c2, fg="#454c7f", text="Github link", font=("Roboto", 12, "underline"))
+      tk.Label(credits_frame, bg=c2, fg=c8, text="TwoCoin github:", font=("Roboto", 12)).place(x=0,y=0)
+      test = tk.Label(credits_frame, bg=c2, fg=c9, text="Github link", font=("Roboto", 12, "underline"))
       test.place(x=120,y=0)
       test.bind("<Button-1>", lambda e:webbrowser.open_new("https://github.com/NyaShinn1204/TwoCoinRaider"))
-      tk.Label(credits_frame, bg=c2, fg="#489ea1", text="TwoCoin discord:", font=("Roboto", 12)).place(x=0,y=25)
-      test = tk.Label(credits_frame, bg=c2, fg="#454c7f", text="Discord invite link", font=("Roboto", 12, "underline"))
+      tk.Label(credits_frame, bg=c2, fg=c8, text="TwoCoin discord:", font=("Roboto", 12)).place(x=0,y=25)
+      test = tk.Label(credits_frame, bg=c2, fg=c9, text="Discord invite link", font=("Roboto", 12, "underline"))
       test.place(x=125,y=25)
       test.bind("<Button-1>", lambda e:webbrowser.open_new("https://discord.gg/y6qreBQYsJ"))
       tk.Label(credits_frame, bg=c2, fg="#fff", text="Main developer and updater:", font=("Roboto", 12)).place(x=0,y=50)
-      tk.Label(credits_frame, bg=c2, fg="#000AA0", text=developer, font=("Roboto", 12)).place(x=210,y=50)
+      tk.Label(credits_frame, bg=c2, fg=c10, text=developer, font=("Roboto", 12)).place(x=210,y=50)
       tk.Label(credits_frame, bg=c2, fg="#fff", text="Main contributors:", font=("Roboto", 12)).place(x=0,y=75)
-      tk.Label(credits_frame, bg=c2, fg="#000AA0", text=contributors, font=("Roboto", 12)).place(x=137,y=75)
+      tk.Label(credits_frame, bg=c2, fg=c10, text=contributors, font=("Roboto", 12)).place(x=137,y=75)
       tk.Label(credits_frame, bg=c2, fg="#fff", text="Main testers:", font=("Roboto", 12)).place(x=0,y=100)
-      tk.Label(credits_frame, bg=c2, fg="#000AA0", text=testers, font=("Roboto", 12)).place(x=100,y=100)
+      tk.Label(credits_frame, bg=c2, fg=c10, text=testers, font=("Roboto", 12)).place(x=100,y=100)
 
       printl("debug", "Open About Tab")
 
