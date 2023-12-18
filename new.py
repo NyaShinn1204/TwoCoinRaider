@@ -311,7 +311,7 @@ def module_thread(num):
   proxysetting = Setting.proxy_enabled.get()
   delay = Setting.delay99_01.get()
   mentions = Setting.delay99_02.get()
-  printl("info", "Total Tokens: "+len(tokens))
+  printl("info", "Total Tokens: "+str(len(tokens)))
   if num == 1_1_1:
     serverid = str(Setting.joiner_serverid.get())
     join_channelid = str(Setting.joiner_channelid.get())
@@ -499,31 +499,6 @@ def module_thread(num):
       ffmpeg = ffmpeg_load()
 
     threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
-#  if num == 2_7_1:
-#    serverid = str(Setting.slash_serverid.get())
-#    channelid = str(Setting.slash_channelid.get())
-#    applicationid = str(Setting.slash_applicationid.get())
-#    commandname = str(Setting.slash_commandname.get())
-#    subcommandname = str(Setting.slash_subcommandname.get())
-#    subcommandname_value = str(Setting.slash_subcommandname_value.get())
-#    ratelimit = Setting.slash_ratefixer.get()
-#
-#    delay = Setting.delay05.get()
-#
-#    if serverid == "":
-#      print("[-] ServerID is not set")
-#      return
-#    if channelid == "":
-#      print("[-] ChannelID is not set")
-#      return   
-#    if applicationid == "":
-#      print("[-] ApplicationID is not set")
-#      return
-#
-#    threading.Thread(target=module_slash.start, args=(delay, tokens, module_status, proxysetting, proxies, proxytype, serverid, channelid, applicationid, commandname, subcommandname, subcommandname_value, ratelimit)).start()
-#
-#  if num == 2_7_2:
-#    threading.Thread(target=module_slash.stop).start()
 
   if num == 2_5_1:
     channelid = str(Setting.reaction_channelid.get())
@@ -826,8 +801,8 @@ def module_scroll_frame(num1, num2):
       spam_message = ctk.CTkTextbox(modules_frame02_01, bg_color=c1, fg_color=c4, text_color="#fff", width=250, height=75)
       spam_message.place(x=150,y=55)
         
-      ctk.CTkButton(modules_frame02_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=245)
-      ctk.CTkButton(modules_frame02_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=245)
+      ctk.CTkButton(modules_frame02_01, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_1_1)).place(x=5,y=245)
+      ctk.CTkButton(modules_frame02_01, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_1_2)).place(x=70,y=245)
 
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=330,y=144)
       tk.Label(modules_frame02_01, bg=c1, fg="#fff", textvariable=Setting.suc_nmspam_Label, font=("Roboto", 12)).place(x=335,y=169)
@@ -880,8 +855,8 @@ def module_scroll_frame(num1, num2):
       reply_message = ctk.CTkTextbox(modules_frame02_02, bg_color=c1, fg_color=c4, text_color="#fff", width=250, height=75)
       reply_message.place(x=150,y=55)
         
-      ctk.CTkButton(modules_frame02_02, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("i")).place(x=5,y=275)
-      ctk.CTkButton(modules_frame02_02, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("i")).place(x=70,y=275)
+      ctk.CTkButton(modules_frame02_02, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_2_1)).place(x=5,y=275)
+      ctk.CTkButton(modules_frame02_02, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_2_2)).place(x=70,y=275)
 
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=330,y=144)
       tk.Label(modules_frame02_02, bg=c1, fg="#fff", textvariable=Setting.suc_replyspam_Label, font=("Roboto", 12)).place(x=335,y=169)
@@ -909,8 +884,8 @@ def module_scroll_frame(num1, num2):
       test.place(x=5,y=137)
       tooltip02_03 = CTkToolTip(test, message=round(Setting.delay02_03.get(), 1))
 
-      ctk.CTkButton(modules_frame02_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=157)
-      ctk.CTkButton(modules_frame02_03, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=157)
+      ctk.CTkButton(modules_frame02_03, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_3_1)).place(x=5,y=157)
+      ctk.CTkButton(modules_frame02_03, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_3_2)).place(x=70,y=157)
 
       tk.Label(modules_frame02_03, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=110)
       tk.Label(modules_frame02_03, bg=c1, fg="#fff", textvariable=Setting.suc_ticketspam_Label, font=("Roboto", 12)).place(x=210,y=135)
@@ -939,7 +914,7 @@ def module_scroll_frame(num1, num2):
       test.place(x=5,y=137)
       tooltip02_04 = CTkToolTip(test, message=round(Setting.delay02_04.get(), 1))
 
-      ctk.CTkButton(modules_frame02_04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=157)
+      ctk.CTkButton(modules_frame02_04, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_4_1)).place(x=5,y=157)
 
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=110)
       tk.Label(modules_frame02_04, bg=c1, fg="#fff", textvariable=Setting.suc_vcspam_Label, font=("Roboto", 12)).place(x=210,y=135)
@@ -970,7 +945,7 @@ def module_scroll_frame(num1, num2):
       test.place(x=5,y=137)
       tooltip02_05 = CTkToolTip(test, message=round(Setting.delay02_05.get(), 1))
 
-      ctk.CTkButton(modules_frame02_05, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=157)
+      ctk.CTkButton(modules_frame02_05, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_5_1)).place(x=5,y=157)
 
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=110)
       tk.Label(modules_frame02_05, bg=c1, fg="#fff", textvariable=Setting.suc_reactionspam_Label, font=("Roboto", 12)).place(x=210,y=135)
@@ -995,8 +970,8 @@ def module_scroll_frame(num1, num2):
       test.place(x=5,y=107)
       tooltip02_06 = CTkToolTip(test, message=round(Setting.delay02_06.get(), 1))
 
-      ctk.CTkButton(modules_frame02_06, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=5,y=127)
-      ctk.CTkButton(modules_frame02_06, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: print("a")).place(x=70,y=127)
+      ctk.CTkButton(modules_frame02_06, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_1)).place(x=5,y=127)
+      ctk.CTkButton(modules_frame02_06, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_2)).place(x=70,y=127)
 
       tk.Label(modules_frame02_06, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=83)
       tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.suc_threadsspam_Label, font=("Roboto", 12)).place(x=210,y=108)

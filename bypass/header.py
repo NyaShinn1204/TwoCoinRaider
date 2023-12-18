@@ -9,6 +9,7 @@ import bypass.random_agent as random_agent
 
 def request_header(token):
     agent_string = random_agent.random_agent()
+    fingerprint = get_fingerprint.get_fingerprint()
     browser_data = agent_string.split(" ")[-1].split("/")
     possible_os_list = ["Windows", "Macintosh"]
     for possible_os in possible_os_list:
@@ -66,6 +67,36 @@ def request_header(token):
         'authorization': token,
         'user-agent': agent_string
     }
+    return headers, headers2
+
+def request_header_join(token):
+    agent_string = random_agent.random_agent()
+    fingerprint = get_fingerprint.get_fingerprint()
+    browser_data = agent_string.split(" ")[-1].split("/")
+    possible_os_list = ["Windows", "Macintosh"]
+    for possible_os in possible_os_list:
+        if possible_os in agent_string:
+            agent_os = possible_os
+    if agent_os == "Macintosh":
+        os_version = f'Intel Mac OS X 10_15_{str(random.randint(5, 7))}'
+    else:
+        os_version = "10"
+    device_info = {
+        "os": agent_os,
+        "browser": browser_data[0],
+        "device": "",
+        "system_locale": "ja-JP",
+        "browser_user_agent": agent_string,
+        "browser_version": browser_data[1],
+        "os_version": os_version,
+        "referrer": "",
+        "referring_domain": "",
+        "referrer_current": "",
+        "referring_domain_current": "",
+        "release_channel": "stable",
+        "client_build_number": 36127,
+        "client_event_source": None
+    }
     headers3 = {
         "Accept":"*/*",
         "Accept-Encoding": "gzip, deflate, br",
@@ -83,8 +114,8 @@ def request_header(token):
         "sec-ch-ua-mobile": "?0",
         "TE": "Trailers",
         "User-Agent": agent_string,
-        "x-fingerprint": get_fingerprint.get_fingerprint(),
+        "x-fingerprint": fingerprint,
         "X-Super-Properties": base64.b64encode(json.dumps(device_info).encode('utf-8')).decode("utf-8"),
         "X-Debug-Options": "bugReporterEnabled"
     }
-    return headers, headers2, headers3
+    return headers3
