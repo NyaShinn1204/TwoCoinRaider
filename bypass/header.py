@@ -9,7 +9,6 @@ import bypass.random_agent as random_agent
 
 def request_header(token):
     agent_string = random_agent.random_agent()
-    fingerprint = get_fingerprint.get_fingerprint()
     browser_data = agent_string.split(" ")[-1].split("/")
     possible_os_list = ["Windows", "Macintosh"]
     for possible_os in possible_os_list:
