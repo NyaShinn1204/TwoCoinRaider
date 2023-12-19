@@ -19,7 +19,8 @@ from CTkToolTip import *
 import module.joiner as module_joiner
 import module.leaver as module_leaver
 import module.spam.spammer as module_spammer
-import module.vcspam as module_vc
+#import module.vc as module_vc
+#from module import vcspam
 import module.spam.reply as module_reply
 import module.spam.ticket as module_ticket
 import module.spam.reaction as module_reaction
@@ -485,6 +486,7 @@ def module_thread(num):
     
     delay = Setting.delay02_04.get()
 
+    
     if serverid == "":
       print("[-] ServerID is not set")
       return
@@ -497,8 +499,9 @@ def module_thread(num):
     except:
       print("Error load ffmpeg")
       ffmpeg = ffmpeg_load()
-
-    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
+    for token in tokens:
+      subprocess.Popen(['python.exe', './module/vcspam.py', str(delay), str(token), str(serverid), str(channelid), str(ffmpeg), str(voicefile)])
+    #threading.Thread(target=vcspam.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
 
   if num == 2_5_1:
     channelid = str(Setting.reaction_channelid.get())

@@ -4,6 +4,7 @@ import asyncio
 import discord
 import websocket
 import threading
+from discord.ext import commands
 
 def start(delay, tokens, module_status, serverid, channelid, type):
     global status
