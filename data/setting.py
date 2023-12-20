@@ -173,7 +173,7 @@ class Setting:
   delay99_01.set(0.1)
 
   delay99_02 = tk.DoubleVar()
-  delay99_02.set(0.1)
+  delay99_02.set(20)
 
   mention_count_def = tk.DoubleVar()
   mention_count_def.set(20)

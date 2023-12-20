@@ -63,11 +63,11 @@ def start(delay, tokens, module_status, proxysetting, proxies, proxytype, server
             time.sleep(8)
             print("[+] RateLimit Fixed")
             timelock = False
-        threading.Thread(target=spammer_thread, args=(tokens, module_status, allping, proxysetting, proxies, proxytype,
-                        allchannel, channelid, contents, randomstring, mentions, ratelimit, randomconvert)).start()
+        threading.Thread(target=spammer_thread, args=(tokens, module_status, proxysetting, proxies, proxytype,
+                        allchannel, allping, channelid, contents, randomstring, mentions, ratelimit, randomconvert)).start()
         time.sleep(float(delay))
         
-def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxytype, allchannel, channelid, contents, randomstring, mentions, ratelimit, randomconvert):
+def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, allchannel, allping, channelid, contents, randomstring, mentions, ratelimit, randomconvert):
     global channels
     global users
     global status

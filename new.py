@@ -1032,10 +1032,10 @@ def module_scroll_frame(num1, num2):
       
       CTkLabel(modules_frame10_03, text_color="#fff", text="Default Mention Count (m)", font=("Roboto", 15)).place(x=5,y=79)
       def show_value01_06(value):
-          tooltip01_06.configure(message=round(value, 1))
-      test = ctk.CTkSlider(modules_frame10_03, from_=0.1, to=3.0, variable=Setting.delay99_02, command=show_value01_06)
+          tooltip01_06.configure(message=round(value))
+      test = ctk.CTkSlider(modules_frame10_03, from_=1, to=50, variable=Setting.delay99_02, command=show_value01_06)
       test.place(x=5,y=104)
-      tooltip01_06 = CTkToolTip(test, message=round(Setting.delay99_02.get(), 1))
+      tooltip01_06 = CTkToolTip(test, message=round(Setting.delay99_02.get()))
       
       ctk.CTkButton(modules_frame10_03, text="Get Info     ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: get_info()).place(x=5,y=126)
       invite_url = ctk.CTkEntry(modules_frame10_03, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20)
