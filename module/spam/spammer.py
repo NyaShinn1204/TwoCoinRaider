@@ -106,15 +106,15 @@ def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, allc
         x = request.post(f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers, json=data)
         if x.status_code == 400:
             print(f"[-] AutoModによりメッセージが削除されたっぽい  Message: {x.json()['message']} ChannelID: {channelid} Token: {extract_token}.******** Status: {x.status_code}")
-            module_status(2, 3, 2)
+            module_status(2, 1, 2)
         if x.status_code == 403:
             print(f"[-] このチャンネルで発現できません ChannelID: {channelid} Token: {extract_token}.******** Status: {x.status_code}")
-            module_status(2, 3, 2)
+            module_status(2, 1, 2)
         if x.status_code == 404:
             print(f"[-] このチャンネルは存在しません ChannelID: {channelid} Token: {extract_token}.******** Status: {x.status_code}")
-            module_status(2, 3, 2)
+            module_status(2, 1, 2)
         if x.status_code == 200:
-            module_status(2, 3, 1)
+            module_status(2, 1, 1)
             if proxysetting == True:
                 print(f"[+] 送信に成功しました ChannelID: {channelid} Token: {extract_token}.******** Proxy: {proxy}")
             else:
@@ -125,6 +125,6 @@ def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, allc
                 if ratelimit == True:
                     timelock = True
                 return
-            module_status(2, 3, 2)
+            module_status(2, 1, 2)
     except:
         pass

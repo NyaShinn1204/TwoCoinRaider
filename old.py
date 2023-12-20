@@ -574,7 +574,7 @@ def module_status(num1, num2, num3):
         SettingVariable.vcleaverresult_failed +=1
         Setting.fai_vcleaver_Label.set("Failed: "+str(SettingVariable.vcleaverresult_failed).zfill(3))
   if num1 == 2:
-    if num2 == 3:
+    if num2 == 1:
       if num3 == 1:
         SettingVariable.nmspamresult_success +=1
         Setting.suc_nmspam_Label.set("Success: "+str(SettingVariable.nmspamresult_success).zfill(3))
