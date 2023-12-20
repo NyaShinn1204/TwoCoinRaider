@@ -67,7 +67,7 @@ def delete_join_msg(token, join_channel_id):
 def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answers, apis, bypasscaptcha, delete_joinms, join_channelid):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     session = header.get_session.get_session()
-    req_header = header.request_header_join(token)
+    req_header = header.request_header_fingerprint(token)
     headers = req_header
     try:
         joinreq = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json={})
