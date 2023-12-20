@@ -166,9 +166,11 @@ def get_hwid():
     printl("error", "get_hwid error wrong")
 
 def config_check():
+  global token_filepath
   try:
     if os.path.exists(r"config.json"):
       filepath = json.load(open("config.json", "r"))
+      token_filepath = filepath["token_path"]
       tokens = open(filepath["token_path"], 'r').read().splitlines()
       if theme == "akebi":
         Setting.theme_var.set("Akebi Theme")
@@ -206,10 +208,12 @@ def ffmpeg_load():
     return
 
 def voice_load():
+  global voice_filepath
   fTyp = [("", "*.mp3")]
   iFile = os.path.abspath(os.path.dirname(__file__))
   filepath = filedialog.askopenfilename(
     filetype=fTyp, initialdir=iFile, title="Select Voice File")
+  voice_filepath = filepath
   if filepath == "":
     return
   Setting.voicefile = filepath
@@ -482,7 +486,6 @@ def module_thread(num):
   if num == 2_4_1:
     serverid = str(Setting.vcspam_serverid.get())
     channelid = str(Setting.vcspam_channelid.get())
-    voicefile = Setting.voicefile
     
     delay = Setting.delay02_04.get()
 
@@ -495,13 +498,11 @@ def module_thread(num):
       return  
 
     try:
-      ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
+      ffmpeg = os.path.join(os.getcwd(),"data/ffmpeg.exe").replace('\\', '/')
     except:
       print("Error load ffmpeg")
       ffmpeg = ffmpeg_load()
-    for token in tokens:
-      subprocess.Popen(['python.exe', './module/vcspam.py', str(delay), str(token), str(serverid), str(channelid), str(ffmpeg), str(voicefile)])
-    #threading.Thread(target=vcspam.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
+    subprocess.Popen(['python.exe', './module/vcspam.py', str(token_filepath), str(serverid), str(channelid), str(ffmpeg), str(voice_filepath)])
 
   if num == 2_5_1:
     channelid = str(Setting.reaction_channelid.get())
