@@ -175,9 +175,11 @@ def get_hwid():
     printl("error", "get_hwid error wrong")
 
 def config_check():
+  global token_filepath
   try:
     if os.path.exists(r"config.json"):
       filepath = json.load(open("config.json", "r"))["token_path"]
+      token_filepath = filepath
       tokens = open(filepath, 'r').read().splitlines()
       Setting.tokens = []
       Setting.validtoken = 0
@@ -212,10 +214,12 @@ def ffmpeg_load():
     return
 
 def voice_load():
+  global voice_filepath
   fTyp = [("", "*.mp3")]
   iFile = os.path.abspath(os.path.dirname(__file__))
   filepath = filedialog.askopenfilename(
     filetype=fTyp, initialdir=iFile, title="Select Voice File")
+  voice_filepath = filepath
   if filepath == "":
     return
   Setting.voicefile = filepath
@@ -433,7 +437,7 @@ def module_thread(num):
   if num == 2_4_1:
     serverid = Setting.vcspam_serverid.get()
     channelid = Setting.vcspam_channelid.get()
-    voicefile = Setting.voicefile
+    #voicefile = Setting.voicefile
 
     if serverid == "":
       print("[-] ServerID is not set")
@@ -443,12 +447,13 @@ def module_thread(num):
       return  
 
     try:
-      ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe")
+      ffmpeg = os.path.join(os.getcwd(),"ffmpeg.exe").replace('\\', '/')
     except:
       print("Error load ffmpeg")
       ffmpeg = ffmpeg_load()
 
-    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
+    #threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, ffmpeg, voicefile)).start()
+    subprocess.Popen(['python.exe', './module/vcspam.py', str(token_filepath), str(serverid), str(channelid), str(ffmpeg), str(voice_filepath)])
 
   if num == 2_5_1:
     serverid = str(Setting.reply_serverid.get())
