@@ -1112,10 +1112,10 @@ def module_list_frame():
 
 # Load Menu
 config_check()
-setup_frame(2, 1)
+setup_frame(2, 2)
 printl("debug", "Loading Tkinter")
 
 # Load About Tab
-module_scroll_frame(2, 1)
+#module_scroll_frame(2, 2)
 
 root.mainloop()
