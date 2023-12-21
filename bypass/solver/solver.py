@@ -68,6 +68,22 @@ def get_balance_2cap(api):
     else:
         print(f"[-] Invalid Key Or Exception Error   Key: {extractfi(api)} Status Code: {resp.status_code}")
         return 0.0
+    
+def get_balance_anticaptcha(api):
+    resp = requests.post(f"https://api.anti-captcha.com/getBalance", json={"clientKey": api})
+    if resp.status_code == 200:
+        balance = resp.json()["balance"]
+        if balance == 0.0:
+            print(f"[+] Working Key: {extractfi(api)}  But Balance 0.0$")
+        else:
+            print(f"[+] Working Key: {extractfi(api)}  Balance: {balance}$")
+        return resp.json()["balance"]
+    elif "ERROR_KEY_DOES_NOT_EXIST" in resp.text:
+        print(f"[-] Invalid Key: {extractfi(api)}")
+        return 0.0
+    else:
+        print(f"[-] Invalid Key Or Exception Error   Key: {extractfi(api)} Status Code: {resp.status_code}")
+        return 0.0
 
 def captcha_bypass_capsolver(token, url, key, api):
     if get_balance_capsolver == 0.0:
@@ -154,6 +170,40 @@ def captcha_bypass_2cap(token, url, key, api):
     else:
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.text)}")
         return False
+
+def captcha_bypass_anticaptcha(token, url, key, api):
+    if get_balance_anticaptcha == 0.0:
+        return
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
+    startedSolving = time.time()
+    url = "https://api.anti-captcha.com/createTask'"
+    data = {
+        "clientKey": api,
+        "task":
+        {
+            "type": "HCaptchaTaskProxyless",
+            "websiteURL": url,
+            "websiteKey": key
+        }
+    }
+    response = httpx.post(url,json=data)
+    if response.json()['errorId'] == 0:
+        task_id = response.json()['taskId']
+        url = "https://api.anti-captcha.com/getTaskResult"
+        data = {
+            "clientKey": api,
+            "taskId": task_id
+        }
+        response = httpx.post(url,json=data)
+        while response.json()['status'] == 'processing':
+            time.sleep(3)
+            response = httpx.post(url,json=data)
+        print(f"[{Fore.LIGHTGREEN_EX}Info{Fore.RESET}] [solver.py] {Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}Solved{Fore.RESET} | {Fore.YELLOW}{response[-32:]} {Fore.RESET}In {Fore.YELLOW}{round(time.time()-startedSolving)}s{Fore.RESET} | " + extract_token)
+        return response.json()['solution']['gRecaptchaResponse']
+    else:
+        print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.json()['errorDescription'])}")
+        return False
+
     
 def bypass_captcha(type, token, url, key, api):
     if type == 1:
@@ -162,3 +212,5 @@ def bypass_captcha(type, token, url, key, api):
         captcha_bypass_capmonster(token, url, key, api)
     if type == 3:
         captcha_bypass_2cap(token, url, key, api)
+    if type == 4:
+        captcha_bypass_anticaptcha(token, url, key, api)

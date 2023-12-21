@@ -626,8 +626,8 @@ def module_scroll_frame(num1, num2):
       def hcaptcha_select():
         global answers, api
         if Setting.bypass_cap.get() == True:
-          answers = ctk.CTkInputDialog(text = "Select Sovler\n1, CapSolver\n2, CapMonster\n3, 2Cap").get_input()
-          if answers in ['1','2','3']:
+          answers = ctk.CTkInputDialog(text = "Select Sovler\n1, CapSolver\n2, CapMonster\n3, 2Cap\n4, Anti-Captcha").get_input()
+          if answers in ['1','2','3','4']:
             print("[+] Select " + answers)
             api = ctk.CTkInputDialog(text = "Input API Key").get_input()
             if api == "":
@@ -643,6 +643,9 @@ def module_scroll_frame(num1, num2):
                   Setting.bypass_cap.set(False)
               if answers == "3":
                 if solver.get_balance_2cap(api) == 0.0:
+                  Setting.bypass_cap.set(False)
+              if answers == "4":
+                if solver.get_balance_anticaptcha(api) == 0.0:
                   Setting.bypass_cap.set(False)
           else:
             print("[-] Not Set. Please Input")
