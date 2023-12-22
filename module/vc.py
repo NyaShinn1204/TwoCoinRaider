@@ -11,7 +11,6 @@ def start(delay, tokens, module_status, serverid, channelid, type):
     status = True
     if type == "join":
         for token in tokens:
-            loop = asyncio.new_event_loop()
             threading.Thread(target=voice_join, args=(token, module_status, serverid, channelid, loop)).start()
             time.sleep(float(delay))
     if type == "leave":

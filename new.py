@@ -19,6 +19,7 @@ from CTkToolTip import *
 import module.joiner as module_joiner
 import module.leaver as module_leaver
 import module.spam.spammer as module_spammer
+import module.vc_join as module_vc_join
 #import module.vc as module_vc
 #from module import vcspam
 import module.spam.reply as module_reply
@@ -387,7 +388,7 @@ def module_thread(num):
       print("[-] ServerID is not set")
       return
     
-    threading.Thread(target=module_vc.start, args=(delay, tokens, module_status, serverid, channelid, "join")).start()
+    threading.Thread(target=module_vc_join.start, args=(delay, tokens, module_status, serverid, channelid)).start()
     
   if num == 1_4_1:
     serverid = str(Setting.vcjoin_serverid.get())
