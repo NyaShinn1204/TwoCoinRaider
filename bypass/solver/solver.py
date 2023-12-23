@@ -204,7 +204,6 @@ def captcha_bypass_anticaptcha(token, siteurl, sitekey, api):
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.json()['errorDescription'])}")
         return False
 
-    
 def bypass_captcha(type, token, url, key, api):
     if type == 1:
         captcha_bypass_capsolver(token, url, key, api)
