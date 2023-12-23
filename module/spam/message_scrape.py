@@ -7,7 +7,7 @@ def get_messages(token,channelid):
     messages = []
     while True:
         req_header = header.request_header(token)
-        headers = req_header[0]
+        headers = req_header
         x = requests.get(
             f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers)
         data = json.loads(x.text)

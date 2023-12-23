@@ -17,7 +17,7 @@ def printl(num, data):
 def get_fingerprint():
   session = header.get_session.get_session()
   req_header = header.request_header(None)
-  headers = req_header[2]
+  headers = req_header
   response = session.get('https://discord.com/api/v9/experiments', headers=headers)
   if response.status_code == 200:
     data = response.json()

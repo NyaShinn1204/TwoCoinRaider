@@ -26,7 +26,7 @@ def start(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid,
     
 def req_reaction(token, proxysetting, proxies, proxytype, channelid, messageid, emoji):
     req_header = header.request_header(token)
-    headers = req_header[0]
+    headers = req_header
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     emoji2 = urllib.parse.quote_plus(ej.emojize(emoji,use_aliases=True))
     try:

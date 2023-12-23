@@ -75,7 +75,7 @@ def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, chan
         "location": "Thread Browser Toolbar",
     }
     req_header = header.request_header(token)
-    headers = req_header[0]
+    headers = req_header
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     try:
         if status is False:

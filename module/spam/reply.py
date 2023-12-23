@@ -92,7 +92,7 @@ def spammer_thread(tokens, module_status, allping, proxysetting, proxies, proxyt
         messageid = random.choice(messages)
     data = {"content": content,"message_reference": {"guild_id": serverid,"channel_id": channelid,"message_id": messageid}}
     req_header = header.request_header(token)
-    headers = req_header[0]
+    headers = req_header
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     try:
         if status is False:

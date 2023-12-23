@@ -62,7 +62,7 @@ def spammer_thread(tokens, module_status, proxysetting, proxies, proxytype, serv
         return
     token = random.choice(tokens)
     req_header = header.request_header(token)
-    headers = req_header[0]
+    headers = req_header
     b = requests.get(f"https://discord.com/api/v9/channels/{channelid}/application-commands/search?type=1&query={commandname}&limit=7&include_applications=false", headers=headers)
     application = b.json()["application_commands"]["application_id" == applicationid]
     if subcommandname == "":

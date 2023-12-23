@@ -31,7 +31,7 @@ def get_app(token, serverid, channelid, messageid):
     referre = f"https://discord.com/channels/{serverid}/{channelid}"
     print(referre)
     req_header = header.request_header(token)
-    headers = req_header[0]
+    headers = req_header
     print(channelid)
     x1 = requests.get(f"https://discord.com/api/v9/channels/{channelid}/messages?limit=1&around="+messageid, headers=headers)
     if x1.status_code == 200:
@@ -99,7 +99,7 @@ def ticket_thread(tokens, module_status, proxysetting, proxies, proxytype, serve
         }
     }
     req_header = header.request_header(token)
-    headers = req_header[0]
+    headers = req_header
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     try:
         if status is False:

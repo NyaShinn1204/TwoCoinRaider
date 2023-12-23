@@ -37,7 +37,7 @@ def member_screen_bypass(token, requests, serverid):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     session = header.get_session.get_session()
     req_header = header.request_header(token)
-    headers = req_header[0]
+    headers = req_header
     if 'show_verification_form' in requests:
         bypass_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/member-verification?with_guild=false", headers=headers).json()
         accept_rules = session.get(f"https://discord.com/api/v9/guilds/{serverid}/requests/@me", headers=headers, json=bypass_rules)
@@ -51,7 +51,7 @@ def member_screen_bypass(token, requests, serverid):
 def delete_join_msg(token, join_channel_id):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     req_header = header.request_header(token)
-    headers = req_header[0]
+    headers = req_header
     messages = requests.get(f"https://discord.com/api/v9/channels/{join_channel_id}/messages?limit=100",headers=headers).json()
     for message in messages:
         bot_token_id = base64.b64decode(token.split(".")[0]+"==").decode()
