@@ -85,7 +85,7 @@ def get_balance_anticaptcha(api):
         print(f"[-] Invalid Key Or Exception Error   Key: {extractfi(api)} Status Code: {resp.status_code}")
         return 0.0
 
-def captcha_bypass_capsolver(token, url, key, api):
+def captcha_bypass_capsolver(token, siteurl, sitekey, api):
     if get_balance_capsolver == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
@@ -94,8 +94,8 @@ def captcha_bypass_capsolver(token, url, key, api):
         "clientKey": api,
         "task": {
             "type": "HCaptchaTaskProxyLess",
-            "websiteURL": url,
-            "websiteKey": key,
+            "websiteURL": siteurl,
+            "websiteKey": sitekey,
         }
     }
     headers = {'Content-Type': 'application/json'}
@@ -116,7 +116,7 @@ def captcha_bypass_capsolver(token, url, key, api):
         else:
             continue
 
-def captcha_bypass_capmonster(token, url, key, api):
+def captcha_bypass_capmonster(token, siteurl, sitekey, api):
     if get_balance_capmonster == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
@@ -127,8 +127,8 @@ def captcha_bypass_capmonster(token, url, key, api):
         "task":
         {
             "type": "HCaptchaTaskProxyless",
-            "websiteURL": url,
-            "websiteKey": key
+            "websiteURL": siteurl,
+            "websiteKey": sitekey
         }
     }
     response = httpx.post(url,json=data)
@@ -149,12 +149,12 @@ def captcha_bypass_capmonster(token, url, key, api):
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.json()['errorDescription'])}")
         return False
     
-def captcha_bypass_2cap(token, url, key, api):
+def captcha_bypass_2cap(token, siteurl, sitekey, api):
     if get_balance_2cap == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     startedSolving = time.time()
-    url = "https://2captcha.com/in.php?key={}&method=hcaptcha&sitekey={}&pageurl={}".format(api,key,url)
+    url = "https://2captcha.com/in.php?key={}&method=hcaptcha&sitekey={}&pageurl={}".format(api,sitekey,siteurl)
     response = httpx.get(url)
     if response.text[0:2] == 'OK':
         captcha_id = response.text[3:]
@@ -171,7 +171,7 @@ def captcha_bypass_2cap(token, url, key, api):
         print(f"[{Fore.LIGHTRED_EX}Error{Fore.RESET}] [solver.py] {(response.text)}")
         return False
 
-def captcha_bypass_anticaptcha(token, url, key, api):
+def captcha_bypass_anticaptcha(token, siteurl, sitekey, api):
     if get_balance_anticaptcha == 0.0:
         return
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
@@ -182,8 +182,8 @@ def captcha_bypass_anticaptcha(token, url, key, api):
         "task":
         {
             "type": "HCaptchaTaskProxyless",
-            "websiteURL": url,
-            "websiteKey": key
+            "websiteURL": siteurl,
+            "websiteKey": sitekey
         }
     }
     response = httpx.post(url,json=data)
