@@ -35,12 +35,12 @@ def thread(serverid, token):
         headers = {"authorization": token}
         x = requests.delete(f"https://discord.com/api/v9/users/@me/guilds/{serverid}", headers=headers)
         if x.status_code == 204:
-            print("[+] Success Leave: "+extract_token)
+            print("[+] Success Leave: "+extract_token+".********")
             return
         else:
             if x.status_code == 403:
-                print("[-] Failed Leave: "+extract_token)
+                print("[-] Failed Leave: "+extract_token+".********")
                 return
     except Exception:
-        print("[-] Failed Leave: "+extract_token)
+        print("[-] Failed Leave: "+extract_token+".********")
         return
