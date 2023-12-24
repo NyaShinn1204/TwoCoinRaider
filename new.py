@@ -31,6 +31,7 @@ import module.token_checker as token_checker
 import module.proxy_checker as proxy_checker
 
 import bypass.solver.solver as solver
+import bypass.solver.get_balance as get_balance
 
 colorama.init(autoreset=True)
 
@@ -625,16 +626,16 @@ def module_scroll_frame(num1, num2):
             else:
               print("[~] Checking API Key: " + extractfi(api))
               if answers == "1":
-                if solver.get_balance_capsolver(api) == 0.0:
+                if get_balance.get_balance_capsolver(api) == 0.0:
                   Setting.bypass_cap.set(False)
               if answers == "2":
-                if solver.get_balance_capmonster(api) == 0.0:
+                if get_balance.get_balance_capmonster(api) == 0.0:
                   Setting.bypass_cap.set(False)
               if answers == "3":
-                if solver.get_balance_2cap(api) == 0.0:
+                if get_balance.get_balance_2cap(api) == 0.0:
                   Setting.bypass_cap.set(False)
               if answers == "4":
-                if solver.get_balance_anticaptcha(api) == 0.0:
+                if get_balance.get_balance_anticaptcha(api) == 0.0:
                   Setting.bypass_cap.set(False)
           else:
             print("[-] Not Set. Please Input")
