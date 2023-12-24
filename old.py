@@ -27,6 +27,7 @@ import module.spam.slash as module_slash
 import module.spam.reaction as module_reaction
 
 import bypass.solver.solver as solver
+import bypass.solver.get_balance as get_balance
 
 colorama.init(autoreset=True)
 
@@ -710,13 +711,13 @@ def set_moduleframe_scroll(num1, num2):
             else:
               print("[~] Checking API Key: " + extractfi(apis))
               if answers == "1":
-                if solver.get_balance_capsolver(apis) == 0.0:
+                if get_balance.get_balance_capsolver(apis) == 0.0:
                   Setting.bypass_cap.set(False)
               if answers == "2":
-                if solver.get_balance_capmonster(apis) == 0.0:
+                if get_balance.get_balance_capmonster(apis) == 0.0:
                   Setting.bypass_cap.set(False)
               if answers == "3":
-                if solver.get_balance_2cap(apis) == 0.0:
+                if get_balance.get_balance_2cap(apis) == 0.0:
                   Setting.bypass_cap.set(False)
           else:
             print("[-] Not Set. Please Input")
