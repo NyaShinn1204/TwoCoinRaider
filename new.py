@@ -951,6 +951,39 @@ def module_scroll_frame(num1, num2):
       tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.suc_threadsspam_Label, font=("Roboto", 12)).place(x=210,y=108)
       tk.Label(modules_frame02_06, bg=c1, fg="#fff", textvariable=Setting.fai_threadsspam_Label, font=("Roboto", 12)).place(x=210,y=133)
 
+      # Button Pusher Spammer
+      modules_frame02_07 = ctk.CTkFrame(module_frame, width=470, height=200, border_width=0, fg_color=c1)
+      modules_frame02_07.grid(row=3, column=0, padx=6, pady=6)
+      tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Button Pusher Spammer", font=("Roboto", 14)).place(x=15,y=0)
+      tk.Canvas(modules_frame02_07, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
+      ctk.CTkButton(modules_frame02_07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.threads_channelid.set("")).place(x=5,y=31)
+      ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_channelid).place(x=85,y=31)
+      tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=29)
+      ctk.CTkButton(modules_frame02_07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.threads_name.set("")).place(x=5,y=60)
+      ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_name).place(x=85,y=60)
+      tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=58)
+      ctk.CTkButton(modules_frame02_07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.threads_name.set("")).place(x=5,y=89)
+      ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_name).place(x=85,y=89)
+      tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=87)
+
+      CTkLabel(modules_frame02_07, text_color="#fff", text="Click Button Positions", font=("Roboto", 15)).place(x=5,y=112)
+      def show_value02_07(value):
+          tooltip02_05.configure(message=round(value))
+      test = ctk.CTkSlider(modules_frame02_07, from_=1, to=10, variable=Setting.button_num, command=show_value02_07)
+      test.place(x=5,y=137)
+      tooltip02_05 = CTkToolTip(test, message=round(Setting.button_num.get()))
+
+      test = ctk.CTkLabel(modules_frame02_07, text_color="#fff", text="(?)")
+      test.place(x=160,y=112)
+      CTkToolTip(test, delay=0.5, message="クリックしたいボタンから1引いた数を設定してください") 
+
+      ctk.CTkButton(modules_frame02_07, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_1)).place(x=5,y=157)
+      ctk.CTkButton(modules_frame02_07, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_2)).place(x=70,y=157)
+
+      #tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=83)
+      #tk.Label(modules_frame02_07, bg=c1, fg="#fff", textvariable=Setting.suc_threadsspam_Label, font=("Roboto", 12)).place(x=210,y=108)
+      #tk.Label(modules_frame02_07, bg=c1, fg="#fff", textvariable=Setting.fai_threadsspam_Label, font=("Roboto", 12)).place(x=210,y=133)
+
       printl("debug", "Open Spammer Tab")
         
   if num1 == 2:

@@ -168,6 +168,9 @@ class Setting:
 
   delay02_06 = tk.DoubleVar()
   delay02_06.set(0.1)
+  
+  button_num = tk.DoubleVar()
+  button_num.set(1)
 
   delay99_01 = tk.DoubleVar()
   delay99_01.set(0.1)
