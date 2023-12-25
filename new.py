@@ -26,6 +26,7 @@ import module.spam.reply as module_reply
 import module.spam.ticket as module_ticket
 import module.spam.reaction as module_reaction
 import module.spam.threads as module_threads
+import module.spam.pusher as module_pusher
 
 import module.token_checker as token_checker
 import module.proxy_checker as proxy_checker
@@ -513,7 +514,7 @@ def module_thread(num):
 
     threading.Thread(target=module_reaction.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, messageid, emoji)).start()
 
-  if num == 2_5_1:
+  if num == 2_6_1:
     channelid = str(Setting.threads_channelid.get())
     name = str(Setting.threads_name.get())
     
@@ -528,8 +529,30 @@ def module_thread(num):
 
     threading.Thread(target=module_threads.start, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, name)).start()
 
-  if num == 2_5_2:
-    threading.Thread(target=module_threads.stop, args=(delay, tokens, proxysetting, proxies, proxytype, channelid, name)).start()
+  if num == 2_6_2:
+    threading.Thread(target=module_threads.stop).start()
+    
+  if num == 2_7_1:
+    serverid = str(Setting.pusher_serverid.get())
+    channelid = str(Setting.pusher_channelid.get())
+    messageid = str(Setting.pusher_messageid.get())
+    optionbutton = Setting.button_num.get()
+
+    if serverid == "":
+      print("[-] ServerID is not set")
+      return
+    if channelid == "":
+      print("[-] ChannelID is not set")
+      return
+    if messageid == "":
+      print("[-] MessageID is not set")
+      return   
+
+    threading.Thread(target=module_pusher.start, args=(delay, tokens, proxysetting, proxies, proxytype, serverid, channelid, messageid, optionbutton)).start()
+
+  if num == 2_7_2:
+    threading.Thread(target=module_pusher.stop).start()
+
 
 def module_status(num1, num2, num3):
   if num1 == 1:
@@ -956,14 +979,14 @@ def module_scroll_frame(num1, num2):
       modules_frame02_07.grid(row=3, column=0, padx=6, pady=6)
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Button Pusher Spammer", font=("Roboto", 14)).place(x=15,y=0)
       tk.Canvas(modules_frame02_07, bg=c6, highlightthickness=0, height=4, width=470).place(x=0, y=25)
-      ctk.CTkButton(modules_frame02_07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.threads_channelid.set("")).place(x=5,y=31)
-      ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_channelid).place(x=85,y=31)
+      ctk.CTkButton(modules_frame02_07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.pusher_serverid.set("")).place(x=5,y=31)
+      ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.pusher_serverid).place(x=85,y=31)
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Server ID", font=("Roboto", 12)).place(x=240,y=29)
-      ctk.CTkButton(modules_frame02_07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.threads_name.set("")).place(x=5,y=60)
-      ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_name).place(x=85,y=60)
+      ctk.CTkButton(modules_frame02_07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.pusher_channelid.set("")).place(x=5,y=60)
+      ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.pusher_channelid).place(x=85,y=60)
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Channel ID", font=("Roboto", 12)).place(x=240,y=58)
-      ctk.CTkButton(modules_frame02_07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.threads_name.set("")).place(x=5,y=89)
-      ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.threads_name).place(x=85,y=89)
+      ctk.CTkButton(modules_frame02_07, text="Clear        ", fg_color=c2, hover_color=c5, width=75, height=25, command=lambda: Setting.pusher_messageid.set("")).place(x=5,y=89)
+      ctk.CTkEntry(modules_frame02_07, bg_color=c1, fg_color=c7, border_color=c4, text_color="#fff", width=150, height=20, textvariable=Setting.pusher_messageid).place(x=85,y=89)
       tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Message ID", font=("Roboto", 12)).place(x=240,y=87)
 
       CTkLabel(modules_frame02_07, text_color="#fff", text="Click Button Positions", font=("Roboto", 15)).place(x=5,y=112)
@@ -977,8 +1000,8 @@ def module_scroll_frame(num1, num2):
       test.place(x=160,y=112)
       CTkToolTip(test, delay=0.5, message="クリックしたいボタンから1引いた数を設定してください") 
 
-      ctk.CTkButton(modules_frame02_07, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_1)).place(x=5,y=157)
-      ctk.CTkButton(modules_frame02_07, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_6_2)).place(x=70,y=157)
+      ctk.CTkButton(modules_frame02_07, text="Start", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_7_1)).place(x=5,y=157)
+      ctk.CTkButton(modules_frame02_07, text="Stop", fg_color=c2, hover_color=c5, border_width=1, border_color=c3, width=60, height=25, command=lambda: module_thread(2_7_2)).place(x=70,y=157)
 
       #tk.Label(modules_frame02_07, bg=c1, fg="#fff", text="Status", font=("Roboto", 12)).place(x=205,y=83)
       #tk.Label(modules_frame02_07, bg=c1, fg="#fff", textvariable=Setting.suc_threadsspam_Label, font=("Roboto", 12)).place(x=210,y=108)

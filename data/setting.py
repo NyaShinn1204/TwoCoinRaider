@@ -249,6 +249,12 @@ class Setting:
   threads_channelid.set("")
   threads_name = tk.StringVar()
   threads_name.set("")
+  pusher_serverid = tk.StringVar()
+  pusher_serverid.set("")
+  pusher_channelid = tk.StringVar()
+  pusher_channelid.set("")
+  pusher_messageid = tk.StringVar()
+  pusher_messageid.set("")
   
   theme_var = tk.StringVar(value="Default Theme")
 
