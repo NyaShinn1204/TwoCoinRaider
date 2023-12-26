@@ -100,12 +100,12 @@ def ffmpeg_check():
   ffmpeg_path = os.path.join(os.getcwd(), "./data/ffmpeg.exe")
   dll_path = os.path.join(os.getcwd(), "./data/libopus.dll")
   if os.path.exists(ffmpeg_path):
-    printl("debug", "FFmpeg Found")
+    printl("info", "FFmpeg Found")
   else:
     printl("debug", "FFmpeg Not Found")
     download_file("ffmpeg")
   if os.path.exists(dll_path):
-    printl("debug", "FFmpeg lib Found")
+    printl("info", "FFmpeg lib Found")
   else:
     printl("debug", "FFmpeg lib Not Found")
     download_file("ffmpeg-dll")

@@ -187,11 +187,11 @@ def config_check():
       Setting.token_filenameLabel.set(os.path.basename(filepath["token_path"]))
       Setting.totaltokenLabel.set("Total: "+str(len(tokens)).zfill(3))
       threading.Thread(target=token_checker.check(tokens, update_token)).start()
-      printl("debug", "Config Found")
+      printl("info", "Config Found")
       return True
     else:
-      printl("debug", "Config Not Found")
-      printl("debug", "token path not found. Please point to it manually.")
+      printl("error", "Config Not Found")
+      printl("error", "token path not found. Please point to it manually.")
       token_load()
       return False
   except:
@@ -1140,8 +1140,8 @@ def module_list_frame():
 
 # Load Menu
 config_check()
-setup_frame(2, 2)
 printl("debug", "Loading Tkinter")
+setup_frame(2, 2)
 
 # Load About Tab
 #module_scroll_frame(2, 2)
