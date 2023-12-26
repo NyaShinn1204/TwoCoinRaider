@@ -55,11 +55,11 @@ def get_hwid():
 def load_gui(mode, theme):
   if mode == "gui":
     if theme == "old":
-      subprocess.run("python old.py")
+      subprocess.run(["python", "old.py"])
     if theme == "new":
-      subprocess.run("python new.py")
+      subprocess.run(["python", "new.py"])
   elif mode == "cli":
-    subprocess.run("python cli.py")
+    subprocess.run(["python", "cli.py"])
 
 def update_check():
   try:
