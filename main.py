@@ -58,8 +58,8 @@ def load_gui(mode, theme):
       subprocess.run(["python", "old.py"])
     if theme == "new":
       subprocess.run(["python", "new.py"])
-  elif mode == "cli":
-    subprocess.run(["python", "cli.py"])
+  else:
+    printl("error", "Tkinterを利用することができません 停止します")
 
 def update_check():
   try:
