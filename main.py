@@ -142,7 +142,7 @@ def config_load(mode):
       title="Select Tokens File",
     )
   elif mode == "cli":
-    filepath = input("Select Tokens File Name (e.x tokens.txt) >> ")
+    filepath = input(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [{get_filename()}] Select Tokens File Name (e.x tokens.txt) >> ")
     filepath = os.getcwd()+"/"+filepath
   if filepath == "":
     printl("error", "Please Select Token File")
