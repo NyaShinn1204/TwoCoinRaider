@@ -20,8 +20,6 @@ import module.joiner as module_joiner
 import module.leaver as module_leaver
 import module.spam.spammer as module_spammer
 import module.vc_join as module_vc_join
-#import module.vc as module_vc
-#from module import vcspam
 import module.spam.reply as module_reply
 import module.spam.ticket as module_ticket
 import module.spam.reaction as module_reaction
