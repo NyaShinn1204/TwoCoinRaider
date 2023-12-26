@@ -169,8 +169,7 @@ def config_load(mode):
     optionmenu.set("Select Theme")
     window.mainloop()
   else:
-    config.Settingdata = {"token_path": filepath}
-    tokens_file = json.dumps(config.Settingdata)
+    tokens_file = json.dumps({"token_path": filepath})
     with open("config.json", "w") as configfile:
       configfile.write(tokens_file)
     load_gui("cli", None)
