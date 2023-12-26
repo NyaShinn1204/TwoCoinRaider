@@ -75,7 +75,7 @@ def tkinter_check():
     import tkinter as tk; tk.Tk().destroy()
     printl("info", "Supported GUI")
   except Exception:
-    printl("error", "Unsupported GUI")
+    printl("error", "Unsupported CLI")
     sys.exit()
 
 def config_check():
