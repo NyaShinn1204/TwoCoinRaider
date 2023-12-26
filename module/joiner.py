@@ -14,6 +14,8 @@ gray = Fore.LIGHTBLACK_EX + Fore.WHITE
 
 changenick = False
 
+# FIX CODE TO Solver using. But UnFix :skull:
+
 def get_filename():
   return os.path.basename(__file__)    
 
