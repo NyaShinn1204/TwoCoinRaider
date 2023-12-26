@@ -51,15 +51,11 @@ def get_hwid():
   if uuid == "":
     printl("error", "get_hwid error wrong")
 
-
-def load_gui(mode, theme):
-  if mode == "gui":
-    if theme == "old":
-      subprocess.run(["python", "old.py"])
-    if theme == "new":
-      subprocess.run(["python", "new.py"])
-  else:
-    printl("error", "Tkinterを利用することができません 停止します")
+def load_gui(theme):
+  if theme == "old":
+    subprocess.run("python old.py")
+  if theme == "new":
+    subprocess.run("python new.py")
 
 def update_check():
   try:
@@ -76,34 +72,29 @@ def update_check():
 
 def tkinter_check():
   try:
-    tk.Tk()
-    printl("info", "supported GUI, Start Gui")
-    printl("debug", "Load Config")
-    config_check("gui")
-  except: 
-    printl("error", "not supported GUI, Start Cli")
-    config_check("cli")
+    import tkinter as tk; tk.Tk().destroy()
+    printl("info", "Supported GUI")
+  except Exception:
+    printl("error", "Unsupported GUI")
 
-def config_check(mode):
+def config_check():
   try:
     if os.path.exists(r"config.json"):
-      printl("debug", "Config Found")
+      printl("info", "Config Found")
       ffmpeg_check()
-      if mode == "gui":
-        with open("config.json", "r") as f:
-          json_show = json.load(f)
-        theme = json_show["theme"]
-      load_gui(mode, theme)
+      with open("config.json", "r") as f:
+        json_show = json.load(f)
+      theme = json_show["theme"]
+      load_gui(theme)
     else:
       printl("error", "Config Not Found")
       printl("error", "token path not found. Please point to it manually.")
       printl("error", "theme select not found. Please point to it manually.")
-      config_load(mode)
-  except Exception as error:
-    print(error)
+      config_load()
+  except Exception:
     printl("error", "Config Load Error")
-    printl("error", "Please Retry Select")
-    config_load(mode)
+    printl("error", "Please Reselect")
+    config_load()
 
 def ffmpeg_check():
   ffmpeg_path = os.path.join(os.getcwd(), "./data/ffmpeg.exe")
@@ -129,21 +120,13 @@ def download_file(type):
       f.write(requests.get("https://github.com/NyaShinn1204/twocoin-assets/raw/main/libopus.dll").content)
       printl("info", "Download FFmpeg Dll")
 
-def config_load(mode):
-  if mode == "gui":
-    window = tk.Tk()
-    window.geometry("10x10")
-    window.resizable(0, 0)
-    window.title("TwoCoinRaider | " + version)
-    window.iconbitmap(default="data/favicon.ico")
-    filepath = filedialog.askopenfilename(
-      filetype=[("", "*.txt")],
-      initialdir=os.path.abspath(os.path.dirname(__file__)),
-      title="Select Tokens File",
-    )
-  elif mode == "cli":
-    filepath = input(f"[{Fore.LIGHTCYAN_EX}Debug{Fore.RESET}] [{get_filename()}] Select Tokens File Name (e.x tokens.txt) >> ")
-    filepath = os.getcwd()+"/"+filepath
+def config_load():
+  window = tk.Tk()
+  window.geometry("150x100")
+  window.resizable(0, 0)
+  window.title("TwoCoinRaider | " + version)
+  window.iconbitmap(default="data/favicon.ico")
+  filepath = filedialog.askopenfilename(filetype=[("", "*.txt")],initialdir=os.path.abspath(os.path.dirname(__file__)),title="Select Tokens File")
   if filepath == "":
     printl("error", "Please Select Token File")
     sys.exit()
@@ -153,26 +136,17 @@ def config_load(mode):
   if tokens == []:
     printl("debug", "You Select 0 tokens File")
     sys.exit()
-  if mode == "gui":
-    import data.setting as config
-    window.geometry("150x100")
-    def optionmenu_callback(choice):
-      printl("info", "Select Theme " + choice)
-      config.Settingdata = {"token_path": filepath, "theme": choice}
-      tokens_file = json.dumps(config.Settingdata)
-      with open("config.json", "w") as configfile:
-        configfile.write(tokens_file)
-      window.destroy()
-      load_gui("gui", choice)
-    optionmenu = ctk.CTkOptionMenu(window, values=["old", "new"], command=optionmenu_callback)
-    optionmenu.pack()
-    optionmenu.set("Select Theme")
-    window.mainloop()
-  else:
-    tokens_file = json.dumps({"token_path": filepath})
+  def select_theme(choice):
+    printl("info", "Select Theme " + choice)
+    tokens_file = json.dumps({"token_path": filepath, "theme": choice})
     with open("config.json", "w") as configfile:
       configfile.write(tokens_file)
-    load_gui("cli", None)
+    window.destroy()
+    load_gui(choice)
+  optionmenu = ctk.CTkOptionMenu(window, values=["old", "new"], command=select_theme)
+  optionmenu.pack()
+  optionmenu.set("Select Theme")
+  window.mainloop()
 
 print(
     f"""
@@ -190,5 +164,7 @@ You HWID: [{get_hwid()}]                Version: [{version}]
 )
 printl("debug", "Checking Version")
 update_check()
-printl("debug", "Check use tkinter")
+printl("debug", "Checking Support Tkinter")
 tkinter_check()
+printl("debug", "Checking First Config")
+config_check()

@@ -26,17 +26,6 @@ colorama.init(autoreset=True)
 
 version = "v1.0.3"
 
-window = tk.Tk()
-window.geometry("10x10")
-window.resizable(0, 0)
-window.title("TwoCoinRaider | " + version)
-window.iconbitmap(default="data/favicon.ico")
-
-import data.setting as config
-
-Setting = config.Setting
-SettingVariable = config.SettingVariable
-
 def get_filename():
   return os.path.basename(__file__)
 
@@ -81,12 +70,20 @@ def update_check():
   except:
     printl("error", "Failed to Get Version")
 
+def tkinter_check():
+  try:
+    tk.Tk()
+    printl("info", "supported GUI, Start Gui")
+    printl("debug", "Load Config")
+    config_check()
+  except Exception as error: 
+    printl("error", "Unsupported GUI")
+
 def config_check():
   try:
     if os.path.exists(r"config.json"):
       printl("debug", "Config Found")
       ffmpeg_check()
-      window.destroy()
       with open("config.json", "r") as f:
         json_show = json.load(f)
       theme = json_show["theme"]
@@ -127,6 +124,12 @@ def download_file(type):
       printl("info", "Download FFmpeg Dll")
 
 def config_load():
+  import data.setting as config
+  window = tk.Tk()
+  window.geometry("10x10")
+  window.resizable(0, 0)
+  window.title("TwoCoinRaider | " + version)
+  window.iconbitmap(default="data/favicon.ico")
   filepath = filedialog.askopenfilename(
     filetype=[("", "*.txt")],
     initialdir=os.path.abspath(os.path.dirname(__file__)),
@@ -146,7 +149,7 @@ def config_load():
   def optionmenu_callback(choice):
     printl("info", "Select Theme " + choice)
     config.Settingdata = {"token_path": filepath, "theme": choice}
-    tokens_file = json.dumps(config.Settingdata)
+    tokens_file = json.dumps({"token_path": filepath, "theme": choice})
     with open("config.json", "w") as configfile:
       configfile.write(tokens_file)
     window.destroy()
@@ -155,6 +158,7 @@ def config_load():
   optionmenu = ctk.CTkOptionMenu(window, values=["old", "new"], command=optionmenu_callback)
   optionmenu.pack()
   optionmenu.set("Select Theme")
+  window.mainloop()
 
 
 print(
@@ -173,7 +177,5 @@ You HWID: [{get_hwid()}]                Version: [{version}]
 )
 printl("debug", "Checking Version")
 update_check()
-printl("debug", "Load Config")
-config_check()
-
-window.mainloop()
+printl("debug", "Check use tkinter")
+tkinter_check()

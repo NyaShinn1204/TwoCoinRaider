@@ -89,8 +89,12 @@ try:
   if data_load['select_theme']:
     theme = data_load['select_theme']
   printl("info", "Load Theme Name: " + theme)
-except:
-  printl("debug", "Not Found Save Theme")
+except Exception as error:
+  with open('config.json') as f:
+    data = json.load(f)
+  data.update({"select_theme": "twocoin"})
+  with open('config.json', 'w') as f:
+    json.dump(data, f)
 finally:
   set_theme()
 
