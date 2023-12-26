@@ -4,8 +4,6 @@ import httpx
 import requests
 import colorama
 
-#How To Fix? I Can't
-
 from colorama import Fore
 
 colorama.init(autoreset=True)

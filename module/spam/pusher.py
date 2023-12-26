@@ -67,22 +67,17 @@ def button_thread(tokens, module_status, proxysetting, proxies, proxytype, serve
     if status is False:
         return
     token = random.choice(tokens)
-    #data = {"content": content}
     req_header = header.request_header(token)
     headers = req_header
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     try:
-        payload = {
-            'limit': '50',
-            'around': messageid,
-        }
+        payload = {limit': '50',around': messageid}
         response1 = requests.get(
             f'https://discord.com/api/v9/channels/{channelid}/messages',
             params=payload,
             headers=headers
         )
-        messages = response1.json()
-        messagebottoclick = next((x for x in messages if x["id"] == messageid), None)
+        messagebottoclick = next((x for x in response1.json() if x["id"] == messageid), None)
         if messagebottoclick is None:
             pass
         buttons = []
@@ -109,12 +104,9 @@ def button_thread(tokens, module_status, proxysetting, proxies, proxytype, serve
         match response2.status_code:
             case 200:
                 print(f"[+] Success Send {token[:25]}")
-                #print(f"{Fore.RESET}[{datetime.now().strftime(f'{Fore.LIGHTBLACK_EX}%H:%M:%S{Fore.RESET}')}] {Fore.RESET}[{Fore.GREEN}Success{Fore.RESET}] {Fore.RESET} {token[:25]}.{Fore.LIGHTCYAN_EX}**")
             case _:
                 print(f"[-] Failed Send {token[:25]}")
-                #print(f"{Fore.RESET}[{datetime.now().strftime(f'{Fore.LIGHTBLACK_EX}%H:%M:%S{Fore.RESET}')}] {Fore.RESET}[{Fore.RED}Failed{Fore.RESET}] {Fore.RESET}{token[:25]}.{Fore.LIGHTCYAN_EX}**")
     except Exception as e:
         print(f"[-] Failed Send {token[:25]}")
-        #console.log("FAILED", C["red"], "Failed to Click Button", e)
     except:
         pass
