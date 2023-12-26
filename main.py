@@ -169,13 +169,7 @@ def config_load(mode):
     optionmenu.set("Select Theme")
     window.mainloop()
   else:
-    theme = input("Select Theme (old,new) >> ")
-    config.Settingdata = {"token_path": filepath, "theme": theme}
-    tokens_file = json.dumps(config.Settingdata)
-    with open("config.json", "w") as configfile:
-      configfile.write(tokens_file)
-    window.destroy()
-    load_gui("cli", theme)
+    load_gui("cli", None)
 
 print(
     f"""
