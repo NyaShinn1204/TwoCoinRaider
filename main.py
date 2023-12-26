@@ -153,9 +153,9 @@ def config_load(mode):
   if tokens == []:
     printl("debug", "You Select 0 tokens File")
     sys.exit()
+  import data.setting as config
   if mode == "gui":
     window.geometry("150x100")
-    import data.setting as config
     def optionmenu_callback(choice):
       printl("info", "Select Theme " + choice)
       config.Settingdata = {"token_path": filepath, "theme": choice}
