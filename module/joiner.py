@@ -12,6 +12,8 @@ import bypass.solver.solver as solver
 pretty = Fore.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX
 gray = Fore.LIGHTBLACK_EX + Fore.WHITE
 
+changenick = False
+
 def get_filename():
   return os.path.basename(__file__)    
 
@@ -33,7 +35,7 @@ def extract(format_token):
         token = format_token
     return token
 
-def member_screen_bypass(token, requests, serverid):
+def accept_rules_bypass(token, requests, serverid):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
     session = header.get_session.get_session()
     req_header = header.request_header(token)
@@ -47,6 +49,20 @@ def member_screen_bypass(token, requests, serverid):
         else:
             printl("error", f"{pretty}Failed MemberBypass {gray}| " + Fore.CYAN + extract_token + Fore.RESET)
             print(accept_rules.text)
+            
+def change_nicker(token, serverid, nickname):
+    extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
+    req_header = header.request_header(token)
+    headers = req_header
+    req = requests.patch(f"https://discord.com/api/v9/guilds/{serverid}/members/@me/nick", headers=headers,
+        json={
+            "nick": nickname
+        }
+    )
+    if req.status_code == 200:
+        print(f'Successfully Changed Nickname {gray}| ' + Fore.CYAN + extract_token + Fore.RESET)
+    if req.status_code != 200:
+        print(f'Error Changing Nickname {gray}| ' + Fore.CYAN + extract_token + Fore.RESET)
 
 def delete_join_msg(token, join_channel_id):
     extract_token = f"{extract(token+']').split('.')[0]}.{extract(token+']').split('.')[1]}"
@@ -80,6 +96,9 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                 newresponse = session.post(f"https://discord.com/api/v9/invites/{invitelink}", headers=headers, json=payload)
                 if newresponse.status_code == 200:
                     if "captcha_key" not in newresponse.json():
+                        if joinreq.json().get("message") == "The user is banned from this guild.":
+                            printl("error", f"{pretty}サーバーからBANされています {gray}| " + Fore.CYAN + extract_token + Fore.RESET)
+                            module_status(1, 1, 2)
                         if "You need to verify your account in order to perform this action." in newresponse.json():
                             printl("error", f"{pretty}認証が必要です {gray}| " + Fore.CYAN + extract_token + Fore.RESET)
                             module_status(1, 1, 2)
@@ -89,7 +108,9 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                             delete_join_msg(token, join_channelid)
                         module_status(1, 1, 1)
                     if memberscreen == True:
-                        member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
+                        accept_rules_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
+                    if changenick == True:
+                        delete_join_msg(token, joinreq.json()["guild"]["id"], "みけねこ的うるはるしあ")
                 else:
                     printl("error", f"{pretty}Failed Captcha Bypass {gray}| " + Fore.CYAN + extract_token + Fore.RESET+ " | " + newresponse.text.replace("\n", ""))
             else:
@@ -111,7 +132,9 @@ def joiner_thread(token, serverid, invitelink, memberscreen, module_status, answ
                     delete_joinms(token, headers, join_channelid)
                 module_status(1, 1, 1)
             if memberscreen == True:
-                member_screen_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
+                accept_rules_bypass(token, joinreq.json(), joinreq.json()["guild"]["id"])
+            if changenick == True:
+                delete_join_msg(token, joinreq.json()["guild"]["id"], "みけねこ的うるはるしあ")
     except Exception as err:
         print(f"[-] ERROR: {err} ")
         return
