@@ -142,8 +142,8 @@ def config_load(mode):
       title="Select Tokens File",
     )
   elif mode == "cli":
-    filepath = input("Select Tokens File Name (e.x tokens.txt)")
-    filepath = os.getcwd()+filepath
+    filepath = input("Select Tokens File Name (e.x tokens.txt) >> ")
+    filepath = os.getcwd()+"/"+filepath
   if filepath == "":
     printl("error", "Please Select Token File")
     sys.exit()
@@ -169,7 +169,7 @@ def config_load(mode):
     optionmenu.set("Select Theme")
     window.mainloop()
   else:
-    theme = input("Select Theme (old,new)")
+    theme = input("Select Theme (old,new) >> ")
     config.Settingdata = {"token_path": filepath, "theme": theme}
     tokens_file = json.dumps(config.Settingdata)
     with open("config.json", "w") as configfile:
