@@ -76,6 +76,7 @@ def tkinter_check():
     printl("info", "Supported GUI")
   except Exception:
     printl("error", "Unsupported GUI")
+    sys.exit()
 
 def config_check():
   try:
