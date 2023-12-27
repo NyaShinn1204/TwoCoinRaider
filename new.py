@@ -34,7 +34,8 @@ import bypass.solver.get_balance as get_balance
 
 colorama.init(autoreset=True)
 
-version = "v1.0.3"
+with open("version", "r") as versionfile:
+  version = versionfile.read()
 theme = "twocoin"
 developer = "nyanyakko"
 contributors = "None"

@@ -144,11 +144,14 @@ def captcha_bypass_anticaptcha(token, siteurl, sitekey, api):
         return False
 
 def bypass_captcha(type, token, url, key, api):
-    if type == 1:
-        captcha_bypass_capsolver(token, url, key, api)
-    if type == 2:
-        captcha_bypass_capmonster(token, url, key, api)
-    if type == 3:
-        captcha_bypass_2cap(token, url, key, api)
-    if type == 4:
-        captcha_bypass_anticaptcha(token, url, key, api)
+    try:
+        if type == 1:
+            captcha_bypass_capsolver(token, url, key, api)
+        if type == 2:
+            captcha_bypass_capmonster(token, url, key, api)
+        if type == 3:
+            captcha_bypass_2cap(token, url, key, api)
+        if type == 4:
+            captcha_bypass_anticaptcha(token, url, key, api)
+    except Exception as error:
+        print(error)

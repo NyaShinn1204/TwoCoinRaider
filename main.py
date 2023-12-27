@@ -24,7 +24,12 @@ from customtkinter import *
 
 colorama.init(autoreset=True)
 
-version = "v1.0.3"
+version = "v1.0.4pre-a"
+if os.path.exists(r"version"):
+  print
+else:
+  with open("version", "w") as versionfile:
+    versionfile.write(version)
 
 def get_filename():
   return os.path.basename(__file__)
