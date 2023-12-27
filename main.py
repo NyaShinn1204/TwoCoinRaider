@@ -71,7 +71,7 @@ def update_check():
       printl("info", "Latest Version")
     else:
       printl("error", "You are using an older version")
-      printl("error", "New Version "+version_get)
+      printl("error", "Latest Version "+version_get)
   except:
     printl("error", "Failed to Get Version")
 
